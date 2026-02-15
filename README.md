@@ -68,43 +68,6 @@ India's **68 million Kirana stores** face existential threats:
 
 ---
 
-## 🏗️ Solution Architecture
-
-### High-Level Architecture
-
-┌─────────────────────────────────────────────────────────┐
-│ FRONTEND (PWA) │
-│ Customer App | Merchant App │
-└────────────────────┬────────────────────────────────────┘
-│ HTTPS / WebSocket
-┌────────────────────▼────────────────────────────────────┐
-│ BACKEND LAYER │
-│ ┌──────────────┐ ┌─────────────────────────────┐ │
-│ │ API Gateway │ │ Core Services │ │
-│ │ (Next.js) │ │ - Search & Matching │ │
-│ └──────────────┘ │ - Notification (FCM) │ │
-│ │ - Authentication │ │
-│ ┌──────────────────┴─────────────────────────────┐ │
-│ │ AI/ML SERVICE (Python FastAPI) │ │
-│ │ - NLP Query Parser (AWS Bedrock) │ │
-│ │ - Demand Forecasting (SageMaker + Prophet) │ │
-│ │ - Pricing Intelligence (ML Models) │ │
-│ │ - Trend Detection & Pattern Analysis │ │
-│ └────────────────────────────────────────────────┘ │
-└────────────────────┬────────────────────────────────────┘
-│
-┌────────────────────▼────────────────────────────────────┐
-│ DATA LAYER │
-│ Firestore (Real-time) | PostgreSQL (Analytics) | Redis │
-└─────────────────────────────────────────────────────────┘
-│
-┌────────────────────▼────────────────────────────────────┐
-│ AWS CLOUD SERVICES │
-│ Bedrock | SageMaker | S3 | Lambda | RDS | ElastiCache │
-└─────────────────────────────────────────────────────────┘
-
-text
-
 ### Data Flow
 
 1. **Customer** searches "Harpic lemon ₹50" → Frontend
