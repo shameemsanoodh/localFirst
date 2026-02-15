@@ -292,16 +292,6 @@ Phase 4: Growth (Year 2)
 🤝 Contributing
 This is a hackathon project currently in idea submission phase. Contributions will be welcome after the build phase begins.
 
-👥 Team
-[Your Name] - Full Stack Developer & AI/ML Engineer
-[Team Members if any]
-
-📧 Email: your.email@example.com
-
-🔗 LinkedIn: [Your Profile]
-
-🐦 Twitter: [@yourhandle]
-
 📄 License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
@@ -315,9 +305,8 @@ HuggingFace for NLP models
 The amazing Indian Kirana store ecosystem
 
 📞 Contact
-For hackathon-related queries:
-Email: your.email@example.com
-Devpost: [Your Profile Link]
+For Project-related queries:
+Email: shameemsanoodh@gmail.com
 
 <div align="center">
 Built with ❤️ for India's local shops
