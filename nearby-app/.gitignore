@@ -6,3 +6,37 @@
 !design.md
 !TASK_MASTER.md
 !tasks.md
+
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Builds
+dist/
+build/
+.out/
+.next/
+.vercel/
+.netlify/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# Env
+.env
+.env.local
+.env.development
+.env.production
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+*.swp
