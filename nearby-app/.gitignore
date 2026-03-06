@@ -1,42 +1,229 @@
-# Ignore all markdown files
-*.md
+# ============================================
+# NearBy Project - Git Ignore Configuration
+# ============================================
 
-# But do not ignore these specific files
-!requirement.md
-!design.md
-!TASK_MASTER.md
-!tasks.md
+# ============================================
+# SENSITIVE FILES - NEVER COMMIT
+# ============================================
 
-# Dependencies
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+
+# AWS Credentials
+*.csv
+rootkey.csv
+*_accessKeys.csv
+*_credentials.csv
+.aws/
+credentials
+config
+
+# SSH Keys & Certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.cer
+*.crt
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
+
+# Secrets
+*secret*
+*password*
+*token*
+.secrets/
+
+# ============================================
+# DEPENDENCIES
+# ============================================
+
+# Node modules
 node_modules/
-pnpm-lock.yaml
-package-lock.json
-yarn.lock
+jspm_packages/
 
-# Builds
+# Python virtual environments
+.venv/
+venv/
+ENV/
+env/
+.Python
+
+# Lock files (optional - uncomment if you want to ignore)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# ============================================
+# BUILD OUTPUTS
+# ============================================
+
+# Frontend builds
 dist/
 build/
 .out/
 .next/
+.nuxt/
+.cache/
+.parcel-cache/
+
+# Backend builds
+*.js.map
+*.d.ts.map
+.serverless/
+.webpack/
+
+# Deployment
 .vercel/
 .netlify/
+.amplify/
+
+# ============================================
+# LOGS & DEBUGGING
+# ============================================
 
 # Logs
+logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-*.log
+lerna-debug.log*
 
-# Env
-.env
-.env.local
-.env.development
-.env.production
-.env.*.local
+# Debug
+.pnp.*
+.yarn/
 
-# IDE
+# ============================================
+# IDE & EDITORS
+# ============================================
+
+# VSCode
 .vscode/
+*.code-workspace
+
+# IntelliJ IDEA
 .idea/
-.DS_Store
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
 *.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# ============================================
+# OPERATING SYSTEM
+# ============================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# ============================================
+# TESTING
+# ============================================
+
+# Coverage
+coverage/
+*.lcov
+.nyc_output/
+
+# Test results
+test-results/
+junit.xml
+
+# ============================================
+# TEMPORARY FILES
+# ============================================
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+*.orig
+
+# Cache
+.cache/
+.eslintcache
+.stylelintcache
+
+# ============================================
+# PROJECT SPECIFIC
+# ============================================
+
+# Compiled TypeScript
+*.tsbuildinfo
+
+# Local development
+.local/
+local/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploads
+uploads/
+temp-uploads/
+
+# ============================================
+# KEEP THESE FILES (EXCEPTIONS)
+# ============================================
+
+# Keep important documentation
+!README.md
+!CHANGELOG.md
+!LICENSE.md
+!CONTRIBUTING.md
+
+# Keep spec files
+!.kiro/specs/**/*.md
+!requirements.md
+!design.md
+!tasks.md
+
+# Keep deployment guides
+!PRODUCTION_DEPLOYMENT_COMPLETE.md
+!COMPLETE_DEPLOYMENT_SUMMARY.md
+!NEARBY_FINAL_PROJECT_PLAN.md
+
+# ============================================
+# NOTES
+# ============================================
+# This .gitignore is configured for the NearBy project
+# It protects sensitive data while allowing documentation
+# Last updated: March 6, 2026
