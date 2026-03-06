@@ -1,0 +1,7 @@
+# Ignore all markdown files
+*.md
+
+# But don't ignore these specific markdown files
+!requirement.md
+!design.md
+!tasks.md

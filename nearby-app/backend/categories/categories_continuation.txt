@@ -1,0 +1,9 @@
+  {
+    "major_category": "Bakery, Sweets & Snacks",
+    "sub_category": "Ice-cream Parlour",
+    "canonical_name": "Ice Cream Shop",
+    "description": "Shop selling ice cream, kulfi and frozen desserts.",
+    "example_queries": ["ice cream shop", "kulfi", "softy", "frozen dessert", "ice cream parlour"],
+    "tags": ["ice cream", "dessert", "cold", "kulfi", "softy"],
+    "related_categories": ["Bakery, Sweets & Snacks > Bakery"]
+  }

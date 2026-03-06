@@ -1,0 +1,126 @@
+
+(node:45925) Warning: NodeDeprecationWarning: The AWS SDK for JavaScript (v3) will
+no longer support Node.js v18.20.8 in January 2026.
+
+To continue receiving updates to AWS services, bug fixes, and security
+updates please upgrade to a supported Node.js LTS version.
+
+More information can be found at: https://a.co/c895JFp
+(Use `node --trace-warnings ...` to show where the warning was created)
+Deploying "nearby-backend" to stage "production" (ap-south-1)
+[!] Function register has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function login has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function getProfile has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function createBroadcast has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function getBroadcast has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function getNearbyBroadcasts has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function listCategories has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function getNearbyShops has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function getNearbyOffers has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function generateOfferDescription has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function analyzeImage has a timeout of 60 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function analyzeImage has a timeout of 60 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function createSmartBroadcast has a timeout of 60 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function detectCategory has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function createCategoryFilteredBroadcast has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function saveLocalDemand has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function trackAnalytics has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function trackAnalytics has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function reverseGeocode has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function adminStats has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function adminListUsers has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function adminManageCategories has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function adminManageCategories has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function adminManageCategories has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function adminManageUsers has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function createOrder has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function listOrders has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function updateOrderStatus has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function getMerchantProfile has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function getMerchantOffers has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function getMerchantBroadcasts has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function getNearbyMerchants has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function registerMerchant has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function createBroadcastV2 has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function replyBroadcast has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function getCapabilities has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+[!] Function getBroadcastsV2 has a timeout of 30 seconds, but it is attached to an API Gateway with a timeout of 29 seconds. 
+✔ Service deployed to stack nearby-backend-production (111s)
+endpoints:
+  POST - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/auth/register
+  POST - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/auth/login
+  GET - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/auth/me
+  POST - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/broadcasts
+  GET - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/broadcasts/{broadcastId}
+  GET - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/broadcasts/nearby
+  GET - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/categories
+  GET - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/shops/nearby
+  GET - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/offers/nearby
+  POST - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/offers/{offerId}/generate-description
+  POST - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/ai/analyze-image
+  OPTIONS - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/ai/analyze-image
+  POST - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/ai/smart-broadcast
+  POST - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/ai/detect-category
+  POST - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/broadcasts/category-filtered
+  POST - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/local-demand
+  POST - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/analytics/track
+  OPTIONS - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/analytics/track
+  POST - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/location/reverse-geocode
+  GET - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/admin/stats
+  GET - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/admin/users
+  POST - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/admin/categories
+  PUT - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/admin/categories/{categoryId}
+  DELETE - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/admin/categories/{categoryId}
+  PATCH - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/admin/users/{userId}
+  GET - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/utils/resolve-maps
+  OPTIONS - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/utils/resolve-maps
+  POST - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/orders
+  GET - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/orders
+  PATCH - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/orders/{orderId}/status
+  GET - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/merchant/profile
+  GET - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/merchant/offers
+  GET - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/merchant/broadcasts
+  GET - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/merchants/nearby
+  POST - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/api/merchants/register
+  POST - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/api/broadcasts
+  POST - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/api/broadcasts/{id}/reply
+  GET - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/api/capabilities
+  GET - https://jkr38eejve.execute-api.ap-south-1.amazonaws.com/production/api/broadcasts
+
+functions:
+  register: nearby-backend-production-register (26 MB)
+  login: nearby-backend-production-login (26 MB)
+  getProfile: nearby-backend-production-getProfile (26 MB)
+  createBroadcast: nearby-backend-production-createBroadcast (26 MB)
+  getBroadcast: nearby-backend-production-getBroadcast (26 MB)
+  getNearbyBroadcasts: nearby-backend-production-getNearbyBroadcasts (26 MB)
+  listCategories: nearby-backend-production-listCategories (26 MB)
+  getNearbyShops: nearby-backend-production-getNearbyShops (26 MB)
+  getNearbyOffers: nearby-backend-production-getNearbyOffers (26 MB)
+  generateOfferDescription: nearby-backend-production-generateOfferDescription (26 MB)
+  analyzeImage: nearby-backend-production-analyzeImage (26 MB)
+  createSmartBroadcast: nearby-backend-production-createSmartBroadcast (26 MB)
+  detectCategory: nearby-backend-production-detectCategory (26 MB)
+  createCategoryFilteredBroadcast: nearby-backend-production-createCategoryFilteredBroadcast (26 MB)
+  saveLocalDemand: nearby-backend-production-saveLocalDemand (26 MB)
+  trackAnalytics: nearby-backend-production-trackAnalytics (26 MB)
+  reverseGeocode: nearby-backend-production-reverseGeocode (26 MB)
+  adminStats: nearby-backend-production-adminStats (26 MB)
+  adminListUsers: nearby-backend-production-adminListUsers (26 MB)
+  adminManageCategories: nearby-backend-production-adminManageCategories (26 MB)
+  adminManageUsers: nearby-backend-production-adminManageUsers (26 MB)
+  resolveMaps: nearby-backend-production-resolveMaps (26 MB)
+  authAuthorizer: nearby-backend-production-authAuthorizer (26 MB)
+  createOrder: nearby-backend-production-createOrder (26 MB)
+  listOrders: nearby-backend-production-listOrders (26 MB)
+  updateOrderStatus: nearby-backend-production-updateOrderStatus (26 MB)
+  getMerchantProfile: nearby-backend-production-getMerchantProfile (26 MB)
+  getMerchantOffers: nearby-backend-production-getMerchantOffers (26 MB)
+  getMerchantBroadcasts: nearby-backend-production-getMerchantBroadcasts (26 MB)
+  getNearbyMerchants: nearby-backend-production-getNearbyMerchants (26 MB)
+  registerMerchant: nearby-backend-production-registerMerchant (26 MB)
+  createBroadcastV2: nearby-backend-production-createBroadcastV2 (26 MB)
+  replyBroadcast: nearby-backend-production-replyBroadcast (26 MB)
+  getCapabilities: nearby-backend-production-getCapabilities (26 MB)
+  getBroadcastsV2: nearby-backend-production-getBroadcastsV2 (26 MB)
+

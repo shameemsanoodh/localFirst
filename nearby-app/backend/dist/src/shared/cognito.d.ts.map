@@ -1,0 +1,1 @@
+{"version":3,"file":"cognito.d.ts","sourceRoot":"","sources":["../../../src/shared/cognito.ts"],"names":[],"mappings":"AAmBA,eAAO,MAAM,OAAO;;IAGhB;;OAEG;oBACmB,MAAM,YAAY,MAAM,QAAQ,MAAM,SAAS,MAAM;;;;;;;;;IA0C3E;;OAEG;oBACmB,MAAM,YAAY,MAAM;;;;;;IA6B9C;;OAEG;qBACoB,MAAM;;;;;IAoB7B;;OAEG;2BAC0B,MAAM;CActC,CAAC"}

@@ -1,0 +1,5 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Merchant Capabilities Schema",
+  "description": "Schema for defining merchant capabilities per subcategory"
+}

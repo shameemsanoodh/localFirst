@@ -1,0 +1,45 @@
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { db, Tables } from '../shared/db.js';
+import { response } from '../shared/response.js';
+
+export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  try {
+    const userId = event.requestContext.authorizer?.userId;
+    if (!userId) {
+      return response.error('Unauthorized', 401, 'UNAUTHORIZED');
+    }
+
+    const broadcastId = event.pathParameters?.broadcastId;
+    if (!broadcastId) {
+      return response.error('Broadcast ID is required', 400, 'INVALID_INPUT');
+    }
+
+    const broadcast = await db.get(Tables.BROADCASTS, { broadcastId });
+    if (!broadcast) {
+      return response.error('Broadcast not found', 404, 'BROADCAST_NOT_FOUND');
+    }
+
+    // Get broadcast responses
+    const responses = await db.query(Tables.BROADCAST_RESPONSES, {
+      IndexName: 'broadcastId-timestamp-index',
+      KeyConditionExpression: 'broadcastId = :broadcastId',
+      ExpressionAttributeValues: { ':broadcastId': broadcastId },
+    });
+
+    // Enrich responses with merchant details
+    const enrichedResponses = await Promise.all(
+      (responses as { merchantId: string }[]).map(async (resp) => {
+        const merchant = await db.get(Tables.MERCHANTS, { merchantId: resp.merchantId });
+        return { ...resp, merchant };
+      })
+    );
+
+    return response.success({
+      broadcast,
+      responses: enrichedResponses,
+    });
+  } catch (error) {
+    console.error('Get broadcast error:', error);
+    return response.error('Failed to get broadcast', 500, 'INTERNAL_ERROR');
+  }
+};

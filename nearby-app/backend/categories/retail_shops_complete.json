@@ -1,0 +1,136 @@
+[
+  {
+    "major_category": "Kirana & Provision Stores",
+    "sub_category": "Kirana Store",
+    "canonical_name": "Kirana / General Store",
+    "description": "Neighbourhood shop selling daily groceries, packaged foods, basic household items.",
+    "example_queries": ["nearby kirana", "grocery shop near me", "rice and dal shop", "provision store", "general store", "daily needs"],
+    "tags": ["groceries", "rice", "dal", "oil", "sugar", "salt", "daily needs", "fmcg"],
+    "related_categories": ["Kirana & Provision Stores > Supermarket / Mini-mart", "Fruits & Vegetables > Vegetable Shop"]
+  },
+  {
+    "major_category": "Kirana & Provision Stores",
+    "sub_category": "Supermarket / Mini-mart",
+    "canonical_name": "Supermarket",
+    "description": "Larger self-service store with wide range of groceries and household products.",
+    "example_queries": ["super market", "departmental store", "big grocery shop", "daily needs mart", "self service store"],
+    "tags": ["groceries", "fmcg", "packaged food", "self service", "supermarket"],
+    "related_categories": ["Kirana & Provision Stores > Kirana Store"]
+  },
+  {
+    "major_category": "Kirana & Provision Stores",
+    "sub_category": "Organic / Health Food Store",
+    "canonical_name": "Organic Food Store",
+    "description": "Store specializing in organic, natural and health food products.",
+    "example_queries": ["organic store", "health food shop", "natural products", "organic groceries"],
+    "tags": ["organic", "health", "natural", "wellness"],
+    "related_categories": ["Kirana & Provision Stores > Kirana Store"]
+  },
+  {
+    "major_category": "Kirana & Provision Stores",
+    "sub_category": "Dairy & Milk Booth",
+    "canonical_name": "Milk Booth / Dairy",
+    "description": "Shop selling fresh milk, curd, paneer and dairy products.",
+    "example_queries": ["milk booth", "dairy shop", "fresh milk", "curd paneer", "amul parlour"],
+    "tags": ["milk", "dairy", "curd", "paneer", "butter"],
+    "related_categories": ["Kirana & Provision Stores > Kirana Store"]
+  },
+  {
+    "major_category": "Fruits & Vegetables",
+    "sub_category": "Vegetable Shop",
+    "canonical_name": "Vegetable Shop",
+    "description": "Shop selling fresh vegetables by weight or bunch.",
+    "example_queries": ["vegetable shop near me", "sabji shop", "tomato onion potato", "fresh vegetables", "green vegetables"],
+    "tags": ["vegetables", "fresh", "green", "leafy", "daily", "sabji"],
+    "related_categories": ["Fruits & Vegetables > Fruit Shop", "Kirana & Provision Stores > Kirana Store"]
+  },
+  {
+    "major_category": "Fruits & Vegetables",
+    "sub_category": "Fruit Shop",
+    "canonical_name": "Fruit Shop",
+    "description": "Shop selling seasonal and imported fruits.",
+    "example_queries": ["fruit shop near me", "apple banana grapes", "juice fruits", "seasonal fruits", "imported fruits"],
+    "tags": ["fruits", "fresh", "seasonal", "imported"],
+    "related_categories": ["Fruits & Vegetables > Vegetable Shop", "Restaurants, Cafes & Juices > Juice Shop"]
+  },
+  {
+    "major_category": "Fruits & Vegetables",
+    "sub_category": "Push-cart Vendor",
+    "canonical_name": "Street Vegetable Vendor",
+    "description": "Mobile cart selling vegetables and fruits on streets.",
+    "example_queries": ["street vendor", "thela wala", "mobile vegetable cart", "push cart"],
+    "tags": ["street", "mobile", "cart", "vendor"],
+    "related_categories": ["Fruits & Vegetables > Vegetable Shop"]
+  },
+  {
+    "major_category": "Fruits & Vegetables",
+    "sub_category": "Flower Shop",
+    "canonical_name": "Flower Shop / Florist",
+    "description": "Shop selling fresh flowers, garlands and decorative arrangements.",
+    "example_queries": ["flower shop", "florist", "garland shop", "rose jasmine", "pooja flowers"],
+    "tags": ["flowers", "garland", "decoration", "pooja", "fresh"],
+    "related_categories": ["Pooja & Religious > Pooja Items"]
+  },
+  {
+    "major_category": "Meat, Fish & Eggs",
+    "sub_category": "Chicken & Mutton Shop",
+    "canonical_name": "Chicken and Mutton Shop",
+    "description": "Butcher shop selling fresh chicken and mutton cuts.",
+    "example_queries": ["chicken shop near me", "mutton shop", "broiler chicken", "halal meat", "fresh meat"],
+    "tags": ["meat", "chicken", "mutton", "non veg", "halal"],
+    "related_categories": ["Meat, Fish & Eggs > Fish Shop"]
+  },
+  {
+    "major_category": "Meat, Fish & Eggs",
+    "sub_category": "Fish Shop",
+    "canonical_name": "Fish and Seafood Shop",
+    "description": "Shop selling fresh fish and seafood.",
+    "example_queries": ["fish shop", "seafood", "fresh fish", "prawns crab", "fish market"],
+    "tags": ["fish", "seafood", "fresh", "prawns", "crab"],
+    "related_categories": ["Meat, Fish & Eggs > Chicken & Mutton Shop"]
+  },
+  {
+    "major_category": "Meat, Fish & Eggs",
+    "sub_category": "Egg Center",
+    "canonical_name": "Egg Shop",
+    "description": "Shop specializing in eggs - chicken, duck, quail.",
+    "example_queries": ["egg shop", "egg center", "chicken eggs", "country eggs", "brown eggs"],
+    "tags": ["eggs", "chicken eggs", "country eggs"],
+    "related_categories": ["Meat, Fish & Eggs > Chicken & Mutton Shop"]
+  },
+  {
+    "major_category": "Bakery, Sweets & Snacks",
+    "sub_category": "Bakery",
+    "canonical_name": "Bakery",
+    "description": "Shop selling bread, buns, puffs, biscuits and cakes.",
+    "example_queries": ["bakery near me", "puff shop", "bread and bun", "tea time snacks", "fresh bread"],
+    "tags": ["bakery", "snacks", "bread", "cakes", "puffs"],
+    "related_categories": ["Bakery, Sweets & Snacks > Sweet Shop", "Bakery, Sweets & Snacks > Ice-cream Parlour"]
+  },
+  {
+    "major_category": "Bakery, Sweets & Snacks",
+    "sub_category": "Sweet Shop / Mithai",
+    "canonical_name": "Sweet Shop",
+    "description": "Shop selling traditional Indian sweets and mithai.",
+    "example_queries": ["sweet shop", "mithai shop", "laddu barfi", "halwa shop", "indian sweets"],
+    "tags": ["sweets", "mithai", "laddu", "barfi", "halwa", "traditional"],
+    "related_categories": ["Bakery, Sweets & Snacks > Bakery"]
+  },
+  {
+    "major_category": "Bakery, Sweets & Snacks",
+    "sub_category": "Namkeen / Snacks Shop",
+    "canonical_name": "Namkeen Shop",
+    "description": "Shop selling savory snacks, namkeen and mixtures.",
+    "example_queries": ["namkeen shop", "mixture shop", "sev bhujia", "snacks shop", "farsan"],
+    "tags": ["namkeen", "snacks", "mixture", "sev", "farsan"],
+    "related_categories": ["Bakery, Sweets & Snacks > Sweet Shop"]
+  },
+  {
+    "major_category": "Bakery, Sweets & Snacks",
+    "sub_category": "Cake Shop",
+    "canonical_name": "Cake Shop",
+    "description": "Specialized shop for custom cakes and pastries.",
+    "example_queries": ["cake shop", "birthday cake", "custom cake", "pastry shop", "cake order"],
+    "tags": ["cake", "pastry", "birthday", "custom", "dessert"],
+    "related_categories": ["Bakery, Sweets & Snacks > Bakery"]
+  },

@@ -1,0 +1,199 @@
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { handler } from './analyzeImage.js';
+import { APIGatewayProxyEvent } from 'aws-lambda';
+
+// Mock AWS SDK
+vi.mock('@aws-sdk/client-bedrock-runtime', () => ({
+  BedrockRuntimeClient: vi.fn(() => ({
+    send: vi.fn()
+  })),
+  InvokeModelCommand: vi.fn()
+}));
+
+describe('analyzeImage', () => {
+  let mockEvent: Partial<APIGatewayProxyEvent>;
+
+  beforeEach(() => {
+    mockEvent = {
+      body: null,
+      headers: {},
+      requestContext: {} as any
+    };
+  });
+
+  it('should return error when image is missing', async () => {
+    mockEvent.body = JSON.stringify({});
+    
+    const result = await handler(mockEvent as APIGatewayProxyEvent);
+    
+    expect(result.statusCode).toBe(400);
+    const body = JSON.parse(result.body);
+    expect(body.error).toBe('Image data is required');
+  });
+
+  it('should return error when image is not a string', async () => {
+    mockEvent.body = JSON.stringify({ image: 123 });
+    
+    const result = await handler(mockEvent as APIGatewayProxyEvent);
+    
+    expect(result.statusCode).toBe(400);
+    const body = JSON.parse(result.body);
+    expect(body.error).toBe('Image data is required');
+  });
+
+  it('should return error when image is invalid base64', async () => {
+    mockEvent.body = JSON.stringify({ image: 'not-valid-base64!!!' });
+    
+    const result = await handler(mockEvent as APIGatewayProxyEvent);
+    
+    expect(result.statusCode).toBe(400);
+    const body = JSON.parse(result.body);
+    expect(body.error).toBe('Invalid base64 image data');
+  });
+
+  it('should accept valid base64 image data', async () => {
+    // Create a small valid base64 image (1x1 pixel PNG)
+    const validBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+    
+    mockEvent.body = JSON.stringify({ image: validBase64 });
+    
+    // Mock Bedrock response
+    const { BedrockRuntimeClient } = await import('@aws-sdk/client-bedrock-runtime');
+    const mockSend = vi.fn().mockResolvedValue({
+      body: new TextEncoder().encode(JSON.stringify({
+        content: [{
+          text: JSON.stringify({
+            products: [{
+              name: 'Test Product',
+              category: 'Groceries',
+              confidence: 0.9,
+              description: 'A test product'
+            }],
+            primaryProduct: {
+              name: 'Test Product',
+              category: 'Groceries'
+            },
+            searchQuery: 'test product'
+          })
+        }]
+      }))
+    });
+    
+    (BedrockRuntimeClient as any).mockImplementation(() => ({
+      send: mockSend
+    }));
+    
+    const result = await handler(mockEvent as APIGatewayProxyEvent);
+    
+    expect(result.statusCode).toBe(200);
+    const body = JSON.parse(result.body);
+    expect(body.success).toBe(true);
+    expect(body.data).toBeDefined();
+    expect(body.data.primaryProduct).toBeDefined();
+    expect(body.data.primaryProduct.name).toBe('Test Product');
+    expect(body.data.primaryProduct.category).toBe('Groceries');
+  });
+
+  it('should handle data URL prefix in image', async () => {
+    const validBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+    const dataUrl = `data:image/png;base64,${validBase64}`;
+    
+    mockEvent.body = JSON.stringify({ image: dataUrl });
+    
+    // Mock Bedrock response
+    const { BedrockRuntimeClient } = await import('@aws-sdk/client-bedrock-runtime');
+    const mockSend = vi.fn().mockResolvedValue({
+      body: new TextEncoder().encode(JSON.stringify({
+        content: [{
+          text: JSON.stringify({
+            products: [{
+              name: 'Test Product',
+              category: 'Groceries',
+              confidence: 0.9,
+              description: 'A test product'
+            }],
+            primaryProduct: {
+              name: 'Test Product',
+              category: 'Groceries'
+            },
+            searchQuery: 'test product'
+          })
+        }]
+      }))
+    });
+    
+    (BedrockRuntimeClient as any).mockImplementation(() => ({
+      send: mockSend
+    }));
+    
+    const result = await handler(mockEvent as APIGatewayProxyEvent);
+    
+    expect(result.statusCode).toBe(200);
+  });
+
+  it('should return fallback response when AI response is invalid', async () => {
+    const validBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+    
+    mockEvent.body = JSON.stringify({ image: validBase64 });
+    
+    // Mock Bedrock response with invalid JSON
+    const { BedrockRuntimeClient } = await import('@aws-sdk/client-bedrock-runtime');
+    const mockSend = vi.fn().mockResolvedValue({
+      body: new TextEncoder().encode(JSON.stringify({
+        content: [{
+          text: 'This is not valid JSON'
+        }]
+      }))
+    });
+    
+    (BedrockRuntimeClient as any).mockImplementation(() => ({
+      send: mockSend
+    }));
+    
+    const result = await handler(mockEvent as APIGatewayProxyEvent);
+    
+    expect(result.statusCode).toBe(200);
+    const body = JSON.parse(result.body);
+    expect(body.data.primaryProduct.name).toBe('Unknown Product');
+    expect(body.data.primaryProduct.category).toBe('Groceries');
+  });
+
+  it('should validate and correct invalid categories', async () => {
+    const validBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
+    
+    mockEvent.body = JSON.stringify({ image: validBase64 });
+    
+    // Mock Bedrock response with invalid category
+    const { BedrockRuntimeClient } = await import('@aws-sdk/client-bedrock-runtime');
+    const mockSend = vi.fn().mockResolvedValue({
+      body: new TextEncoder().encode(JSON.stringify({
+        content: [{
+          text: JSON.stringify({
+            products: [{
+              name: 'Test Product',
+              category: 'InvalidCategory',
+              confidence: 0.9,
+              description: 'A test product'
+            }],
+            primaryProduct: {
+              name: 'Test Product',
+              category: 'InvalidCategory'
+            },
+            searchQuery: 'test product'
+          })
+        }]
+      }))
+    });
+    
+    (BedrockRuntimeClient as any).mockImplementation(() => ({
+      send: mockSend
+    }));
+    
+    const result = await handler(mockEvent as APIGatewayProxyEvent);
+    
+    expect(result.statusCode).toBe(200);
+    const body = JSON.parse(result.body);
+    // Should default to Groceries for invalid category
+    expect(body.data.primaryProduct.category).toBe('Groceries');
+  });
+});

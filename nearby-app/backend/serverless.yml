@@ -1,0 +1,1030 @@
+service: nearby-backend
+
+frameworkVersion: '4'
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ${env:AWS_REGION, 'us-east-1'}
+  stage: ${opt:stage, 'dev'}
+  memorySize: 512
+  timeout: 30
+  environment:
+    STAGE: ${self:provider.stage}
+    # Table Names
+    USERS_TABLE: ${self:custom.usersTable}
+    MERCHANTS_TABLE: ${self:custom.merchantsTable}
+    OFFERS_TABLE: ${self:custom.offersTable}
+    CATEGORIES_TABLE: ${self:custom.categoriesTable}
+    BROADCASTS_TABLE: ${self:custom.broadcastsTable}
+    ORDERS_TABLE: ${self:custom.ordersTable}
+    SHOPS_TABLE: ${self:custom.shopsTable}
+    ANALYTICS_TABLE: ${self:custom.analyticsTable}
+    PRODUCTS_TABLE: ${self:custom.productsTable}
+    # New DynamoDB Tables
+    DYNAMODB_USERS_TABLE: ${self:custom.usersTable}
+    DYNAMODB_MERCHANTS_TABLE: ${self:custom.merchantsTable}
+    DYNAMODB_PRODUCTS_TABLE: ${self:custom.productsTable}
+    # Cognito & JWT
+    COGNITO_USER_POOL_ID: ${env:COGNITO_USER_POOL_ID, 'not-configured'}
+    COGNITO_CLIENT_ID: ${env:COGNITO_CLIENT_ID, 'not-configured'}
+    JWT_SECRET: ${env:JWT_SECRET, 'nearby-app-secret-key-change-in-production'}
+    # S3 Bucket
+    S3_BUCKET: ${self:custom.s3BucketName}
+    # Bedrock
+    BEDROCK_MODEL_ID: ${env:BEDROCK_MODEL_ID, 'anthropic.claude-3-sonnet-20240229-v1:0'}
+    # SNS
+    ORDER_STATUS_UPDATES_TOPIC_ARN: !Ref OrderStatusUpdatesTopic
+    SNS_USER_TOPIC_ARN: ${env:SNS_USER_TOPIC_ARN, ''}
+    SNS_MERCHANT_TOPIC_ARN: ${env:SNS_MERCHANT_TOPIC_ARN, ''}
+
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - !GetAtt UsersTable.Arn
+            - !GetAtt MerchantsTable.Arn
+            - !GetAtt OffersTable.Arn
+            - !GetAtt CategoriesTable.Arn
+            - !GetAtt BroadcastsTable.Arn
+            - !GetAtt OrdersTable.Arn
+            - !GetAtt ShopsTable.Arn
+            - !GetAtt AnalyticsTable.Arn
+            - !GetAtt OrdersTable.Arn
+            - !GetAtt ProductsTable.Arn
+            - !Join ['/', [!GetAtt MerchantsTable.Arn, 'index/*']]
+            - !Join ['/', [!GetAtt OffersTable.Arn, 'index/*']]
+            - !Join ['/', [!GetAtt BroadcastsTable.Arn, 'index/*']]
+            - !Join ['/', [!GetAtt OrdersTable.Arn, 'index/*']]
+            - !Join ['/', [!GetAtt AnalyticsTable.Arn, 'index/*']]
+            - !Join ['/', [!GetAtt ProductsTable.Arn, 'index/*']]
+            # New capability-based tables
+            - arn:aws:dynamodb:${self:provider.region}:*:table/nearby-merchants
+            - arn:aws:dynamodb:${self:provider.region}:*:table/nearby-merchants/index/*
+            - arn:aws:dynamodb:${self:provider.region}:*:table/nearby-users
+            - arn:aws:dynamodb:${self:provider.region}:*:table/nearby-users/index/*
+            - arn:aws:dynamodb:${self:provider.region}:*:table/nearby-products
+            - arn:aws:dynamodb:${self:provider.region}:*:table/nearby-products/index/*
+            - arn:aws:dynamodb:${self:provider.region}:*:table/nearby-broadcasts
+            - arn:aws:dynamodb:${self:provider.region}:*:table/nearby-broadcasts/index/*
+            - arn:aws:dynamodb:${self:provider.region}:*:table/nearby-responses
+            - arn:aws:dynamodb:${self:provider.region}:*:table/nearby-responses/index/*
+        - Effect: Allow
+          Action:
+            - s3:PutObject
+            - s3:GetObject
+            - s3:DeleteObject
+          Resource:
+            - !Join ['/', [!GetAtt AssetsBucket.Arn, '*']]
+            # Access to capabilities S3 bucket
+            - arn:aws:s3:::nearby-kb/*
+        - Effect: Allow
+          Action:
+            - bedrock:InvokeModel
+          Resource: '*' # Bedrock actions are not resource-specific in the same way as S3/DynamoDB
+        - Effect: Allow
+          Action:
+            - aws-marketplace:ViewSubscriptions
+            - aws-marketplace:Subscribe
+          Resource: '*' # Required for Claude Opus 4.6 model access
+        - Effect: Allow
+          Action:
+            - geo:SearchPlaceIndexForPosition
+          Resource:
+            - !Sub 'arn:aws:geo:${AWS::Region}:${AWS::AccountId}:place-index/NearByPlaceIndex'
+        - Effect: Allow
+          Action:
+            - sns:Publish
+          Resource:
+            - !Ref OrderStatusUpdatesTopic
+        - Effect: Allow
+          Action:
+            - cognito-idp:SignUp
+            - cognito-idp:AdminConfirmSignUp
+            - cognito-idp:InitiateAuth
+            - cognito-idp:AdminGetUser
+            - cognito-idp:GlobalSignOut
+            - cognito-idp:AdminCreateUser
+            - cognito-idp:ListUsers
+          Resource:
+            - arn:aws:cognito-idp:${self:provider.region}:*:userpool/*
+
+custom:
+  # Table Names
+  usersTable: ${self:service}-${self:provider.stage}-users
+  merchantsTable: ${self:service}-${self:provider.stage}-merchants
+  offersTable: ${self:service}-${self:provider.stage}-offers
+  categoriesTable: ${self:service}-${self:provider.stage}-categories
+  broadcastsTable: ${self:service}-${self:provider.stage}-broadcasts
+  ordersTable: ${self:service}-${self:provider.stage}-orders
+  shopsTable: ${self:service}-${self:provider.stage}-shops
+  analyticsTable: ${self:service}-${self:provider.stage}-analytics
+  productsTable: ${self:service}-${self:provider.stage}-products
+  # S3 Bucket
+  s3BucketName: ${self:service}-${self:provider.stage}-assets-${aws:accountId}
+
+functions:
+  # Auth Functions
+  register:
+    handler: dist/src/auth/register.handler
+    events:
+      - http:
+          path: /auth/register
+          method: post
+          cors: true
+  login:
+    handler: dist/src/auth/login.handler
+    events:
+      - http:
+          path: /auth/login
+          method: post
+          cors: true
+  getProfile:
+    handler: dist/src/auth/getProfile.handler
+    events:
+      - http:
+          path: /auth/me
+          method: get
+          cors: true
+          authorizer:
+            name: authAuthorizer
+            type: request
+
+  # New Merchant Auth Functions
+  checkPhone:
+    handler: dist/src/handlers/auth/checkPhone.handler
+    events:
+      - http:
+          path: /check-phone/{phone}
+          method: get
+          cors: true
+  
+  merchantSignup:
+    handler: dist/src/handlers/auth/merchantSignup.handler
+    events:
+      - http:
+          path: /merchants/signup
+          method: post
+          cors: true
+  
+  merchantLogin:
+    handler: dist/src/handlers/auth/merchantLogin.handler
+    events:
+      - http:
+          path: /merchants/login
+          method: post
+          cors: true
+
+  # Broadcast Functions
+  createBroadcast:
+    handler: dist/src/broadcasts/create.handler
+    events:
+      - http:
+          path: /broadcasts
+          method: post
+          cors: true
+          authorizer:
+            name: authAuthorizer
+            type: request
+  getBroadcast:
+    handler: dist/src/broadcasts/get.handler
+    events:
+      - http:
+          path: /broadcasts/{broadcastId}
+          method: get
+          cors: true
+          authorizer:
+            name: authAuthorizer
+            type: request
+
+  getNearbyBroadcasts:
+    handler: dist/src/broadcasts/getNearby.handler
+    events:
+      - http:
+          path: /broadcasts/nearby
+          method: get
+          cors: true
+          authorizer:
+            name: authAuthorizer
+            type: request
+
+  # Categories Functions
+  listCategories:
+    handler: dist/src/categories/list.handler
+    events:
+      - http:
+          path: /categories
+          method: get
+          cors: true
+
+  # Shops Functions
+  getNearbyShops:
+    handler: dist/src/shops/getNearby.handler
+    events:
+      - http:
+          path: /shops/nearby
+          method: get
+          cors: true
+
+  # Offers Functions
+  getNearbyOffers:
+    handler: dist/src/offers/getNearby.handler
+    events:
+      - http:
+          path: /offers/nearby
+          method: get
+          cors: true
+  
+  generateOfferDescription:
+    handler: dist/src/offers/generateDescription.handler
+    events:
+      - http:
+          path: /offers/{offerId}/generate-description
+          method: post
+          cors: true
+          authorizer:
+            name: authAuthorizer
+            type: request
+
+  # AI Functions
+  analyzeImage:
+    handler: dist/src/ai/analyzeImage.handler
+    timeout: 60
+    events:
+      - http:
+          path: /ai/analyze-image
+          method: post
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+              - X-Amz-Date
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-User-Id
+            allowCredentials: false
+      - http:
+          path: /ai/analyze-image
+          method: options
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+              - X-Amz-Date
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-User-Id
+            allowCredentials: false
+
+  createSmartBroadcast:
+    handler: dist/src/ai/createSmartBroadcast.handler
+    timeout: 60
+    events:
+      - http:
+          path: /ai/smart-broadcast
+          method: post
+          cors: true
+          authorizer:
+            name: authAuthorizer
+            type: request
+
+  # AI Category Detection
+  detectCategory:
+    handler: dist/src/ai/detectCategory.handler
+    events:
+      - http:
+          path: /ai/detect-category
+          method: post
+          cors: true
+
+  # Category-Filtered Broadcast
+  createCategoryFilteredBroadcast:
+    handler: dist/src/broadcasts/createCategoryFiltered.handler
+    events:
+      - http:
+          path: /broadcasts/category-filtered
+          method: post
+          cors: true
+
+  # Local Demand Tracking
+  saveLocalDemand:
+    handler: dist/src/localDemand/save.handler
+    events:
+      - http:
+          path: /local-demand
+          method: post
+          cors: true
+
+  # Analytics Tracking
+  trackAnalytics:
+    handler: dist/src/analytics/track.handler
+    events:
+      - http:
+          path: /analytics/track
+          method: post
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+      - http:
+          path: /analytics/track
+          method: options
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+            allowCredentials: false
+
+  # Location Services
+  reverseGeocode:
+    handler: dist/src/location/reverseGeocode.handler
+    events:
+      - http:
+          path: /location/reverse-geocode
+          method: post
+          cors: true
+
+  # Admin Functions
+  adminStats:
+    handler: dist/src/handlers/admin/stats.handler
+    events:
+      - http:
+          path: /admin/stats
+          method: get
+          cors: true
+
+  # Admin Merchants
+  adminListMerchants:
+    handler: dist/src/handlers/admin/merchants.listMerchants
+    events:
+      - http:
+          path: /admin/merchants
+          method: get
+          cors: true
+
+  adminSuspendMerchant:
+    handler: dist/src/handlers/admin/merchants.suspendMerchant
+    events:
+      - http:
+          path: /admin/merchants/{merchantId}/suspend
+          method: post
+          cors: true
+
+  adminActivateMerchant:
+    handler: dist/src/handlers/admin/merchants.activateMerchant
+    events:
+      - http:
+          path: /admin/merchants/{merchantId}/activate
+          method: post
+          cors: true
+
+  adminDeleteMerchant:
+    handler: dist/src/handlers/admin/merchants.deleteMerchant
+    events:
+      - http:
+          path: /admin/merchants/{merchantId}
+          method: delete
+          cors: true
+
+  # Admin Users
+  adminListUsers:
+    handler: dist/src/handlers/admin/users.listUsers
+    events:
+      - http:
+          path: /admin/users
+          method: get
+          cors: true
+
+  adminSuspendUser:
+    handler: dist/src/handlers/admin/users.suspendUser
+    events:
+      - http:
+          path: /admin/users/{userId}/suspend
+          method: post
+          cors: true
+
+  adminActivateUser:
+    handler: dist/src/handlers/admin/users.activateUser
+    events:
+      - http:
+          path: /admin/users/{userId}/activate
+          method: post
+          cors: true
+
+  adminDeleteUser:
+    handler: dist/src/handlers/admin/users.deleteUser
+    events:
+      - http:
+          path: /admin/users/{userId}
+          method: delete
+          cors: true
+
+  # Admin Broadcasts
+  adminListBroadcasts:
+    handler: dist/src/handlers/admin/broadcasts.listBroadcasts
+    events:
+      - http:
+          path: /admin/broadcasts
+          method: get
+          cors: true
+
+  adminDeleteBroadcast:
+    handler: dist/src/handlers/admin/broadcasts.deleteBroadcast
+    events:
+      - http:
+          path: /admin/broadcasts/{broadcastId}
+          method: delete
+          cors: true
+
+  # Admin Analytics
+  adminLocationInsights:
+    handler: dist/src/handlers/admin/analytics.getLocationInsights
+    events:
+      - http:
+          path: /admin/analytics/location
+          method: get
+          cors: true
+
+  adminSearchTrends:
+    handler: dist/src/handlers/admin/analytics.getSearchTrends
+    events:
+      - http:
+          path: /admin/analytics/search
+          method: get
+          cors: true
+
+  # Utility Functions
+  resolveMapLink:
+    handler: dist/src/handlers/utils/resolveMapLink.handler
+    timeout: 15
+    events:
+      - http:
+          path: /utils/resolve-map-link
+          method: post
+          cors: true
+  
+  resolveMaps:
+    handler: dist/src/utils/resolveMaps.handler
+    timeout: 15
+    events:
+      - http:
+          path: /utils/resolve-maps
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+              - X-Requested-With
+            allowCredentials: false
+      - http:
+          path: /utils/resolve-maps
+          method: options
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - Authorization
+              - X-Requested-With
+            allowCredentials: false
+
+  # Authorizer
+  authAuthorizer:
+    handler: dist/src/shared/authorizer.handler
+
+  # Order Functions
+  createOrder:
+    handler: dist/src/orders/create.handler
+    events:
+      - http:
+          path: /orders
+          method: post
+          cors: true
+          authorizer:
+            name: authAuthorizer
+            type: request
+  
+  listOrders:
+    handler: dist/src/orders/list.handler
+    events:
+      - http:
+          path: /orders
+          method: get
+          cors: true
+          authorizer:
+            name: authAuthorizer
+            type: request
+
+  updateOrderStatus:
+    handler: dist/orders/updateStatus.handler
+    events:
+      - http:
+          path: /orders/{orderId}/status
+          method: patch
+          cors: true
+          authorizer:
+            name: authAuthorizer
+            type: request
+
+  # Merchant Functions
+  getMerchantProfile:
+    handler: dist/merchant/getProfile.handler
+    events:
+      - http:
+          path: /merchant/profile
+          method: get
+          cors: true
+          authorizer:
+            name: authAuthorizer
+            type: request
+
+  # New Merchant Profile Functions
+  getMerchantProfileV2:
+    handler: dist/src/handlers/merchants/getProfile.handler
+    events:
+      - http:
+          path: /merchants/profile
+          method: get
+          cors: true
+  
+  updateMerchantProfileV2:
+    handler: dist/src/handlers/merchants/updateProfile.handler
+    events:
+      - http:
+          path: /merchants/profile
+          method: put
+          cors: true
+  
+  toggleMerchantStatus:
+    handler: dist/src/handlers/merchants/toggleStatus.handler
+    events:
+      - http:
+          path: /merchants/toggle-status
+          method: patch
+          cors: true
+
+  # Product CRUD Functions
+  listProductsV2:
+    handler: dist/src/handlers/products/listProducts.handler
+    events:
+      - http:
+          path: /merchants/products
+          method: get
+          cors: true
+  
+  createProductV2:
+    handler: dist/src/handlers/products/createProduct.handler
+    events:
+      - http:
+          path: /merchants/products
+          method: post
+          cors: true
+  
+  updateProductV2:
+    handler: dist/src/handlers/products/updateProduct.handler
+    events:
+      - http:
+          path: /merchants/products/{productId}
+          method: put
+          cors: true
+  
+  deleteProductV2:
+    handler: dist/src/handlers/products/deleteProduct.handler
+    events:
+      - http:
+          path: /merchants/products/{productId}
+          method: delete
+          cors: true
+
+  getMerchantOffers:
+    handler: dist/merchant/getOffers.handler
+    events:
+      - http:
+          path: /merchant/offers
+          method: get
+          cors: true
+          authorizer:
+            name: authAuthorizer
+            type: request
+
+  getMerchantBroadcasts:
+    handler: dist/merchant/getBroadcasts.handler
+    events:
+      - http:
+          path: /merchant/broadcasts
+          method: get
+          cors: true
+          authorizer:
+            name: authAuthorizer
+            type: request
+
+  # Merchant Products CRUD
+  listMerchantProducts:
+    handler: dist/src/merchant/merchantProducts.handler
+    events:
+      - http:
+          path: /merchant/products
+          method: get
+          cors: true
+          authorizer:
+            name: authAuthorizer
+            type: request
+
+  addMerchantProduct:
+    handler: dist/src/merchant/merchantProducts.handler
+    events:
+      - http:
+          path: /merchant/products
+          method: post
+          cors: true
+          authorizer:
+            name: authAuthorizer
+            type: request
+
+  updateMerchantProduct:
+    handler: dist/src/merchant/merchantProducts.handler
+    events:
+      - http:
+          path: /merchant/products/{productId}
+          method: put
+          cors: true
+          authorizer:
+            name: authAuthorizer
+            type: request
+
+  deleteMerchantProduct:
+    handler: dist/src/merchant/merchantProducts.handler
+    events:
+      - http:
+          path: /merchant/products/{productId}
+          method: delete
+          cors: true
+          authorizer:
+            name: authAuthorizer
+            type: request
+
+  getNearbyMerchants:
+    handler: dist/merchants/getNearby.handler
+    events:
+      - http:
+          path: /merchants/nearby
+          method: get
+          cors: true
+
+  # New Capability-Based Functions
+  registerMerchant:
+    handler: dist/src/merchants/registerMerchant.handler
+    environment:
+      MERCHANTS_TABLE: nearby-merchants
+    events:
+      - http:
+          path: /api/merchants/register
+          method: post
+          cors: true
+
+  createBroadcastV2:
+    handler: dist/src/broadcasts/createBroadcast.handler
+    environment:
+      BROADCASTS_TABLE: nearby-broadcasts
+      MERCHANTS_TABLE: nearby-merchants
+    events:
+      - http:
+          path: /api/broadcasts
+          method: post
+          cors: true
+
+  replyBroadcast:
+    handler: dist/src/broadcasts/replyBroadcast.handler
+    environment:
+      RESPONSES_TABLE: nearby-responses
+      BROADCASTS_TABLE: nearby-broadcasts
+    events:
+      - http:
+          path: /api/broadcasts/{id}/reply
+          method: post
+          cors: true
+
+  getCapabilities:
+    handler: dist/src/capabilities/getCapabilities.handler
+    events:
+      - http:
+          path: /api/capabilities
+          method: get
+          cors: true
+
+  getBroadcastsV2:
+    handler: dist/src/broadcasts/getBroadcasts.handler
+    environment:
+      BROADCASTS_TABLE: nearby-broadcasts
+      RESPONSES_TABLE: nearby-responses
+    events:
+      - http:
+          path: /api/broadcasts
+          method: get
+          cors: true
+
+resources:
+  Resources:
+    # DynamoDB Tables
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.usersTable}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userId
+            KeyType: HASH
+
+    MerchantsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.merchantsTable}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: merchantId
+            AttributeType: S
+          - AttributeName: ownerId
+            AttributeType: S
+          - AttributeName: geohash
+            AttributeType: S
+        KeySchema:
+          - AttributeName: merchantId
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: ownerId-index
+            KeySchema:
+              - AttributeName: ownerId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: geohash-index
+            KeySchema:
+              - AttributeName: geohash
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
+    OffersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.offersTable}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: offerId
+            AttributeType: S
+          - AttributeName: geohash
+            AttributeType: S
+          - AttributeName: merchantId
+            AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: S
+        KeySchema:
+          - AttributeName: offerId
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: geohash-index
+            KeySchema:
+              - AttributeName: geohash
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: merchantId-createdAt-index
+            KeySchema:
+              - AttributeName: merchantId
+                KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+
+    CategoriesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.categoriesTable}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: categoryId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: categoryId
+            KeyType: HASH
+
+    BroadcastsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.broadcastsTable}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: broadcastId
+            AttributeType: S
+          - AttributeName: status
+            AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: S
+          - AttributeName: geohash
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: broadcastId
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: status-createdAt-index
+            KeySchema:
+              - AttributeName: status
+                KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: geohash-index
+            KeySchema:
+              - AttributeName: geohash
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: userId-createdAt-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        TimeToLiveSpecification:
+          AttributeName: expiresAt
+          Enabled: true
+
+    # S3 Bucket for assets
+    AssetsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.s3BucketName}
+        OwnershipControls:
+          Rules:
+            - ObjectOwnership: BucketOwnerPreferred
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: false
+          BlockPublicPolicy: false
+          IgnorePublicAcls: false
+          RestrictPublicBuckets: false
+        CorsConfiguration:
+          # For development, this is open. For production, you should restrict
+          # this to your actual frontend domain.
+          CorsRules:
+            - AllowedOrigins:
+                - '*'
+              AllowedMethods:
+                - GET
+                - PUT
+                - POST
+                - DELETE
+              AllowedHeaders:
+                - '*'
+    
+    AssetsBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: !Ref AssetsBucket
+        PolicyDocument:
+          Statement:
+            - Sid: PublicReadGetObject
+              Effect: Allow
+              Principal: '*'
+              Action:
+                - s3:GetObject
+              Resource: !Join ['', ['arn:aws:s3:::', !Ref AssetsBucket, '/*']]
+
+    # Order Management Resources
+    OrdersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.ordersTable}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: orderId
+            AttributeType: S
+          - AttributeName: userId
+            AttributeType: S
+          - AttributeName: merchantId
+            AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: S
+        KeySchema:
+          - AttributeName: orderId
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: userId-createdAt-index
+            KeySchema:
+              - AttributeName: userId
+                KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: merchantId-createdAt-index
+            KeySchema:
+              - AttributeName: merchantId
+                KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+    
+    # Shops Table
+    ShopsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.shopsTable}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: shopId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: shopId
+            KeyType: HASH
+    
+    # Analytics Table
+    AnalyticsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.analyticsTable}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: eventId
+            AttributeType: S
+          - AttributeName: eventType
+            AttributeType: S
+          - AttributeName: timestamp
+            AttributeType: S
+          - AttributeName: sessionId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: eventId
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: eventType-timestamp-index
+            KeySchema:
+              - AttributeName: eventType
+                KeyType: HASH
+              - AttributeName: timestamp
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: sessionId-timestamp-index
+            KeySchema:
+              - AttributeName: sessionId
+                KeyType: HASH
+              - AttributeName: timestamp
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        TimeToLiveSpecification:
+          AttributeName: expiresAt
+          Enabled: true
+    
+    # Products Table
+    ProductsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.productsTable}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: productId
+            AttributeType: S
+          - AttributeName: merchantId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: productId
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: merchantId-index
+            KeySchema:
+              - AttributeName: merchantId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+    
+    OrderStatusUpdatesTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: ${self:service}-${self:provider.stage}-order-status-updates
+
+plugins:
+  - serverless-offline

@@ -1,0 +1,84 @@
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
+import { db, Tables } from '../shared/db.js';
+import { response } from '../shared/response.js';
+import { Offer } from '../../types/offer.types.js';
+import { Merchant } from '../../types/merchant.types.js';
+
+const bedrockClient = new BedrockRuntimeClient({ region: process.env.AWS_REGION });
+const modelId = process.env.BEDROCK_MODEL_ID;
+
+const generatePrompt = (offer: Offer, merchant: Merchant): string => {
+  return `\n\nHuman: You are a marketing expert. Write a short, compelling, and friendly promotional description for the following offer.
+  The description should be a single paragraph, between 30 and 60 words.
+  Do not use hashtags.
+  
+  Here are the details:
+  - Offer Title: "${offer.title}"
+  - Merchant Name: "${merchant.name}"
+  - Merchant Type: "${merchant.category}"
+  
+  Generate only the description text and nothing else.\n\nAssistant:`;
+};
+
+export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  try {
+    const userId = event.requestContext.authorizer?.principalId;
+    if (!userId) {
+      return response.error('Unauthorized', 401, 'UNAUTHORIZED');
+    }
+
+    const offerId = event.pathParameters?.offerId;
+    if (!offerId) {
+      return response.error('Offer ID is required', 400, 'INVALID_INPUT');
+    }
+
+    const offer = await db.get(Tables.OFFERS!, { offerId }) as Offer;
+    if (!offer) {
+      return response.error('Offer not found', 404, 'NOT_FOUND');
+    }
+
+    const merchant = await db.get(Tables.MERCHANTS!, { merchantId: offer.merchantId }) as Merchant;
+    if (!merchant) {
+        return response.error('Merchant not found for this offer', 404, 'NOT_FOUND');
+    }
+
+    // Authorization check: Ensure the user owns the merchant associated with the offer
+    if (merchant.ownerId !== userId) {
+        return response.error('Forbidden: You do not own the merchant associated with this offer.', 403, 'FORBIDDEN');
+    }
+
+    const prompt = generatePrompt(offer, merchant);
+
+    const bedrockCommand = new InvokeModelCommand({
+      modelId,
+      contentType: 'application/json',
+      accept: 'application/json',
+      body: JSON.stringify({
+        prompt,
+        max_tokens_to_sample: 100,
+        temperature: 0.7,
+        top_p: 0.9,
+      }),
+    });
+
+    const bedrockResponse = await bedrockClient.send(bedrockCommand);
+    const responseBody = JSON.parse(new TextDecoder().decode(bedrockResponse.body));
+    const generatedDescription = responseBody.completion?.trim();
+
+    if (!generatedDescription) {
+      return response.error('Failed to generate description from AI model', 500, 'AI_ERROR');
+    }
+
+    const updatedOffer = await db.update(Tables.OFFERS!, { offerId }, { 
+      description: generatedDescription,
+    });
+
+    return response.success({ message: 'Description generated successfully', offer: updatedOffer });
+
+  } catch (error) {
+    console.error('Generate description error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    return response.error(`Failed to generate description: ${errorMessage}`, 500, 'INTERNAL_ERROR');
+  }
+};

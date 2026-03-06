@@ -1,0 +1,283 @@
+{
+  "monitoring": {
+    "description": "Monitoring configuration for multimodal search features",
+    "cloudwatch": {
+      "logGroups": [
+        "/aws/lambda/nearby-ai-analyze-image",
+        "/aws/lambda/nearby-ai-detect-category",
+        "/aws/lambda/nearby-ai-smart-broadcast"
+      ],
+      "metrics": {
+        "namespace": "NearbyApp/MultimodalSearch",
+        "dimensions": [
+          "Environment",
+          "Feature",
+          "ErrorType"
+        ]
+      }
+    },
+    "alerts": {
+      "errorRate": {
+        "description": "Alert when error rate exceeds threshold",
+        "metric": "ErrorRate",
+        "threshold": 5,
+        "unit": "Percent",
+        "period": 300,
+        "evaluationPeriods": 2,
+        "comparisonOperator": "GreaterThanThreshold",
+        "actions": [
+          "arn:aws:sns:ap-south-1:ACCOUNT_ID:nearby-alerts"
+        ]
+      },
+      "voiceSearchErrors": {
+        "description": "Alert on high voice search error rate",
+        "metric": "VoiceSearchErrors",
+        "threshold": 10,
+        "unit": "Count",
+        "period": 300,
+        "evaluationPeriods": 2,
+        "comparisonOperator": "GreaterThanThreshold",
+        "actions": [
+          "arn:aws:sns:ap-south-1:ACCOUNT_ID:nearby-alerts"
+        ]
+      },
+      "imageSearchErrors": {
+        "description": "Alert on high image search error rate",
+        "metric": "ImageSearchErrors",
+        "threshold": 10,
+        "unit": "Count",
+        "period": 300,
+        "evaluationPeriods": 2,
+        "comparisonOperator": "GreaterThanThreshold",
+        "actions": [
+          "arn:aws:sns:ap-south-1:ACCOUNT_ID:nearby-alerts"
+        ]
+      },
+      "aiLatency": {
+        "description": "Alert when AI processing is too slow",
+        "metric": "AIProcessingTime",
+        "threshold": 10,
+        "unit": "Seconds",
+        "period": 300,
+        "evaluationPeriods": 2,
+        "comparisonOperator": "GreaterThanThreshold",
+        "actions": [
+          "arn:aws:sns:ap-south-1:ACCOUNT_ID:nearby-alerts"
+        ]
+      },
+      "bedrockThrottling": {
+        "description": "Alert on Bedrock throttling",
+        "metric": "AWS/Bedrock/ThrottledRequests",
+        "threshold": 5,
+        "unit": "Count",
+        "period": 300,
+        "evaluationPeriods": 1,
+        "comparisonOperator": "GreaterThanThreshold",
+        "actions": [
+          "arn:aws:sns:ap-south-1:ACCOUNT_ID:nearby-alerts"
+        ]
+      },
+      "highCosts": {
+        "description": "Alert when daily AI costs exceed budget",
+        "metric": "BedrockCosts",
+        "threshold": 100,
+        "unit": "None",
+        "period": 86400,
+        "evaluationPeriods": 1,
+        "comparisonOperator": "GreaterThanThreshold",
+        "actions": [
+          "arn:aws:sns:ap-south-1:ACCOUNT_ID:nearby-billing-alerts"
+        ]
+      }
+    },
+    "dashboards": {
+      "multimodalSearch": {
+        "description": "Main dashboard for multimodal search metrics",
+        "widgets": [
+          {
+            "type": "metric",
+            "title": "Search Volume by Type",
+            "metrics": [
+              ["NearbyApp/MultimodalSearch", "TextSearches"],
+              [".", "VoiceSearches"],
+              [".", "ImageSearches"]
+            ],
+            "period": 300,
+            "stat": "Sum"
+          },
+          {
+            "type": "metric",
+            "title": "Error Rates",
+            "metrics": [
+              ["NearbyApp/MultimodalSearch", "VoiceSearchErrors"],
+              [".", "ImageSearchErrors"],
+              [".", "AIAnalysisErrors"]
+            ],
+            "period": 300,
+            "stat": "Sum"
+          },
+          {
+            "type": "metric",
+            "title": "AI Processing Time",
+            "metrics": [
+              ["NearbyApp/MultimodalSearch", "AIProcessingTime"]
+            ],
+            "period": 300,
+            "stat": "Average"
+          },
+          {
+            "type": "metric",
+            "title": "Voice Search Success Rate",
+            "metrics": [
+              ["NearbyApp/MultimodalSearch", "VoiceSearchSuccess"],
+              [".", "VoiceSearchFailure"]
+            ],
+            "period": 300,
+            "stat": "Sum"
+          },
+          {
+            "type": "metric",
+            "title": "Image Search Success Rate",
+            "metrics": [
+              ["NearbyApp/MultimodalSearch", "ImageSearchSuccess"],
+              [".", "ImageSearchFailure"]
+            ],
+            "period": 300,
+            "stat": "Sum"
+          },
+          {
+            "type": "metric",
+            "title": "Bedrock API Calls",
+            "metrics": [
+              ["AWS/Bedrock", "Invocations", {"stat": "Sum"}],
+              [".", "ThrottledRequests", {"stat": "Sum"}]
+            ],
+            "period": 300
+          },
+          {
+            "type": "log",
+            "title": "Recent Errors",
+            "logGroupName": "/aws/lambda/nearby-ai-analyze-image",
+            "queryString": "fields @timestamp, @message | filter @message like /ERROR/ | sort @timestamp desc | limit 20"
+          }
+        ]
+      }
+    }
+  },
+  "customMetrics": {
+    "voiceSearch": {
+      "initiated": "VoiceSearchInitiated",
+      "completed": "VoiceSearchCompleted",
+      "failed": "VoiceSearchFailed",
+      "confidence": "VoiceSearchConfidence"
+    },
+    "imageSearch": {
+      "initiated": "ImageSearchInitiated",
+      "completed": "ImageSearchCompleted",
+      "failed": "ImageSearchFailed",
+      "processingTime": "ImageProcessingTime",
+      "compressionRatio": "ImageCompressionRatio"
+    },
+    "aiAnalysis": {
+      "categoryDetection": "CategoryDetectionTime",
+      "imageAnalysis": "ImageAnalysisTime",
+      "accuracy": "AIAccuracy",
+      "confidence": "AIConfidence"
+    }
+  },
+  "logInsights": {
+    "queries": {
+      "errorsByType": {
+        "description": "Count errors by type",
+        "query": "fields @timestamp, errorCode, errorMessage | filter level = 'ERROR' | stats count() by errorCode | sort count desc"
+      },
+      "slowRequests": {
+        "description": "Find slow AI requests",
+        "query": "fields @timestamp, processingTime, userId | filter processingTime > 5 | sort processingTime desc | limit 50"
+      },
+      "popularSearches": {
+        "description": "Most common search queries",
+        "query": "fields query, detectedCategory | stats count() by query | sort count desc | limit 20"
+      },
+      "userActivity": {
+        "description": "User activity by feature",
+        "query": "fields userId, feature | stats count() by userId, feature | sort count desc"
+      },
+      "costAnalysis": {
+        "description": "Estimate Bedrock costs",
+        "query": "fields @timestamp, modelId, inputTokens, outputTokens | stats sum(inputTokens) as totalInput, sum(outputTokens) as totalOutput"
+      }
+    }
+  },
+  "slo": {
+    "description": "Service Level Objectives",
+    "objectives": {
+      "availability": {
+        "target": 99.9,
+        "measurement": "Percentage of successful requests",
+        "period": "monthly"
+      },
+      "voiceSearchLatency": {
+        "target": 3,
+        "unit": "seconds",
+        "percentile": 95,
+        "measurement": "95th percentile response time"
+      },
+      "imageSearchLatency": {
+        "target": 6,
+        "unit": "seconds",
+        "percentile": 95,
+        "measurement": "95th percentile response time"
+      },
+      "errorRate": {
+        "target": 5,
+        "unit": "percent",
+        "measurement": "Percentage of failed requests"
+      },
+      "aiAccuracy": {
+        "target": 85,
+        "unit": "percent",
+        "measurement": "Percentage of correct category detections"
+      }
+    }
+  },
+  "costMonitoring": {
+    "budgets": {
+      "daily": {
+        "amount": 50,
+        "currency": "USD",
+        "alerts": [
+          {
+            "threshold": 80,
+            "type": "FORECASTED"
+          },
+          {
+            "threshold": 100,
+            "type": "ACTUAL"
+          }
+        ]
+      },
+      "monthly": {
+        "amount": 1000,
+        "currency": "USD",
+        "alerts": [
+          {
+            "threshold": 80,
+            "type": "FORECASTED"
+          },
+          {
+            "threshold": 100,
+            "type": "ACTUAL"
+          }
+        ]
+      }
+    },
+    "costAllocation": {
+      "tags": [
+        "Feature:MultimodalSearch",
+        "Component:AI",
+        "Environment:Production"
+      ]
+    }
+  }
+}

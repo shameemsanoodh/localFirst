@@ -1,0 +1,120 @@
+[
+  {
+    "major_category": "Kirana & Provision Stores",
+    "sub_category": "Kirana Store",
+    "canonical_name": "Kirana / General Store",
+    "capabilities": [
+      {
+        "id": "staple_groceries",
+        "label": "Staple Groceries",
+        "description": "Rice, wheat, dals, sugar, oil and basic staples.",
+        "example_queries": ["5 kg rice", "toor dal", "cooking oil 1 litre", "atta", "sugar packet"],
+        "keywords": ["rice", "dal", "atta", "oil", "sugar", "salt", "wheat", "flour"],
+        "cross_categories": []
+      },
+      {
+        "id": "packaged_snacks",
+        "label": "Packaged Snacks & Biscuits",
+        "description": "Biscuits, chips, namkeen, chocolates, soft drinks.",
+        "example_queries": ["parle g biscuit", "lays chips", "cold drink bottle", "chocolate", "namkeen"],
+        "keywords": ["biscuit", "chips", "snacks", "cold drink", "chocolate", "namkeen"],
+        "cross_categories": ["Bakery, Sweets & Snacks > Namkeen / Snacks Shop"]
+      },
+      {
+        "id": "fresh_vegetables",
+        "label": "Fresh Vegetables",
+        "description": "Basic vegetables kept inside the kirana shop.",
+        "example_queries": ["1 kg tomato", "onion potato", "half kg bhindi", "vegetables"],
+        "keywords": ["vegetables", "tomato", "onion", "potato", "bhindi", "sabji"],
+        "cross_categories": ["Fruits & Vegetables > Vegetable Shop"]
+      },
+      {
+        "id": "dairy_products",
+        "label": "Milk & Dairy",
+        "description": "Packet milk, curd, paneer, butter, ghee.",
+        "example_queries": ["nandini milk", "curd packet", "amul butter", "paneer", "ghee"],
+        "keywords": ["milk", "curd", "yogurt", "paneer", "butter", "ghee", "dairy"],
+        "cross_categories": ["Kirana & Provision Stores > Dairy & Milk Booth"]
+      },
+      {
+        "id": "household_items",
+        "label": "Household Items",
+        "description": "Soaps, detergents, cleaning supplies, toiletries.",
+        "example_queries": ["surf excel", "vim bar", "colgate", "shampoo sachet"],
+        "keywords": ["soap", "detergent", "shampoo", "toothpaste", "cleaning", "household"],
+        "cross_categories": []
+      }
+    ]
+  }
+]
+,
+  {
+    "major_category": "Fruits & Vegetables",
+    "sub_category": "Vegetable Shop",
+    "canonical_name": "Vegetable Shop",
+    "capabilities": [
+      {
+        "id": "leafy_vegetables",
+        "label": "Leafy Vegetables",
+        "description": "Spinach, coriander, mint, fenugreek and other leafy greens.",
+        "example_queries": ["palak", "coriander leaves", "methi", "mint leaves"],
+        "keywords": ["palak", "spinach", "coriander", "mint", "methi", "leafy", "greens"],
+        "cross_categories": []
+      },
+      {
+        "id": "root_vegetables",
+        "label": "Root Vegetables",
+        "description": "Potato, onion, carrot, beetroot, radish.",
+        "example_queries": ["potato", "onion", "carrot", "beetroot", "radish"],
+        "keywords": ["potato", "onion", "carrot", "beetroot", "radish", "root"],
+        "cross_categories": []
+      },
+      {
+        "id": "seasonal_vegetables",
+        "label": "Seasonal Vegetables",
+        "description": "Tomato, brinjal, capsicum, beans, okra and seasonal produce.",
+        "example_queries": ["tomato", "brinjal", "capsicum", "beans", "bhindi"],
+        "keywords": ["tomato", "brinjal", "capsicum", "beans", "bhindi", "okra", "seasonal"],
+        "cross_categories": []
+      },
+      {
+        "id": "exotic_vegetables",
+        "label": "Exotic Vegetables",
+        "description": "Broccoli, zucchini, lettuce, mushrooms.",
+        "example_queries": ["broccoli", "zucchini", "lettuce", "mushroom"],
+        "keywords": ["broccoli", "zucchini", "lettuce", "mushroom", "exotic"],
+        "cross_categories": []
+      }
+    ]
+  },
+  {
+    "major_category": "Fruits & Vegetables",
+    "sub_category": "Fruit Shop",
+    "canonical_name": "Fruit Shop",
+    "capabilities": [
+      {
+        "id": "common_fruits",
+        "label": "Common Fruits",
+        "description": "Banana, apple, orange, grapes, pomegranate.",
+        "example_queries": ["banana", "apple", "orange", "grapes", "pomegranate"],
+        "keywords": ["banana", "apple", "orange", "grapes", "pomegranate", "fruits"],
+        "cross_categories": []
+      },
+      {
+        "id": "seasonal_fruits",
+        "label": "Seasonal Fruits",
+        "description": "Mango, watermelon, papaya, guava based on season.",
+        "example_queries": ["mango", "watermelon", "papaya", "guava", "seasonal fruits"],
+        "keywords": ["mango", "watermelon", "papaya", "guava", "seasonal"],
+        "cross_categories": []
+      },
+      {
+        "id": "imported_fruits",
+        "label": "Imported Fruits",
+        "description": "Kiwi, avocado, dragon fruit, berries.",
+        "example_queries": ["kiwi", "avocado", "dragon fruit", "berries", "imported fruits"],
+        "keywords": ["kiwi", "avocado", "dragon fruit", "berries", "imported"],
+        "cross_categories": []
+      }
+    ]
+  }

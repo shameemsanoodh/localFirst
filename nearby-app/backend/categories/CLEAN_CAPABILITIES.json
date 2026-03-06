@@ -1,0 +1,1146 @@
+[
+  {
+    "major_category": "Kirana & Provision Stores",
+    "sub_category": "Kirana (traditional)",
+    "canonical_name": "Kirana Store",
+    "capabilities": [
+      {"id": "staple_groceries", "label": "Staple Groceries", "description": "Rice, wheat, dals, sugar, oil and basic staples", "example_queries": ["5 kg rice", "toor dal", "cooking oil", "atta", "sugar"], "keywords": ["rice", "dal", "atta", "oil", "sugar", "salt", "wheat"], "cross_categories": []},
+      {"id": "packaged_snacks", "label": "Packaged Snacks & Biscuits", "description": "Biscuits, chips, namkeen, chocolates", "example_queries": ["parle g", "lays chips", "chocolate", "namkeen"], "keywords": ["biscuit", "chips", "snacks", "chocolate", "namkeen"], "cross_categories": ["Bakery, Sweets & Snacks > Namkeen/snacks shop"]},
+      {"id": "fresh_vegetables", "label": "Fresh Vegetables", "description": "Basic vegetables kept in kirana", "example_queries": ["tomato", "onion potato", "bhindi"], "keywords": ["vegetables", "tomato", "onion", "potato", "sabji"], "cross_categories": ["Fruits & Vegetables > Vegetable shop"]},
+      {"id": "dairy_products", "label": "Milk & Dairy", "description": "Packet milk, curd, paneer, butter", "example_queries": ["milk", "curd packet", "paneer", "butter"], "keywords": ["milk", "curd", "paneer", "butter", "ghee", "dairy"], "cross_categories": ["Kirana & Provision Stores > Dairy & milk booth"]},
+      {"id": "household_items", "label": "Household Items", "description": "Soaps, detergents, cleaning supplies", "example_queries": ["surf excel", "vim bar", "colgate", "shampoo"], "keywords": ["soap", "detergent", "shampoo", "toothpaste", "cleaning"], "cross_categories": []},
+      {"id": "beverages", "label": "Beverages", "description": "Tea, coffee, cold drinks, juices", "example_queries": ["tea powder", "coffee", "cold drink", "juice"], "keywords": ["tea", "coffee", "cold drink", "juice", "beverage"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Kirana & Provision Stores",
+    "sub_category": "Supermarket / mini-mart",
+    "canonical_name": "Supermarket",
+    "capabilities": [
+      {"id": "wide_grocery_range", "label": "Wide Grocery Range", "description": "Extensive range of groceries and FMCG", "example_queries": ["grocery shopping", "monthly provisions"], "keywords": ["grocery", "fmcg", "provisions", "supermarket"], "cross_categories": []},
+      {"id": "fresh_produce", "label": "Fresh Produce", "description": "Fresh fruits and vegetables section", "example_queries": ["fresh vegetables", "fruits"], "keywords": ["fresh", "vegetables", "fruits", "produce"], "cross_categories": ["Fruits & Vegetables > Vegetable shop"]},
+      {"id": "frozen_foods", "label": "Frozen Foods", "description": "Frozen vegetables, ready-to-eat meals", "example_queries": ["frozen peas", "ready to eat"], "keywords": ["frozen", "ready to eat", "meals"], "cross_categories": []},
+      {"id": "bakery_section", "label": "In-store Bakery", "description": "Fresh bakery items", "example_queries": ["fresh bread", "bakery items"], "keywords": ["bread", "bakery", "fresh"], "cross_categories": ["Bakery, Sweets & Snacks > Bakery"]},
+      {"id": "home_delivery", "label": "Home Delivery", "description": "Grocery home delivery service", "example_queries": ["home delivery", "delivery available"], "keywords": ["delivery", "home delivery"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Kirana & Provision Stores",
+    "sub_category": "Organic/health food store",
+    "canonical_name": "Organic Food Store",
+    "capabilities": [
+      {"id": "organic_groceries", "label": "Organic Groceries", "description": "Certified organic rice, dals, grains", "example_queries": ["organic rice", "organic dal"], "keywords": ["organic", "certified", "natural"], "cross_categories": []},
+      {"id": "health_supplements", "label": "Health Supplements", "description": "Protein powders, vitamins, supplements", "example_queries": ["protein powder", "vitamins"], "keywords": ["protein", "vitamins", "supplements", "health"], "cross_categories": ["Pharmacy & Medical > Medical shop"]},
+      {"id": "gluten_free", "label": "Gluten-Free Products", "description": "Gluten-free and specialty diet products", "example_queries": ["gluten free", "diet food"], "keywords": ["gluten free", "diet", "specialty"], "cross_categories": []},
+      {"id": "organic_produce", "label": "Organic Produce", "description": "Organic fruits and vegetables", "example_queries": ["organic vegetables", "organic fruits"], "keywords": ["organic", "vegetables", "fruits", "pesticide free"], "cross_categories": ["Fruits & Vegetables > Organic vegetables"]}
+    ]
+  },
+  {
+    "major_category": "Kirana & Provision Stores",
+    "sub_category": "Dairy & milk booth",
+    "canonical_name": "Milk Booth",
+    "capabilities": [
+      {"id": "fresh_milk", "label": "Fresh Milk", "description": "Daily fresh milk supply", "example_queries": ["fresh milk", "milk delivery"], "keywords": ["milk", "fresh", "daily"], "cross_categories": []},
+      {"id": "dairy_products", "label": "Dairy Products", "description": "Curd, paneer, butter, ghee", "example_queries": ["curd", "paneer", "butter", "ghee"], "keywords": ["curd", "paneer", "butter", "ghee", "dairy"], "cross_categories": []},
+      {"id": "flavored_milk", "label": "Flavored Milk", "description": "Chocolate, strawberry flavored milk", "example_queries": ["chocolate milk", "flavored milk"], "keywords": ["flavored", "chocolate", "strawberry"], "cross_categories": []},
+      {"id": "subscription", "label": "Milk Subscription", "description": "Daily milk subscription service", "example_queries": ["milk subscription", "daily milk"], "keywords": ["subscription", "daily", "regular"], "cross_categories": []}
+    ]
+  }
+    "capabilities": [
+      {"id": "leafy_vegetables", "label": "Leafy Vegetables", "description": "Spinach, coriander, mint, methi", "example_queries": ["palak", "coriander leaves", "methi", "mint"], "keywords": ["palak", "spinach", "coriander", "mint", "methi", "leafy"], "cross_categories": []},
+      {"id": "root_vegetables", "label": "Root Vegetables", "description": "Potato, onion, carrot, beetroot", "example_queries": ["potato", "onion", "carrot", "beetroot"], "keywords": ["potato", "onion", "carrot", "beetroot", "radish"], "cross_categories": []},
+      {"id": "seasonal_vegetables", "label": "Seasonal Vegetables", "description": "Tomato, brinjal, capsicum, beans, okra", "example_queries": ["tomato", "brinjal", "capsicum", "beans", "bhindi"], "keywords": ["tomato", "brinjal", "capsicum", "beans", "bhindi", "okra"], "cross_categories": []},
+      {"id": "exotic_vegetables", "label": "Exotic Vegetables", "description": "Broccoli, zucchini, lettuce, mushrooms", "example_queries": ["broccoli", "zucchini", "lettuce", "mushroom"], "keywords": ["broccoli", "zucchini", "lettuce", "mushroom", "exotic"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Fruits & Vegetables",
+    "sub_category": "Fruit shop",
+    "canonical_name": "Fruit Shop",
+    "capabilities": [
+      {"id": "common_fruits", "label": "Common Fruits", "description": "Banana, apple, orange, grapes", "example_queries": ["banana", "apple", "orange", "grapes"], "keywords": ["banana", "apple", "orange", "grapes", "pomegranate"], "cross_categories": []},
+      {"id": "seasonal_fruits", "label": "Seasonal Fruits", "description": "Mango, watermelon, papaya, guava", "example_queries": ["mango", "watermelon", "papaya", "guava"], "keywords": ["mango", "watermelon", "papaya", "guava", "seasonal"], "cross_categories": []},
+      {"id": "imported_fruits", "label": "Imported Fruits", "description": "Kiwi, avocado, dragon fruit, berries", "example_queries": ["kiwi", "avocado", "dragon fruit", "berries"], "keywords": ["kiwi", "avocado", "dragon fruit", "berries", "imported"], "cross_categories": []},
+      {"id": "fruit_cutting", "label": "Fruit Cutting Service", "description": "Fresh cut fruits and fruit salad", "example_queries": ["cut fruits", "fruit salad"], "keywords": ["cut", "salad", "fresh cut"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Fruits & Vegetables",
+    "sub_category": "Push-cart vendor",
+    "canonical_name": "Street Vendor",
+    "capabilities": [
+      {"id": "daily_vegetables", "label": "Daily Vegetables", "description": "Common vegetables at street prices", "example_queries": ["street vegetables", "cheap vegetables"], "keywords": ["street", "cheap", "daily", "vegetables"], "cross_categories": ["Fruits & Vegetables > Vegetable shop"]},
+      {"id": "seasonal_produce", "label": "Seasonal Produce", "description": "Fresh seasonal fruits and vegetables", "example_queries": ["seasonal vegetables", "fresh produce"], "keywords": ["seasonal", "fresh", "produce"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Fruits & Vegetables",
+    "sub_category": "Organic vegetables",
+    "canonical_name": "Organic Vegetable Shop",
+    "capabilities": [
+      {"id": "certified_organic", "label": "Certified Organic", "description": "Certified organic vegetables", "example_queries": ["organic vegetables", "pesticide free"], "keywords": ["organic", "certified", "pesticide free", "natural"], "cross_categories": ["Kirana & Provision Stores > Organic/health food store"]},
+      {"id": "farm_fresh", "label": "Farm Fresh", "description": "Direct from farm vegetables", "example_queries": ["farm fresh", "direct from farm"], "keywords": ["farm", "fresh", "direct"], "cross_categories": []}
+    ]
+  }
+,
+  {
+    "major_category": "Meat, Fish & Eggs",
+    "sub_category": "Chicken/mutton shop",
+    "canonical_name": "Chicken & Mutton Shop",
+    "capabilities": [
+      {"id": "fresh_chicken", "label": "Fresh Chicken", "description": "Broiler and country chicken", "example_queries": ["chicken", "broiler chicken", "country chicken"], "keywords": ["chicken", "broiler", "country", "fresh"], "cross_categories": []},
+      {"id": "chicken_cuts", "label": "Chicken Cuts", "description": "Boneless, curry cut, tandoori cut", "example_queries": ["boneless chicken", "curry cut", "chicken pieces"], "keywords": ["boneless", "curry cut", "pieces", "cuts"], "cross_categories": []},
+      {"id": "mutton_goat", "label": "Mutton/Goat", "description": "Fresh mutton and goat meat", "example_queries": ["mutton", "goat meat", "lamb"], "keywords": ["mutton", "goat", "lamb", "meat"], "cross_categories": []},
+      {"id": "mutton_cuts", "label": "Mutton Cuts", "description": "Boneless, curry cut, keema", "example_queries": ["mutton boneless", "keema", "mutton curry cut"], "keywords": ["boneless", "keema", "curry cut", "minced"], "cross_categories": []},
+      {"id": "halal_certified", "label": "Halal Certified", "description": "Halal meat certification", "example_queries": ["halal meat", "halal chicken"], "keywords": ["halal", "certified", "islamic"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Meat, Fish & Eggs",
+    "sub_category": "Fish shop",
+    "canonical_name": "Fish Shop",
+    "capabilities": [
+      {"id": "fresh_fish", "label": "Fresh Fish", "description": "Daily fresh fish varieties", "example_queries": ["fresh fish", "fish market"], "keywords": ["fish", "fresh", "seafood"], "cross_categories": []},
+      {"id": "prawns_shrimp", "label": "Prawns & Shrimp", "description": "Fresh prawns and shrimp", "example_queries": ["prawns", "shrimp"], "keywords": ["prawns", "shrimp", "seafood"], "cross_categories": []},
+      {"id": "crab_lobster", "label": "Crab & Lobster", "description": "Crab, lobster and shellfish", "example_queries": ["crab", "lobster"], "keywords": ["crab", "lobster", "shellfish"], "cross_categories": []},
+      {"id": "fish_cleaning", "label": "Fish Cleaning", "description": "Fish cleaning and cutting service", "example_queries": ["fish cleaning", "fish cutting"], "keywords": ["cleaning", "cutting", "service"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Meat, Fish & Eggs",
+    "sub_category": "Egg center",
+    "canonical_name": "Egg Shop",
+    "capabilities": [
+      {"id": "chicken_eggs", "label": "Chicken Eggs", "description": "White and brown chicken eggs", "example_queries": ["eggs", "chicken eggs", "brown eggs"], "keywords": ["eggs", "chicken", "white", "brown"], "cross_categories": []},
+      {"id": "country_eggs", "label": "Country Eggs", "description": "Desi/country chicken eggs", "example_queries": ["country eggs", "desi eggs"], "keywords": ["country", "desi", "organic"], "cross_categories": []},
+      {"id": "duck_quail_eggs", "label": "Duck & Quail Eggs", "description": "Duck and quail eggs", "example_queries": ["duck eggs", "quail eggs"], "keywords": ["duck", "quail", "specialty"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Meat, Fish & Eggs",
+    "sub_category": "Cold meat shop",
+    "canonical_name": "Cold Meat Shop",
+    "capabilities": [
+      {"id": "frozen_meat", "label": "Frozen Meat", "description": "Frozen chicken, mutton, fish", "example_queries": ["frozen chicken", "frozen meat"], "keywords": ["frozen", "cold", "preserved"], "cross_categories": []},
+      {"id": "processed_meat", "label": "Processed Meat", "description": "Sausages, salami, bacon", "example_queries": ["sausages", "salami", "bacon"], "keywords": ["sausages", "salami", "bacon", "processed"], "cross_categories": []},
+      {"id": "marinated_meat", "label": "Marinated Meat", "description": "Ready-to-cook marinated meat", "example_queries": ["marinated chicken", "ready to cook"], "keywords": ["marinated", "ready to cook", "spiced"], "cross_categories": []}
+    ]
+  }
+,
+  {
+    "major_category": "Bakery, Sweets & Snacks",
+    "sub_category": "Bakery",
+    "canonical_name": "Bakery",
+    "capabilities": [
+      {"id": "bread_buns", "label": "Bread & Buns", "description": "White bread, brown bread, buns", "example_queries": ["bread", "buns", "pav"], "keywords": ["bread", "buns", "pav", "white", "brown"], "cross_categories": []},
+      {"id": "puffs_patties", "label": "Puffs & Patties", "description": "Veg puff, egg puff, chicken puff", "example_queries": ["puff", "veg puff", "egg puff"], "keywords": ["puff", "patties", "veg", "egg", "chicken"], "cross_categories": []},
+      {"id": "cakes_pastries", "label": "Cakes & Pastries", "description": "Cakes, pastries, muffins", "example_queries": ["cake", "pastry", "muffin"], "keywords": ["cake", "pastry", "muffin", "dessert"], "cross_categories": ["Bakery, Sweets & Snacks > Cake shop"]},
+      {"id": "cookies_biscuits", "label": "Cookies & Biscuits", "description": "Fresh cookies and biscuits", "example_queries": ["cookies", "biscuits"], "keywords": ["cookies", "biscuits", "fresh"], "cross_categories": []},
+      {"id": "custom_cakes", "label": "Custom Cake Orders", "description": "Birthday and occasion cakes", "example_queries": ["birthday cake", "custom cake"], "keywords": ["birthday", "custom", "order"], "cross_categories": ["Bakery, Sweets & Snacks > Cake shop"]}
+    ]
+  },
+  {
+    "major_category": "Bakery, Sweets & Snacks",
+    "sub_category": "Sweet shop / mithai",
+    "canonical_name": "Sweet Shop",
+    "capabilities": [
+      {"id": "traditional_sweets", "label": "Traditional Sweets", "description": "Laddu, barfi, halwa, jalebi", "example_queries": ["laddu", "barfi", "halwa", "jalebi"], "keywords": ["laddu", "barfi", "halwa", "jalebi", "mithai"], "cross_categories": []},
+      {"id": "milk_sweets", "label": "Milk Sweets", "description": "Rasgulla, gulab jamun, rasmalai", "example_queries": ["rasgulla", "gulab jamun", "rasmalai"], "keywords": ["rasgulla", "gulab jamun", "rasmalai", "milk"], "cross_categories": []},
+      {"id": "dry_fruits_sweets", "label": "Dry Fruit Sweets", "description": "Kaju katli, badam burfi", "example_queries": ["kaju katli", "badam burfi"], "keywords": ["kaju", "badam", "dry fruits", "premium"], "cross_categories": []},
+      {"id": "festival_specials", "label": "Festival Specials", "description": "Special sweets for festivals", "example_queries": ["diwali sweets", "festival sweets"], "keywords": ["festival", "diwali", "special", "occasion"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Bakery, Sweets & Snacks",
+    "sub_category": "Namkeen/snacks shop",
+    "canonical_name": "Namkeen Shop",
+    "capabilities": [
+      {"id": "savory_snacks", "label": "Savory Snacks", "description": "Mixture, sev, bhujia, chivda", "example_queries": ["mixture", "sev", "bhujia", "chivda"], "keywords": ["mixture", "sev", "bhujia", "chivda", "namkeen"], "cross_categories": []},
+      {"id": "fried_snacks", "label": "Fried Snacks", "description": "Samosa, kachori, pakoda", "example_queries": ["samosa", "kachori", "pakoda"], "keywords": ["samosa", "kachori", "pakoda", "fried"], "cross_categories": []},
+      {"id": "chat_items", "label": "Chaat Items", "description": "Pani puri, bhel puri, sev puri", "example_queries": ["pani puri", "bhel puri", "chaat"], "keywords": ["pani puri", "bhel", "chaat", "street food"], "cross_categories": ["Restaurants, Cafes & Juices > Shawarma roll centre"]}
+    ]
+  },
+  {
+    "major_category": "Bakery, Sweets & Snacks",
+    "sub_category": "Cake shop",
+    "canonical_name": "Cake Shop",
+    "capabilities": [
+      {"id": "birthday_cakes", "label": "Birthday Cakes", "description": "Custom birthday cakes", "example_queries": ["birthday cake", "cake order"], "keywords": ["birthday", "cake", "custom", "order"], "cross_categories": []},
+      {"id": "theme_cakes", "label": "Theme Cakes", "description": "Cartoon, photo, designer cakes", "example_queries": ["theme cake", "photo cake", "designer cake"], "keywords": ["theme", "photo", "designer", "custom"], "cross_categories": []},
+      {"id": "cupcakes", "label": "Cupcakes", "description": "Cupcakes and mini cakes", "example_queries": ["cupcakes", "mini cakes"], "keywords": ["cupcakes", "mini", "small"], "cross_categories": []},
+      {"id": "eggless_cakes", "label": "Eggless Cakes", "description": "Eggless cake options", "example_queries": ["eggless cake", "without egg"], "keywords": ["eggless", "vegetarian", "no egg"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Bakery, Sweets & Snacks",
+    "sub_category": "Ice-cream parlour",
+    "canonical_name": "Ice Cream Parlour",
+    "capabilities": [
+      {"id": "ice_cream_flavors", "label": "Ice Cream Flavors", "description": "Vanilla, chocolate, strawberry, butterscotch", "example_queries": ["ice cream", "vanilla", "chocolate"], "keywords": ["ice cream", "vanilla", "chocolate", "strawberry", "flavors"], "cross_categories": []},
+      {"id": "kulfi", "label": "Kulfi", "description": "Traditional Indian kulfi", "example_queries": ["kulfi", "malai kulfi"], "keywords": ["kulfi", "malai", "traditional"], "cross_categories": []},
+      {"id": "sundaes_shakes", "label": "Sundaes & Shakes", "description": "Ice cream sundaes and milkshakes", "example_queries": ["sundae", "milkshake", "shake"], "keywords": ["sundae", "shake", "milkshake"], "cross_categories": []},
+      {"id": "softy", "label": "Softy Ice Cream", "description": "Soft serve ice cream", "example_queries": ["softy", "soft serve"], "keywords": ["softy", "soft serve", "cone"], "cross_categories": []}
+    ]
+  }
+,
+  {
+    "major_category": "Restaurants, Cafes & Juices",
+    "sub_category": "Restaurant",
+    "canonical_name": "Restaurant",
+    "capabilities": [
+      {"id": "veg_dishes", "label": "Vegetarian Dishes", "description": "Pure vegetarian food", "example_queries": ["veg food", "vegetarian restaurant"], "keywords": ["veg", "vegetarian", "pure veg"], "cross_categories": []},
+      {"id": "non_veg_dishes", "label": "Non-Vegetarian Dishes", "description": "Chicken, mutton, fish dishes", "example_queries": ["non veg food", "chicken biryani"], "keywords": ["non veg", "chicken", "mutton", "fish"], "cross_categories": []},
+      {"id": "north_indian", "label": "North Indian Cuisine", "description": "North Indian dishes", "example_queries": ["north indian food", "paneer butter masala"], "keywords": ["north indian", "punjabi", "tandoor"], "cross_categories": []},
+      {"id": "south_indian", "label": "South Indian Cuisine", "description": "South Indian dishes", "example_queries": ["south indian food", "dosa idli"], "keywords": ["south indian", "dosa", "idli", "sambar"], "cross_categories": ["Restaurants, Cafes & Juices > Dosa corner"]},
+      {"id": "chinese", "label": "Chinese Food", "description": "Chinese and Indo-Chinese", "example_queries": ["chinese food", "fried rice", "noodles"], "keywords": ["chinese", "fried rice", "noodles", "manchurian"], "cross_categories": []},
+      {"id": "dine_in", "label": "Dine-in Facility", "description": "Seating and dine-in available", "example_queries": ["dine in", "restaurant with seating"], "keywords": ["dine in", "seating", "ac"], "cross_categories": []},
+      {"id": "takeaway", "label": "Takeaway Service", "description": "Takeaway and parcel", "example_queries": ["takeaway", "parcel"], "keywords": ["takeaway", "parcel", "pack"], "cross_categories": []},
+      {"id": "home_delivery", "label": "Home Delivery", "description": "Food delivery service", "example_queries": ["home delivery", "food delivery"], "keywords": ["delivery", "home delivery"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Restaurants, Cafes & Juices",
+    "sub_category": "Fast food",
+    "canonical_name": "Fast Food",
+    "capabilities": [
+      {"id": "burgers", "label": "Burgers & Sandwiches", "description": "Burgers and sandwiches", "example_queries": ["burger", "sandwich", "veg burger"], "keywords": ["burger", "sandwich", "veg", "chicken"], "cross_categories": []},
+      {"id": "pizza", "label": "Pizza", "description": "Pizza varieties", "example_queries": ["pizza", "cheese pizza", "veg pizza"], "keywords": ["pizza", "cheese", "margherita"], "cross_categories": []},
+      {"id": "fries_sides", "label": "Fries & Sides", "description": "French fries and sides", "example_queries": ["french fries", "fries", "sides"], "keywords": ["fries", "french fries", "sides"], "cross_categories": []},
+      {"id": "combos", "label": "Combo Meals", "description": "Value combo meals", "example_queries": ["combo", "meal combo", "value meal"], "keywords": ["combo", "meal", "value"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Restaurants, Cafes & Juices",
+    "sub_category": "Cafe",
+    "canonical_name": "Cafe / Coffee Shop",
+    "capabilities": [
+      {"id": "hot_beverages", "label": "Hot Beverages", "description": "Coffee, tea, hot chocolate", "example_queries": ["coffee", "cappuccino", "latte", "tea"], "keywords": ["coffee", "tea", "cappuccino", "latte", "espresso"], "cross_categories": []},
+      {"id": "cold_beverages", "label": "Cold Beverages", "description": "Cold coffee, shakes, smoothies", "example_queries": ["cold coffee", "shake", "smoothie"], "keywords": ["cold coffee", "shake", "smoothie", "frappe"], "cross_categories": []},
+      {"id": "snacks", "label": "Snacks", "description": "Sandwiches, burgers, fries", "example_queries": ["sandwich", "burger", "snacks"], "keywords": ["sandwich", "burger", "fries", "snacks"], "cross_categories": []},
+      {"id": "desserts", "label": "Desserts", "description": "Ice cream, brownies, pastries", "example_queries": ["dessert", "brownie", "pastry"], "keywords": ["dessert", "brownie", "pastry", "cake"], "cross_categories": []},
+      {"id": "wifi_seating", "label": "WiFi & Seating", "description": "WiFi and comfortable seating", "example_queries": ["cafe with wifi", "seating"], "keywords": ["wifi", "seating", "workspace"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Restaurants, Cafes & Juices",
+    "sub_category": "Tea shop",
+    "canonical_name": "Tea Shop / Chai Stall",
+    "capabilities": [
+      {"id": "tea_varieties", "label": "Tea Varieties", "description": "Regular, masala, ginger tea", "example_queries": ["tea", "chai", "masala tea", "ginger tea"], "keywords": ["tea", "chai", "masala", "ginger"], "cross_categories": []},
+      {"id": "coffee", "label": "Coffee", "description": "Filter coffee, instant coffee", "example_queries": ["coffee", "filter coffee"], "keywords": ["coffee", "filter", "instant"], "cross_categories": []},
+      {"id": "snacks", "label": "Snacks", "description": "Biscuits, buns, samosa", "example_queries": ["biscuit", "bun", "samosa"], "keywords": ["biscuit", "bun", "samosa", "snacks"], "cross_categories": []},
+      {"id": "cigarettes", "label": "Cigarettes & Tobacco", "description": "Cigarettes and tobacco products", "example_queries": ["cigarette", "tobacco"], "keywords": ["cigarette", "tobacco", "beedi"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Restaurants, Cafes & Juices",
+    "sub_category": "Juice shop",
+    "canonical_name": "Juice Shop",
+    "capabilities": [
+      {"id": "fresh_juices", "label": "Fresh Fruit Juices", "description": "Fresh fruit juices", "example_queries": ["orange juice", "watermelon juice", "fresh juice"], "keywords": ["juice", "fresh", "orange", "watermelon", "mango"], "cross_categories": []},
+      {"id": "milkshakes", "label": "Milkshakes & Smoothies", "description": "Milkshakes and smoothies", "example_queries": ["milkshake", "smoothie", "shake"], "keywords": ["milkshake", "smoothie", "shake"], "cross_categories": []},
+      {"id": "sugarcane_juice", "label": "Sugarcane Juice", "description": "Fresh sugarcane juice", "example_queries": ["sugarcane juice", "ganna juice"], "keywords": ["sugarcane", "ganna", "fresh"], "cross_categories": []},
+      {"id": "fruit_salad", "label": "Fruit Salad", "description": "Fresh fruit salad", "example_queries": ["fruit salad", "mixed fruits"], "keywords": ["fruit salad", "mixed fruits"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Restaurants, Cafes & Juices",
+    "sub_category": "Shawarma roll centre",
+    "canonical_name": "Shawarma & Roll Centre",
+    "capabilities": [
+      {"id": "shawarma", "label": "Shawarma", "description": "Chicken and veg shawarma", "example_queries": ["shawarma", "chicken shawarma", "veg shawarma"], "keywords": ["shawarma", "chicken", "veg", "arabic"], "cross_categories": []},
+      {"id": "rolls", "label": "Rolls", "description": "Chicken, paneer, egg rolls", "example_queries": ["chicken roll", "paneer roll", "egg roll"], "keywords": ["roll", "chicken", "paneer", "egg"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Restaurants, Cafes & Juices",
+    "sub_category": "Dosa corner",
+    "canonical_name": "Dosa Corner",
+    "capabilities": [
+      {"id": "dosa", "label": "Dosa Varieties", "description": "Plain, masala, ghee dosa", "example_queries": ["dosa", "masala dosa", "ghee dosa"], "keywords": ["dosa", "masala", "ghee", "plain"], "cross_categories": []},
+      {"id": "idli_vada", "label": "Idli & Vada", "description": "Idli, vada, sambar", "example_queries": ["idli", "vada", "sambar"], "keywords": ["idli", "vada", "sambar", "medu vada"], "cross_categories": []},
+      {"id": "uttapam", "label": "Uttapam", "description": "Uttapam varieties", "example_queries": ["uttapam", "onion uttapam"], "keywords": ["uttapam", "onion", "tomato"], "cross_categories": []}
+    ]
+  }
+,
+  {
+    "major_category": "Pharmacy & Medical",
+    "sub_category": "Medical shop",
+    "canonical_name": "Medical Shop / Pharmacy / Chemist",
+    "capabilities": [
+      {"id": "prescription_medicines", "label": "Prescription Medicines", "description": "Prescription drugs", "example_queries": ["medicine", "prescription", "doctor medicine"], "keywords": ["medicine", "prescription", "drugs", "tablets"], "cross_categories": []},
+      {"id": "otc_medicines", "label": "OTC Medicines", "description": "Over-the-counter medicines", "example_queries": ["paracetamol", "crocin", "cold medicine"], "keywords": ["otc", "paracetamol", "crocin", "cold", "fever"], "cross_categories": []},
+      {"id": "ayurvedic_medicines", "label": "Ayurvedic Medicines", "description": "Ayurvedic products", "example_queries": ["ayurvedic medicine", "herbal"], "keywords": ["ayurvedic", "herbal", "natural"], "cross_categories": []},
+      {"id": "health_supplements", "label": "Health Supplements", "description": "Vitamins, protein powders", "example_queries": ["protein powder", "vitamins", "supplements"], "keywords": ["protein", "vitamins", "supplements", "health"], "cross_categories": []},
+      {"id": "medical_devices", "label": "Medical Devices", "description": "BP monitor, thermometer, nebulizer", "example_queries": ["bp machine", "thermometer", "nebulizer"], "keywords": ["bp monitor", "thermometer", "nebulizer", "glucometer"], "cross_categories": []},
+      {"id": "baby_care", "label": "Baby Care Products", "description": "Diapers, baby food, baby care", "example_queries": ["diapers", "baby food", "baby care"], "keywords": ["diapers", "baby", "infant", "care"], "cross_categories": []},
+      {"id": "home_delivery", "label": "Medicine Home Delivery", "description": "Medicine home delivery service", "example_queries": ["medicine delivery", "home delivery"], "keywords": ["delivery", "home delivery"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Pharmacy & Medical",
+    "sub_category": "Clinic",
+    "canonical_name": "Clinic",
+    "capabilities": [
+      {"id": "general_consultation", "label": "General Consultation", "description": "General physician consultation", "example_queries": ["doctor", "consultation", "checkup"], "keywords": ["doctor", "consultation", "checkup", "physician"], "cross_categories": []},
+      {"id": "specialist_consultation", "label": "Specialist Consultation", "description": "Specialist doctors", "example_queries": ["specialist doctor", "cardiologist", "dermatologist"], "keywords": ["specialist", "cardiologist", "dermatologist", "pediatrician"], "cross_categories": []},
+      {"id": "diagnostic_tests", "label": "Diagnostic Tests", "description": "Basic diagnostic tests", "example_queries": ["blood test", "urine test"], "keywords": ["blood test", "urine test", "diagnostic"], "cross_categories": ["Pharmacy & Medical > Diagnostic lab"]},
+      {"id": "vaccination", "label": "Vaccination Services", "description": "Vaccination services", "example_queries": ["vaccination", "vaccine", "immunization"], "keywords": ["vaccination", "vaccine", "immunization"], "cross_categories": []},
+      {"id": "emergency_care", "label": "Emergency Care", "description": "Emergency medical care", "example_queries": ["emergency", "urgent care"], "keywords": ["emergency", "urgent", "24x7"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Pharmacy & Medical",
+    "sub_category": "Diagnostic lab",
+    "canonical_name": "Diagnostic Lab",
+    "capabilities": [
+      {"id": "blood_tests", "label": "Blood Tests", "description": "Blood tests and reports", "example_queries": ["blood test", "cbc", "sugar test"], "keywords": ["blood test", "cbc", "sugar", "hemoglobin"], "cross_categories": []},
+      {"id": "urine_tests", "label": "Urine Tests", "description": "Urine analysis", "example_queries": ["urine test", "urine analysis"], "keywords": ["urine", "analysis"], "cross_categories": []},
+      {"id": "xray_scan", "label": "X-ray & Scanning", "description": "X-ray and scanning", "example_queries": ["xray", "scan", "ultrasound"], "keywords": ["xray", "scan", "ultrasound", "imaging"], "cross_categories": []},
+      {"id": "ecg_echo", "label": "ECG & Echo", "description": "ECG and echo tests", "example_queries": ["ecg", "echo", "heart test"], "keywords": ["ecg", "echo", "heart"], "cross_categories": []},
+      {"id": "home_collection", "label": "Home Sample Collection", "description": "Sample collection at home", "example_queries": ["home collection", "sample collection"], "keywords": ["home collection", "sample", "pickup"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Pharmacy & Medical",
+    "sub_category": "Optical store",
+    "canonical_name": "Optical Store / Eyewear",
+    "capabilities": [
+      {"id": "eyeglasses", "label": "Eyeglasses", "description": "Prescription eyeglasses", "example_queries": ["eyeglasses", "spectacles", "prescription glasses"], "keywords": ["eyeglasses", "spectacles", "glasses", "prescription"], "cross_categories": []},
+      {"id": "sunglasses", "label": "Sunglasses", "description": "Branded and local sunglasses", "example_queries": ["sunglasses", "branded sunglasses"], "keywords": ["sunglasses", "branded", "uv protection"], "cross_categories": []},
+      {"id": "contact_lenses", "label": "Contact Lenses", "description": "Daily, monthly contact lenses", "example_queries": ["contact lenses", "lenses"], "keywords": ["contact lenses", "lenses", "daily", "monthly"], "cross_categories": []},
+      {"id": "eye_testing", "label": "Eye Testing", "description": "Free eye checkup", "example_queries": ["eye test", "eye checkup", "vision test"], "keywords": ["eye test", "checkup", "vision", "free"], "cross_categories": []},
+      {"id": "lens_solutions", "label": "Lens Solutions", "description": "Contact lens solutions and accessories", "example_queries": ["lens solution", "contact lens solution"], "keywords": ["solution", "lens care", "accessories"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Pharmacy & Medical",
+    "sub_category": "Surgical supplies",
+    "canonical_name": "Surgical Supplies",
+    "capabilities": [
+      {"id": "surgical_instruments", "label": "Surgical Instruments", "description": "Surgical instruments", "example_queries": ["surgical instruments", "medical instruments"], "keywords": ["surgical", "instruments", "medical"], "cross_categories": []},
+      {"id": "hospital_equipment", "label": "Hospital Equipment", "description": "Hospital equipment", "example_queries": ["hospital equipment", "medical equipment"], "keywords": ["hospital", "equipment", "medical"], "cross_categories": []},
+      {"id": "disposables", "label": "Disposables", "description": "Syringes, gloves, masks", "example_queries": ["syringe", "gloves", "mask"], "keywords": ["syringe", "gloves", "mask", "disposable"], "cross_categories": []},
+      {"id": "mobility_aids", "label": "Mobility Aids", "description": "Wheelchairs, walkers, crutches", "example_queries": ["wheelchair", "walker", "crutches"], "keywords": ["wheelchair", "walker", "crutches", "mobility"], "cross_categories": []}
+    ]
+  }
+,
+  {
+    "major_category": "Fashion & Apparel",
+    "sub_category": "Men's wear",
+    "canonical_name": "Men's Clothing",
+    "capabilities": [
+      {"id": "formal_wear", "label": "Formal Wear", "description": "Shirts, pants, blazers", "example_queries": ["formal shirt", "formal pant", "blazer"], "keywords": ["formal", "shirt", "pant", "blazer", "suit"], "cross_categories": []},
+      {"id": "casual_wear", "label": "Casual Wear", "description": "T-shirts, jeans, casual shirts", "example_queries": ["tshirt", "jeans", "casual shirt"], "keywords": ["tshirt", "jeans", "casual", "shirt"], "cross_categories": []},
+      {"id": "ethnic_wear", "label": "Ethnic Wear", "description": "Kurta, dhoti, traditional wear", "example_queries": ["kurta", "dhoti", "traditional dress"], "keywords": ["kurta", "dhoti", "traditional", "ethnic"], "cross_categories": []},
+      {"id": "innerwear", "label": "Innerwear", "description": "Vests, briefs, boxers", "example_queries": ["vest", "brief", "boxer"], "keywords": ["vest", "brief", "boxer", "innerwear"], "cross_categories": ["Fashion & Apparel > Innerwear"]},
+      {"id": "winter_wear", "label": "Winter Wear", "description": "Jackets, sweaters, hoodies", "example_queries": ["jacket", "sweater", "hoodie"], "keywords": ["jacket", "sweater", "hoodie", "winter"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Fashion & Apparel",
+    "sub_category": "Women's wear",
+    "canonical_name": "Women's Clothing",
+    "capabilities": [
+      {"id": "ethnic_wear", "label": "Ethnic Wear", "description": "Sarees, salwar, lehenga", "example_queries": ["saree", "salwar", "lehenga"], "keywords": ["saree", "salwar", "lehenga", "ethnic"], "cross_categories": ["Fashion & Apparel > Saree shop"]},
+      {"id": "western_wear", "label": "Western Wear", "description": "Tops, jeans, dresses", "example_queries": ["top", "jeans", "dress", "western"], "keywords": ["top", "jeans", "dress", "western"], "cross_categories": []},
+      {"id": "formal_wear", "label": "Formal Wear", "description": "Formal shirts, pants", "example_queries": ["formal dress", "office wear"], "keywords": ["formal", "office", "professional"], "cross_categories": []},
+      {"id": "innerwear", "label": "Innerwear", "description": "Bras, panties, slips", "example_queries": ["bra", "panty", "innerwear"], "keywords": ["bra", "panty", "slip", "innerwear"], "cross_categories": ["Fashion & Apparel > Innerwear"]},
+      {"id": "winter_wear", "label": "Winter Wear", "description": "Jackets, sweaters, shawls", "example_queries": ["jacket", "sweater", "shawl"], "keywords": ["jacket", "sweater", "shawl", "winter"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Fashion & Apparel",
+    "sub_category": "Kids wear",
+    "canonical_name": "Kids Clothing",
+    "capabilities": [
+      {"id": "boys_clothing", "label": "Boys Clothing", "description": "Boys shirts, pants, shorts", "example_queries": ["boys dress", "boys shirt", "boys pant"], "keywords": ["boys", "shirt", "pant", "shorts"], "cross_categories": []},
+      {"id": "girls_clothing", "label": "Girls Clothing", "description": "Girls dresses, tops, skirts", "example_queries": ["girls dress", "girls top", "frock"], "keywords": ["girls", "dress", "top", "frock", "skirt"], "cross_categories": []},
+      {"id": "infant_wear", "label": "Infant Wear", "description": "Baby clothes and rompers", "example_queries": ["baby dress", "romper", "infant wear"], "keywords": ["baby", "infant", "romper", "newborn"], "cross_categories": []},
+      {"id": "school_uniforms", "label": "School Uniforms", "description": "School uniform stitching", "example_queries": ["school uniform", "uniform"], "keywords": ["school", "uniform"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Fashion & Apparel",
+    "sub_category": "Saree shop",
+    "canonical_name": "Saree Shop",
+    "capabilities": [
+      {"id": "silk_sarees", "label": "Silk Sarees", "description": "Silk sarees", "example_queries": ["silk saree", "kanjivaram", "banarasi"], "keywords": ["silk", "kanjivaram", "banarasi", "pattu"], "cross_categories": []},
+      {"id": "cotton_sarees", "label": "Cotton Sarees", "description": "Cotton sarees", "example_queries": ["cotton saree", "daily wear saree"], "keywords": ["cotton", "daily wear"], "cross_categories": []},
+      {"id": "designer_sarees", "label": "Designer Sarees", "description": "Designer and party sarees", "example_queries": ["designer saree", "party saree"], "keywords": ["designer", "party", "fancy"], "cross_categories": []},
+      {"id": "blouse_pieces", "label": "Blouse Pieces", "description": "Matching blouse pieces", "example_queries": ["blouse piece", "matching blouse"], "keywords": ["blouse", "piece", "matching"], "cross_categories": ["Tailoring & Fashion Services > Ladies tailor"]}
+    ]
+  },
+  {
+    "major_category": "Fashion & Apparel",
+    "sub_category": "Readymade garments",
+    "canonical_name": "Readymade Garments",
+    "capabilities": [
+      {"id": "mens_readymade", "label": "Men's Readymade", "description": "Men's readymade clothes", "example_queries": ["mens readymade", "gents dress"], "keywords": ["mens", "gents", "readymade"], "cross_categories": ["Fashion & Apparel > Men's wear"]},
+      {"id": "womens_readymade", "label": "Women's Readymade", "description": "Women's readymade clothes", "example_queries": ["womens readymade", "ladies dress"], "keywords": ["womens", "ladies", "readymade"], "cross_categories": ["Fashion & Apparel > Women's wear"]},
+      {"id": "kids_readymade", "label": "Kids Readymade", "description": "Kids readymade clothes", "example_queries": ["kids dress", "children dress"], "keywords": ["kids", "children", "readymade"], "cross_categories": ["Fashion & Apparel > Kids wear"]}
+    ]
+  },
+  {
+    "major_category": "Fashion & Apparel",
+    "sub_category": "Innerwear",
+    "canonical_name": "Innerwear Shop",
+    "capabilities": [
+      {"id": "mens_innerwear", "label": "Men's Innerwear", "description": "Men's vests, briefs, boxers", "example_queries": ["mens vest", "brief", "boxer"], "keywords": ["vest", "brief", "boxer", "mens"], "cross_categories": []},
+      {"id": "womens_innerwear", "label": "Women's Innerwear", "description": "Women's bras, panties", "example_queries": ["bra", "panty", "ladies innerwear"], "keywords": ["bra", "panty", "womens"], "cross_categories": []},
+      {"id": "kids_innerwear", "label": "Kids Innerwear", "description": "Kids innerwear", "example_queries": ["kids innerwear", "children vest"], "keywords": ["kids", "children", "innerwear"], "cross_categories": []},
+      {"id": "thermal_wear", "label": "Thermal Wear", "description": "Thermal innerwear", "example_queries": ["thermal", "winter innerwear"], "keywords": ["thermal", "winter"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Fashion & Apparel",
+    "sub_category": "Boutique",
+    "canonical_name": "Boutique",
+    "capabilities": [
+      {"id": "custom_stitching", "label": "Custom Stitching", "description": "Custom dress stitching", "example_queries": ["custom stitching", "dress stitching"], "keywords": ["custom", "stitching", "tailoring"], "cross_categories": ["Tailoring & Fashion Services > Ladies tailor"]},
+      {"id": "designer_wear", "label": "Designer Wear", "description": "Designer dresses", "example_queries": ["designer dress", "boutique dress"], "keywords": ["designer", "boutique", "exclusive"], "cross_categories": []},
+      {"id": "bridal_wear", "label": "Bridal Wear", "description": "Bridal dress design", "example_queries": ["bridal dress", "wedding dress"], "keywords": ["bridal", "wedding", "marriage"], "cross_categories": ["Beauty, Salon & Bridal > Bridal studio"]},
+      {"id": "alterations", "label": "Alterations", "description": "Dress alterations", "example_queries": ["alteration", "dress fitting"], "keywords": ["alteration", "fitting", "adjustment"], "cross_categories": ["Tailoring & Fashion Services > Alteration shop"]}
+    ]
+  },
+  {
+    "major_category": "Tailoring & Fashion Services",
+    "sub_category": "Tailor",
+    "canonical_name": "Tailor",
+    "capabilities": [
+      {"id": "shirt_stitching", "label": "Shirt Stitching", "description": "Shirt stitching", "example_queries": ["shirt stitching", "shirt tailor"], "keywords": ["shirt", "stitching"], "cross_categories": []},
+      {"id": "pant_stitching", "label": "Pant Stitching", "description": "Pant stitching", "example_queries": ["pant stitching", "trouser stitching"], "keywords": ["pant", "trouser", "stitching"], "cross_categories": []},
+      {"id": "blouse_stitching", "label": "Blouse Stitching", "description": "Blouse stitching", "example_queries": ["blouse stitching"], "keywords": ["blouse", "stitching"], "cross_categories": ["Tailoring & Fashion Services > Ladies tailor"]},
+      {"id": "alteration_services", "label": "Alteration Services", "description": "Dress alterations", "example_queries": ["alteration", "fitting"], "keywords": ["alteration", "fitting", "adjustment"], "cross_categories": ["Tailoring & Fashion Services > Alteration shop"]}
+    ]
+  },
+  {
+    "major_category": "Tailoring & Fashion Services",
+    "sub_category": "Ladies tailor",
+    "canonical_name": "Ladies Tailor",
+    "capabilities": [
+      {"id": "blouse_stitching", "label": "Blouse Stitching", "description": "Blouse stitching and design", "example_queries": ["blouse stitching", "blouse design"], "keywords": ["blouse", "stitching", "design"], "cross_categories": []},
+      {"id": "salwar_stitching", "label": "Salwar Stitching", "description": "Salwar kameez stitching", "example_queries": ["salwar stitching", "churidar stitching"], "keywords": ["salwar", "churidar", "kameez"], "cross_categories": []},
+      {"id": "lehenga_stitching", "label": "Lehenga Stitching", "description": "Lehenga and ghagra stitching", "example_queries": ["lehenga stitching", "ghagra stitching"], "keywords": ["lehenga", "ghagra", "skirt"], "cross_categories": []},
+      {"id": "alteration_services", "label": "Alteration Services", "description": "Dress alterations and fitting", "example_queries": ["alteration", "fitting", "size adjustment"], "keywords": ["alteration", "fitting", "adjustment"], "cross_categories": []},
+      {"id": "fall_pico", "label": "Fall & Pico", "description": "Saree fall and pico work", "example_queries": ["fall pico", "saree fall"], "keywords": ["fall", "pico", "saree"], "cross_categories": []},
+      {"id": "embroidery_work", "label": "Embroidery Work", "description": "Hand and machine embroidery", "example_queries": ["embroidery", "aari work"], "keywords": ["embroidery", "aari", "zardosi"], "cross_categories": ["Tailoring & Fashion Services > Embroidery unit"]}
+    ]
+  },
+  {
+    "major_category": "Tailoring & Fashion Services",
+    "sub_category": "Gents tailor",
+    "canonical_name": "Gents Tailor",
+    "capabilities": [
+      {"id": "shirt_stitching", "label": "Shirt Stitching", "description": "Shirt stitching", "example_queries": ["shirt stitching", "formal shirt"], "keywords": ["shirt", "formal", "casual"], "cross_categories": []},
+      {"id": "pant_stitching", "label": "Pant Stitching", "description": "Pant stitching", "example_queries": ["pant stitching", "trouser"], "keywords": ["pant", "trouser"], "cross_categories": []},
+      {"id": "suit_stitching", "label": "Suit Stitching", "description": "Suit and blazer stitching", "example_queries": ["suit stitching", "blazer"], "keywords": ["suit", "blazer", "coat"], "cross_categories": []},
+      {"id": "alteration_services", "label": "Alteration Services", "description": "Dress alterations", "example_queries": ["alteration", "fitting"], "keywords": ["alteration", "fitting"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Tailoring & Fashion Services",
+    "sub_category": "Alteration shop",
+    "canonical_name": "Alteration Shop",
+    "capabilities": [
+      {"id": "dress_alterations", "label": "Dress Alterations", "description": "All dress alterations", "example_queries": ["alteration", "dress fitting"], "keywords": ["alteration", "fitting", "adjustment"], "cross_categories": []},
+      {"id": "size_adjustments", "label": "Size Adjustments", "description": "Size increase/decrease", "example_queries": ["size adjustment", "loose tight"], "keywords": ["size", "loose", "tight"], "cross_categories": []},
+      {"id": "zipper_replacement", "label": "Zipper Replacement", "description": "Zipper and button fixing", "example_queries": ["zipper replacement", "button fixing"], "keywords": ["zipper", "button", "fixing"], "cross_categories": []},
+      {"id": "hem_adjustments", "label": "Hem Adjustments", "description": "Hem length adjustments", "example_queries": ["hem adjustment", "length adjustment"], "keywords": ["hem", "length", "short", "long"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Tailoring & Fashion Services",
+    "sub_category": "Boutique with stitching",
+    "canonical_name": "Boutique with Stitching",
+    "capabilities": [
+      {"id": "custom_design", "label": "Custom Design", "description": "Custom dress design", "example_queries": ["custom design", "designer dress"], "keywords": ["custom", "design", "designer"], "cross_categories": []},
+      {"id": "bridal_stitching", "label": "Bridal Stitching", "description": "Bridal dress stitching", "example_queries": ["bridal stitching", "wedding dress"], "keywords": ["bridal", "wedding", "marriage"], "cross_categories": []},
+      {"id": "party_wear", "label": "Party Wear", "description": "Party wear stitching", "example_queries": ["party wear", "party dress"], "keywords": ["party", "occasion", "function"], "cross_categories": []},
+      {"id": "embroidery", "label": "Embroidery", "description": "Embroidery and embellishment", "example_queries": ["embroidery", "stone work"], "keywords": ["embroidery", "stone", "embellishment"], "cross_categories": ["Tailoring & Fashion Services > Embroidery unit"]}
+    ]
+  },
+  {
+    "major_category": "Tailoring & Fashion Services",
+    "sub_category": "Embroidery unit",
+    "canonical_name": "Embroidery Unit",
+    "capabilities": [
+      {"id": "hand_embroidery", "label": "Hand Embroidery", "description": "Hand embroidery work", "example_queries": ["hand embroidery", "handwork"], "keywords": ["hand", "embroidery", "handwork"], "cross_categories": []},
+      {"id": "machine_embroidery", "label": "Machine Embroidery", "description": "Machine embroidery", "example_queries": ["machine embroidery", "computerized embroidery"], "keywords": ["machine", "computerized", "embroidery"], "cross_categories": []},
+      {"id": "aari_work", "label": "Aari Work", "description": "Aari and zardosi work", "example_queries": ["aari work", "zardosi"], "keywords": ["aari", "zardosi", "traditional"], "cross_categories": []},
+      {"id": "patch_work", "label": "Patch Work", "description": "Patch and applique work", "example_queries": ["patch work", "applique"], "keywords": ["patch", "applique"], "cross_categories": []}
+    ]
+  }
+,
+  {
+    "major_category": "Footwear, Bags & Leather",
+    "sub_category": "Footwear shop",
+    "canonical_name": "Footwear Shop / Chappal Shop",
+    "capabilities": [
+      {"id": "mens_footwear", "label": "Men's Footwear", "description": "Men's shoes, sandals, slippers", "example_queries": ["mens shoes", "gents chappal", "sandals"], "keywords": ["mens", "shoes", "sandals", "slippers", "chappal"], "cross_categories": []},
+      {"id": "womens_footwear", "label": "Women's Footwear", "description": "Women's shoes, sandals, heels", "example_queries": ["womens shoes", "ladies sandals", "heels"], "keywords": ["womens", "ladies", "shoes", "sandals", "heels"], "cross_categories": []},
+      {"id": "kids_footwear", "label": "Kids Footwear", "description": "Children's shoes and sandals", "example_queries": ["kids shoes", "children footwear"], "keywords": ["kids", "children", "shoes", "sandals"], "cross_categories": []},
+      {"id": "formal_shoes", "label": "Formal Shoes", "description": "Formal leather shoes", "example_queries": ["formal shoes", "leather shoes", "office shoes"], "keywords": ["formal", "leather", "office"], "cross_categories": []},
+      {"id": "casual_footwear", "label": "Casual Footwear", "description": "Casual slippers and sandals", "example_queries": ["casual chappal", "slippers"], "keywords": ["casual", "slippers", "daily wear"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Footwear, Bags & Leather",
+    "sub_category": "Sports shoes",
+    "canonical_name": "Sports Shoes",
+    "capabilities": [
+      {"id": "running_shoes", "label": "Running Shoes", "description": "Running and jogging shoes", "example_queries": ["running shoes", "jogging shoes"], "keywords": ["running", "jogging", "sports"], "cross_categories": []},
+      {"id": "sports_shoes", "label": "Sports Shoes", "description": "Cricket, football, badminton shoes", "example_queries": ["cricket shoes", "football shoes", "sports shoes"], "keywords": ["cricket", "football", "badminton", "sports"], "cross_categories": []},
+      {"id": "gym_shoes", "label": "Gym Shoes", "description": "Gym and training shoes", "example_queries": ["gym shoes", "training shoes"], "keywords": ["gym", "training", "fitness"], "cross_categories": []},
+      {"id": "branded_shoes", "label": "Branded Shoes", "description": "Nike, Adidas, Puma", "example_queries": ["nike shoes", "adidas", "puma", "branded"], "keywords": ["nike", "adidas", "puma", "branded"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Footwear, Bags & Leather",
+    "sub_category": "Bags & luggage",
+    "canonical_name": "Bags & Luggage",
+    "capabilities": [
+      {"id": "school_bags", "label": "School Bags", "description": "School bags and backpacks", "example_queries": ["school bag", "backpack"], "keywords": ["school", "bag", "backpack"], "cross_categories": []},
+      {"id": "laptop_bags", "label": "Laptop Bags", "description": "Laptop bags and cases", "example_queries": ["laptop bag", "laptop case"], "keywords": ["laptop", "bag", "case"], "cross_categories": []},
+      {"id": "travel_luggage", "label": "Travel Luggage", "description": "Suitcases and travel bags", "example_queries": ["suitcase", "travel bag", "luggage"], "keywords": ["suitcase", "travel", "luggage"], "cross_categories": []},
+      {"id": "handbags", "label": "Handbags", "description": "Ladies handbags and purses", "example_queries": ["handbag", "purse", "ladies bag"], "keywords": ["handbag", "purse", "ladies"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Footwear, Bags & Leather",
+    "sub_category": "Leather goods shop",
+    "canonical_name": "Leather Goods Shop",
+    "capabilities": [
+      {"id": "leather_bags", "label": "Leather Bags", "description": "Leather bags and wallets", "example_queries": ["leather bag", "leather wallet"], "keywords": ["leather", "bag", "wallet"], "cross_categories": []},
+      {"id": "leather_belts", "label": "Leather Belts", "description": "Leather belts", "example_queries": ["leather belt", "belt"], "keywords": ["leather", "belt"], "cross_categories": []},
+      {"id": "leather_jackets", "label": "Leather Jackets", "description": "Leather jackets", "example_queries": ["leather jacket"], "keywords": ["leather", "jacket"], "cross_categories": []},
+      {"id": "leather_accessories", "label": "Leather Accessories", "description": "Leather accessories", "example_queries": ["leather accessories"], "keywords": ["leather", "accessories"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Jewellery & Accessories",
+    "sub_category": "Gold jeweller",
+    "canonical_name": "Gold Jewellery Shop",
+    "capabilities": [
+      {"id": "gold_jewellery", "label": "Gold Jewellery", "description": "Gold chains, bangles, rings", "example_queries": ["gold chain", "gold bangle", "gold ring"], "keywords": ["gold", "chain", "bangle", "ring"], "cross_categories": []},
+      {"id": "diamond_jewellery", "label": "Diamond Jewellery", "description": "Diamond rings, earrings, pendants", "example_queries": ["diamond ring", "diamond earring"], "keywords": ["diamond", "ring", "earring", "pendant"], "cross_categories": []},
+      {"id": "wedding_jewellery", "label": "Wedding Jewellery", "description": "Bridal sets, mangalsutra", "example_queries": ["bridal jewellery", "mangalsutra", "wedding set"], "keywords": ["bridal", "wedding", "mangalsutra"], "cross_categories": []},
+      {"id": "custom_design", "label": "Custom Design", "description": "Custom jewellery design", "example_queries": ["custom jewellery", "design jewellery"], "keywords": ["custom", "design", "made to order"], "cross_categories": []},
+      {"id": "old_gold_exchange", "label": "Old Gold Exchange", "description": "Old gold exchange facility", "example_queries": ["old gold exchange", "gold exchange"], "keywords": ["old gold", "exchange"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Jewellery & Accessories",
+    "sub_category": "Silver shop",
+    "canonical_name": "Silver Shop",
+    "capabilities": [
+      {"id": "silver_jewellery", "label": "Silver Jewellery", "description": "Silver chains, bangles, rings", "example_queries": ["silver chain", "silver bangle"], "keywords": ["silver", "chain", "bangle", "ring"], "cross_categories": []},
+      {"id": "silver_articles", "label": "Silver Articles", "description": "Silver pooja items, utensils", "example_queries": ["silver pooja items", "silver utensils"], "keywords": ["silver", "pooja", "utensils", "articles"], "cross_categories": []},
+      {"id": "silver_coins", "label": "Silver Coins", "description": "Silver coins and bars", "example_queries": ["silver coin", "silver bar"], "keywords": ["silver", "coin", "bar"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Jewellery & Accessories",
+    "sub_category": "Imitation jewellery",
+    "canonical_name": "Imitation Jewellery",
+    "capabilities": [
+      {"id": "fashion_jewellery", "label": "Fashion Jewellery", "description": "Fashion jewellery", "example_queries": ["fashion jewellery", "artificial jewellery"], "keywords": ["fashion", "artificial", "imitation"], "cross_categories": []},
+      {"id": "artificial_jewellery", "label": "Artificial Jewellery", "description": "Artificial jewellery", "example_queries": ["artificial jewellery", "duplicate jewellery"], "keywords": ["artificial", "duplicate", "imitation"], "cross_categories": []},
+      {"id": "costume_jewellery", "label": "Costume Jewellery", "description": "Costume jewellery", "example_queries": ["costume jewellery"], "keywords": ["costume", "fashion"], "cross_categories": []},
+      {"id": "party_jewellery", "label": "Party Jewellery", "description": "Party wear jewellery", "example_queries": ["party jewellery", "occasion jewellery"], "keywords": ["party", "occasion", "function"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Jewellery & Accessories",
+    "sub_category": "Fancy store",
+    "canonical_name": "Fancy Store",
+    "capabilities": [
+      {"id": "hair_accessories", "label": "Hair Accessories", "description": "Hair clips, bands, pins", "example_queries": ["hair clip", "hair band", "hair pin"], "keywords": ["hair", "clip", "band", "pin"], "cross_categories": []},
+      {"id": "cosmetics", "label": "Cosmetics", "description": "Makeup and cosmetics", "example_queries": ["makeup", "cosmetics", "lipstick"], "keywords": ["makeup", "cosmetics", "lipstick", "kajal"], "cross_categories": []},
+      {"id": "bangles", "label": "Bangles", "description": "Glass and plastic bangles", "example_queries": ["bangles", "glass bangles"], "keywords": ["bangles", "glass", "plastic"], "cross_categories": ["Jewellery & Accessories > Bangles"]},
+      {"id": "bindis_stickers", "label": "Bindis & Stickers", "description": "Bindis and stickers", "example_queries": ["bindi", "stickers"], "keywords": ["bindi", "stickers"], "cross_categories": []},
+      {"id": "gift_items", "label": "Gift Items", "description": "Small gift items", "example_queries": ["gift items", "small gifts"], "keywords": ["gift", "items", "small"], "cross_categories": ["Stationery, Books & Gifts > Gift shop"]}
+    ]
+  },
+  {
+    "major_category": "Jewellery & Accessories",
+    "sub_category": "Bangles",
+    "canonical_name": "Bangles / Anklet/Bracelet Shops",
+    "capabilities": [
+      {"id": "glass_bangles", "label": "Glass Bangles", "description": "Glass bangles", "example_queries": ["glass bangles", "bangles"], "keywords": ["glass", "bangles"], "cross_categories": []},
+      {"id": "metal_bangles", "label": "Metal Bangles", "description": "Metal bangles", "example_queries": ["metal bangles", "gold plated bangles"], "keywords": ["metal", "bangles", "gold plated"], "cross_categories": []},
+      {"id": "anklets", "label": "Anklets", "description": "Silver and gold anklets", "example_queries": ["anklet", "payal"], "keywords": ["anklet", "payal"], "cross_categories": []},
+      {"id": "bracelets", "label": "Bracelets", "description": "Fashion bracelets", "example_queries": ["bracelet", "wrist band"], "keywords": ["bracelet", "wrist", "band"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Stationery, Books & Gifts",
+    "sub_category": "Stationery",
+    "canonical_name": "Stationery / Xerox/Print Shop",
+    "capabilities": [
+      {"id": "stationery_items", "label": "Stationery Items", "description": "Notebooks, pens, pencils", "example_queries": ["notebook", "pen", "pencil", "stationery"], "keywords": ["notebook", "pen", "pencil", "stationery"], "cross_categories": []},
+      {"id": "xerox_printing", "label": "Xerox & Printing", "description": "Photocopy and printing services", "example_queries": ["xerox", "photocopy", "printing"], "keywords": ["xerox", "photocopy", "printing", "print"], "cross_categories": []},
+      {"id": "lamination_binding", "label": "Lamination & Binding", "description": "Lamination and spiral binding", "example_queries": ["lamination", "binding", "spiral binding"], "keywords": ["lamination", "binding", "spiral"], "cross_categories": []},
+      {"id": "school_supplies", "label": "School Supplies", "description": "School bags, geometry boxes", "example_queries": ["school bag", "geometry box", "school supplies"], "keywords": ["school", "bag", "geometry", "supplies"], "cross_categories": []},
+      {"id": "art_supplies", "label": "Art Supplies", "description": "Drawing books, colors, craft items", "example_queries": ["drawing book", "colors", "craft"], "keywords": ["drawing", "colors", "craft", "art"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Stationery, Books & Gifts",
+    "sub_category": "Book store",
+    "canonical_name": "Book Store",
+    "capabilities": [
+      {"id": "textbooks", "label": "Textbooks", "description": "School and college textbooks", "example_queries": ["textbook", "school book", "college book"], "keywords": ["textbook", "school", "college", "academic"], "cross_categories": []},
+      {"id": "novels_fiction", "label": "Novels & Fiction", "description": "Novels and fiction books", "example_queries": ["novel", "fiction book", "story book"], "keywords": ["novel", "fiction", "story"], "cross_categories": []},
+      {"id": "competitive_exam_books", "label": "Competitive Exam Books", "description": "Exam preparation books", "example_queries": ["competitive exam book", "entrance book"], "keywords": ["competitive", "exam", "entrance", "preparation"], "cross_categories": []},
+      {"id": "magazines", "label": "Magazines", "description": "Magazines and periodicals", "example_queries": ["magazine", "periodical"], "keywords": ["magazine", "periodical"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Stationery, Books & Gifts",
+    "sub_category": "Gift shop",
+    "canonical_name": "Gift Shop",
+    "capabilities": [
+      {"id": "gift_items", "label": "Gift Items", "description": "Gift items and hampers", "example_queries": ["gift", "gift items", "hamper"], "keywords": ["gift", "items", "hamper"], "cross_categories": []},
+      {"id": "greeting_cards", "label": "Greeting Cards", "description": "Greeting cards", "example_queries": ["greeting card", "birthday card"], "keywords": ["greeting", "card", "birthday"], "cross_categories": []},
+      {"id": "gift_wrapping", "label": "Gift Wrapping", "description": "Gift wrapping service", "example_queries": ["gift wrapping", "wrapping"], "keywords": ["wrapping", "packing"], "cross_categories": []},
+      {"id": "personalized_gifts", "label": "Personalized Gifts", "description": "Personalized gifts", "example_queries": ["personalized gift", "custom gift"], "keywords": ["personalized", "custom", "name"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Stationery, Books & Gifts",
+    "sub_category": "Toy shop",
+    "canonical_name": "Toy Shop",
+    "capabilities": [
+      {"id": "kids_toys", "label": "Kids Toys", "description": "Kids toys and games", "example_queries": ["toys", "kids toys", "games"], "keywords": ["toys", "kids", "games"], "cross_categories": []},
+      {"id": "educational_toys", "label": "Educational Toys", "description": "Educational toys", "example_queries": ["educational toys", "learning toys"], "keywords": ["educational", "learning"], "cross_categories": []},
+      {"id": "remote_control_toys", "label": "Remote Control Toys", "description": "RC cars, drones", "example_queries": ["rc car", "remote control", "drone"], "keywords": ["rc", "remote control", "drone"], "cross_categories": []},
+      {"id": "soft_toys", "label": "Soft Toys", "description": "Soft toys and teddy bears", "example_queries": ["soft toy", "teddy bear"], "keywords": ["soft toy", "teddy", "plush"], "cross_categories": []}
+    ]
+  }
+,
+  {
+    "major_category": "Mobile, Electronics & Computers",
+    "sub_category": "Mobile store",
+    "canonical_name": "Mobile Phone Retail",
+    "capabilities": [
+      {"id": "smartphones", "label": "Smartphones", "description": "New and used smartphones", "example_queries": ["smartphone", "mobile phone", "android", "iphone"], "keywords": ["smartphone", "mobile", "phone", "android", "iphone"], "cross_categories": []},
+      {"id": "tempered_glass", "label": "Tempered Glass", "description": "Screen guards and tempered glass", "example_queries": ["tempered glass", "screen guard", "glass protector"], "keywords": ["tempered glass", "screen guard", "protector"], "cross_categories": ["Mobile, Electronics & Computers > Mobile repair & accessories"]},
+      {"id": "back_cover", "label": "Back Covers & Cases", "description": "Mobile back covers and cases", "example_queries": ["back cover", "mobile case", "phone case"], "keywords": ["back cover", "case", "cover"], "cross_categories": ["Mobile, Electronics & Computers > Mobile repair & accessories"]},
+      {"id": "chargers_cables", "label": "Chargers & Cables", "description": "Chargers, data cables, adapters", "example_queries": ["charger", "data cable", "type c cable"], "keywords": ["charger", "cable", "adapter", "type c"], "cross_categories": ["Mobile, Electronics & Computers > Mobile repair & accessories"]},
+      {"id": "headphones_earphones", "label": "Headphones & Earphones", "description": "Wired and Bluetooth earphones", "example_queries": ["earphones", "headphones", "bluetooth earphones"], "keywords": ["earphones", "headphones", "bluetooth", "neckband"], "cross_categories": ["Mobile, Electronics & Computers > Accessories shop"]},
+      {"id": "repairs_basic", "label": "Basic Mobile Repair", "description": "Minor repairs", "example_queries": ["mobile repair", "screen replacement"], "keywords": ["repair", "service", "fix"], "cross_categories": ["Mobile, Electronics & Computers > Mobile repair & accessories"]}
+    ]
+  },
+  {
+    "major_category": "Mobile, Electronics & Computers",
+    "sub_category": "Mobile repair",
+    "canonical_name": "Mobile Repair & Accessories",
+    "capabilities": [
+      {"id": "screen_replacement", "label": "Screen Replacement", "description": "Display and touch screen replacement", "example_queries": ["screen replacement", "display change", "broken screen"], "keywords": ["screen", "display", "replacement", "broken"], "cross_categories": []},
+      {"id": "battery_replacement", "label": "Battery Replacement", "description": "Mobile battery replacement", "example_queries": ["battery replacement", "battery change"], "keywords": ["battery", "replacement", "change"], "cross_categories": []},
+      {"id": "charging_port_repair", "label": "Charging Port Repair", "description": "Charging port and mic repair", "example_queries": ["charging port repair", "mic not working"], "keywords": ["charging port", "mic", "speaker"], "cross_categories": []},
+      {"id": "software_issues", "label": "Software Issues", "description": "Software flashing, unlocking", "example_queries": ["software problem", "phone hanging", "flashing"], "keywords": ["software", "flashing", "hanging", "unlock"], "cross_categories": []},
+      {"id": "water_damage_repair", "label": "Water Damage Repair", "description": "Water damage repair", "example_queries": ["water damage", "phone wet"], "keywords": ["water", "damage", "wet"], "cross_categories": []},
+      {"id": "accessories_sale", "label": "Accessories Sale", "description": "Selling mobile accessories", "example_queries": ["mobile accessories", "charger", "earphones"], "keywords": ["accessories", "charger", "earphones", "cover"], "cross_categories": ["Mobile, Electronics & Computers > Mobile store"]}
+    ]
+  },
+  {
+    "major_category": "Mobile, Electronics & Computers",
+    "sub_category": "Electronics shop",
+    "canonical_name": "Consumer Electronics Showroom / TV/Fridge Showroom",
+    "capabilities": [
+      {"id": "televisions", "label": "Televisions", "description": "LED, Smart TVs", "example_queries": ["tv", "smart tv", "led tv"], "keywords": ["tv", "television", "smart", "led"], "cross_categories": []},
+      {"id": "refrigerators", "label": "Refrigerators", "description": "Single door, double door fridges", "example_queries": ["fridge", "refrigerator", "double door fridge"], "keywords": ["fridge", "refrigerator", "single door", "double door"], "cross_categories": []},
+      {"id": "washing_machines", "label": "Washing Machines", "description": "Washing machines", "example_queries": ["washing machine", "washer"], "keywords": ["washing machine", "washer"], "cross_categories": []},
+      {"id": "air_conditioners", "label": "Air Conditioners", "description": "Air conditioners", "example_queries": ["ac", "air conditioner", "split ac"], "keywords": ["ac", "air conditioner", "split", "window"], "cross_categories": []},
+      {"id": "home_appliances", "label": "Home Appliances", "description": "Mixers, grinders, irons", "example_queries": ["mixer", "grinder", "iron"], "keywords": ["mixer", "grinder", "iron", "appliances"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Mobile, Electronics & Computers",
+    "sub_category": "Computer store",
+    "canonical_name": "Computer/Laptop Store",
+    "capabilities": [
+      {"id": "laptops", "label": "Laptops", "description": "New and used laptops", "example_queries": ["laptop", "notebook"], "keywords": ["laptop", "notebook", "new", "used"], "cross_categories": []},
+      {"id": "desktops", "label": "Desktops", "description": "Desktop computers", "example_queries": ["desktop", "pc", "computer"], "keywords": ["desktop", "pc", "computer"], "cross_categories": []},
+      {"id": "computer_accessories", "label": "Computer Accessories", "description": "Mouse, keyboard, webcam", "example_queries": ["mouse", "keyboard", "webcam"], "keywords": ["mouse", "keyboard", "webcam", "accessories"], "cross_categories": []},
+      {"id": "printers", "label": "Printers", "description": "Printers and scanners", "example_queries": ["printer", "scanner"], "keywords": ["printer", "scanner"], "cross_categories": []},
+      {"id": "software", "label": "Software", "description": "Software and antivirus", "example_queries": ["software", "antivirus", "windows"], "keywords": ["software", "antivirus", "windows"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Mobile, Electronics & Computers",
+    "sub_category": "Laptop repair",
+    "canonical_name": "Computer Repair / Service Centre / Laptop Repair",
+    "capabilities": [
+      {"id": "software_install", "label": "OS & Software Install", "description": "Windows, Office installation", "example_queries": ["windows install", "office install", "format"], "keywords": ["windows", "office", "format", "install"], "cross_categories": []},
+      {"id": "hardware_repair", "label": "Hardware Repair", "description": "RAM, SSD, keyboard, screen repair", "example_queries": ["ram upgrade", "ssd install", "keyboard repair"], "keywords": ["ram", "ssd", "keyboard", "screen", "hardware"], "cross_categories": []},
+      {"id": "printer_xerox_support", "label": "Printer & Xerox Support", "description": "Printer repair, cartridge refill", "example_queries": ["printer repair", "cartridge refill"], "keywords": ["printer", "cartridge", "refill"], "cross_categories": ["Stationery, Books & Gifts > Stationery"]},
+      {"id": "data_recovery", "label": "Data Recovery", "description": "Data recovery services", "example_queries": ["data recovery", "lost data"], "keywords": ["data", "recovery", "lost"], "cross_categories": []},
+      {"id": "networking", "label": "Networking", "description": "WiFi setup, router configuration", "example_queries": ["wifi setup", "router", "networking"], "keywords": ["wifi", "router", "networking"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Mobile, Electronics & Computers",
+    "sub_category": "CCTV & security systems",
+    "canonical_name": "CCTV & Security Systems",
+    "capabilities": [
+      {"id": "cctv_cameras", "label": "CCTV Cameras", "description": "CCTV cameras and DVR", "example_queries": ["cctv camera", "security camera", "dvr"], "keywords": ["cctv", "camera", "security", "dvr"], "cross_categories": []},
+      {"id": "installation", "label": "Installation Service", "description": "CCTV installation service", "example_queries": ["cctv installation", "camera installation"], "keywords": ["installation", "setup"], "cross_categories": []},
+      {"id": "biometric_systems", "label": "Biometric Systems", "description": "Biometric attendance systems", "example_queries": ["biometric", "attendance system"], "keywords": ["biometric", "attendance", "fingerprint"], "cross_categories": []},
+      {"id": "security_alarms", "label": "Security Alarms", "description": "Security alarm systems", "example_queries": ["security alarm", "alarm system"], "keywords": ["alarm", "security"], "cross_categories": []}
+    ]
+  }
+,
+  {
+    "major_category": "Hardware, Paint & Building Materials",
+    "sub_category": "Hardware store",
+    "canonical_name": "Hardware Store",
+    "capabilities": [
+      {"id": "electrical_items", "label": "Electrical Items", "description": "Wires, switches, bulbs, MCBs", "example_queries": ["wire", "switch", "bulb", "mcb"], "keywords": ["wire", "switch", "bulb", "mcb", "electrical"], "cross_categories": ["Hardware, Paint & Building Materials > Electricals"]},
+      {"id": "plumbing_items", "label": "Plumbing Items", "description": "Pipes, taps, fittings, valves", "example_queries": ["pipe", "tap", "plumbing"], "keywords": ["pipe", "tap", "fitting", "valve", "plumbing"], "cross_categories": ["Hardware, Paint & Building Materials > Plumbing"]},
+      {"id": "tools_equipment", "label": "Tools & Equipment", "description": "Hammers, screwdrivers, drills", "example_queries": ["hammer", "screwdriver", "drill"], "keywords": ["hammer", "screwdriver", "drill", "tools"], "cross_categories": []},
+      {"id": "door_locks", "label": "Door Locks", "description": "Door locks, handles, hinges", "example_queries": ["door lock", "handle", "hinge"], "keywords": ["lock", "handle", "hinge", "door"], "cross_categories": []},
+      {"id": "nails_screws", "label": "Nails & Screws", "description": "Nails, screws, bolts, fasteners", "example_queries": ["nails", "screws", "bolts"], "keywords": ["nails", "screws", "bolts", "fasteners"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Hardware, Paint & Building Materials",
+    "sub_category": "Electricals",
+    "canonical_name": "Electricals",
+    "capabilities": [
+      {"id": "wires_cables", "label": "Wires & Cables", "description": "Electrical wires and cables", "example_queries": ["wire", "cable", "electrical wire"], "keywords": ["wire", "cable", "electrical"], "cross_categories": []},
+      {"id": "switches_sockets", "label": "Switches & Sockets", "description": "Switches and sockets", "example_queries": ["switch", "socket", "switch board"], "keywords": ["switch", "socket", "board"], "cross_categories": []},
+      {"id": "bulbs_lights", "label": "Bulbs & Lights", "description": "LED bulbs and tube lights", "example_queries": ["bulb", "led bulb", "tube light"], "keywords": ["bulb", "led", "tube light"], "cross_categories": []},
+      {"id": "fans", "label": "Fans", "description": "Ceiling and table fans", "example_queries": ["fan", "ceiling fan", "table fan"], "keywords": ["fan", "ceiling", "table"], "cross_categories": []},
+      {"id": "mcb_db", "label": "MCB & DB", "description": "MCBs and distribution boards", "example_queries": ["mcb", "distribution board"], "keywords": ["mcb", "distribution", "board"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Hardware, Paint & Building Materials",
+    "sub_category": "Plumbing",
+    "canonical_name": "Plumbing",
+    "capabilities": [
+      {"id": "pipes_fittings", "label": "Pipes & Fittings", "description": "PVC and CPVC pipes and fittings", "example_queries": ["pvc pipe", "cpvc pipe", "pipe fitting"], "keywords": ["pipe", "pvc", "cpvc", "fitting"], "cross_categories": []},
+      {"id": "taps_faucets", "label": "Taps & Faucets", "description": "Taps and faucets", "example_queries": ["tap", "faucet"], "keywords": ["tap", "faucet"], "cross_categories": []},
+      {"id": "water_tanks", "label": "Water Tanks", "description": "Water storage tanks", "example_queries": ["water tank", "storage tank"], "keywords": ["water tank", "storage"], "cross_categories": []},
+      {"id": "pumps", "label": "Pumps", "description": "Water pumps and motors", "example_queries": ["water pump", "motor"], "keywords": ["pump", "motor", "water"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Hardware, Paint & Building Materials",
+    "sub_category": "Paint shop",
+    "canonical_name": "Paint Shop",
+    "capabilities": [
+      {"id": "interior_paint", "label": "Interior Paint", "description": "Interior wall paints", "example_queries": ["interior paint", "wall paint"], "keywords": ["interior", "paint", "wall"], "cross_categories": []},
+      {"id": "exterior_paint", "label": "Exterior Paint", "description": "Exterior weather-proof paints", "example_queries": ["exterior paint", "outside paint"], "keywords": ["exterior", "outside", "weatherproof"], "cross_categories": []},
+      {"id": "enamel_paint", "label": "Enamel Paint", "description": "Enamel and wood paints", "example_queries": ["enamel paint", "wood paint"], "keywords": ["enamel", "wood", "paint"], "cross_categories": []},
+      {"id": "putty_primer", "label": "Putty & Primer", "description": "Wall putty and primers", "example_queries": ["putty", "primer", "wall putty"], "keywords": ["putty", "primer", "wall"], "cross_categories": []},
+      {"id": "painting_tools", "label": "Painting Tools", "description": "Brushes, rollers, trays", "example_queries": ["paint brush", "roller", "tray"], "keywords": ["brush", "roller", "tray", "tools"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Hardware, Paint & Building Materials",
+    "sub_category": "Sanitary ware",
+    "canonical_name": "Sanitary Ware",
+    "capabilities": [
+      {"id": "toilets_commodes", "label": "Toilets & Commodes", "description": "Toilets and commodes", "example_queries": ["toilet", "commode"], "keywords": ["toilet", "commode", "wc"], "cross_categories": []},
+      {"id": "wash_basins", "label": "Wash Basins", "description": "Wash basins and sinks", "example_queries": ["wash basin", "sink"], "keywords": ["wash basin", "sink"], "cross_categories": []},
+      {"id": "bathroom_fittings", "label": "Bathroom Fittings", "description": "Taps, showers, accessories", "example_queries": ["bathroom tap", "shower", "bathroom fittings"], "keywords": ["tap", "shower", "bathroom", "fittings"], "cross_categories": []},
+      {"id": "kitchen_sinks", "label": "Kitchen Sinks", "description": "Kitchen sinks and fittings", "example_queries": ["kitchen sink", "sink"], "keywords": ["kitchen", "sink"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Hardware, Paint & Building Materials",
+    "sub_category": "Plywood & wood works",
+    "canonical_name": "Plywood & Wood Works",
+    "capabilities": [
+      {"id": "plywood", "label": "Plywood", "description": "Plywood sheets", "example_queries": ["plywood", "ply"], "keywords": ["plywood", "ply", "sheet"], "cross_categories": []},
+      {"id": "laminates", "label": "Laminates", "description": "Laminate sheets", "example_queries": ["laminate", "laminate sheet"], "keywords": ["laminate", "sheet"], "cross_categories": []},
+      {"id": "timber", "label": "Timber", "description": "Timber and wood", "example_queries": ["timber", "wood"], "keywords": ["timber", "wood"], "cross_categories": []},
+      {"id": "veneers", "label": "Veneers", "description": "Veneer sheets", "example_queries": ["veneer", "veneer sheet"], "keywords": ["veneer", "sheet"], "cross_categories": []},
+      {"id": "custom_work", "label": "Custom Woodwork", "description": "Custom woodwork", "example_queries": ["custom woodwork", "carpentry"], "keywords": ["custom", "woodwork", "carpentry"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Hardware, Paint & Building Materials",
+    "sub_category": "Tiles & granite",
+    "canonical_name": "Tiles & Granite",
+    "capabilities": [
+      {"id": "floor_tiles", "label": "Floor Tiles", "description": "Floor tiles", "example_queries": ["floor tiles", "tiles"], "keywords": ["floor", "tiles"], "cross_categories": []},
+      {"id": "wall_tiles", "label": "Wall Tiles", "description": "Wall tiles", "example_queries": ["wall tiles"], "keywords": ["wall", "tiles"], "cross_categories": []},
+      {"id": "granite_marble", "label": "Granite & Marble", "description": "Granite and marble slabs", "example_queries": ["granite", "marble"], "keywords": ["granite", "marble", "slab"], "cross_categories": []},
+      {"id": "bathroom_tiles", "label": "Bathroom Tiles", "description": "Bathroom tiles", "example_queries": ["bathroom tiles"], "keywords": ["bathroom", "tiles"], "cross_categories": []}
+    ]
+  }
+,
+  {
+    "major_category": "Home & Furniture",
+    "sub_category": "Furniture shop",
+    "canonical_name": "Furniture Shop",
+    "capabilities": [
+      {"id": "living_room", "label": "Living Room Furniture", "description": "Sofas, TV units, center tables", "example_queries": ["sofa", "tv unit", "center table"], "keywords": ["sofa", "tv unit", "table", "living room"], "cross_categories": []},
+      {"id": "bedroom", "label": "Bedroom Furniture", "description": "Beds, wardrobes, dressing tables", "example_queries": ["bed", "wardrobe", "dressing table"], "keywords": ["bed", "wardrobe", "dressing", "bedroom"], "cross_categories": []},
+      {"id": "dining", "label": "Dining Furniture", "description": "Dining tables and chairs", "example_queries": ["dining table", "dining chair"], "keywords": ["dining", "table", "chair"], "cross_categories": []},
+      {"id": "office_furniture", "label": "Office Furniture", "description": "Office desks, chairs, cabinets", "example_queries": ["office desk", "office chair", "cabinet"], "keywords": ["office", "desk", "chair", "cabinet"], "cross_categories": []},
+      {"id": "custom_furniture", "label": "Custom Furniture", "description": "Custom furniture design", "example_queries": ["custom furniture", "made to order"], "keywords": ["custom", "made to order", "design"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Home & Furniture",
+    "sub_category": "Mattress shop",
+    "canonical_name": "Mattress Shop",
+    "capabilities": [
+      {"id": "spring_mattress", "label": "Spring Mattress", "description": "Spring mattresses", "example_queries": ["spring mattress"], "keywords": ["spring", "mattress"], "cross_categories": []},
+      {"id": "foam_mattress", "label": "Foam Mattress", "description": "Foam mattresses", "example_queries": ["foam mattress"], "keywords": ["foam", "mattress"], "cross_categories": []},
+      {"id": "coir_mattress", "label": "Coir Mattress", "description": "Coir mattresses", "example_queries": ["coir mattress"], "keywords": ["coir", "mattress"], "cross_categories": []},
+      {"id": "pillows", "label": "Pillows & Cushions", "description": "Pillows and cushions", "example_queries": ["pillow", "cushion"], "keywords": ["pillow", "cushion"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Home & Furniture",
+    "sub_category": "Home decor",
+    "canonical_name": "Home Decor",
+    "capabilities": [
+      {"id": "wall_decor", "label": "Wall Decor", "description": "Wall paintings, mirrors", "example_queries": ["wall painting", "mirror", "wall decor"], "keywords": ["wall", "painting", "mirror", "decor"], "cross_categories": []},
+      {"id": "curtains_blinds", "label": "Curtains & Blinds", "description": "Curtains and blinds", "example_queries": ["curtain", "blind"], "keywords": ["curtain", "blind"], "cross_categories": []},
+      {"id": "decorative_items", "label": "Decorative Items", "description": "Decorative items", "example_queries": ["decorative items", "showpiece"], "keywords": ["decorative", "showpiece", "items"], "cross_categories": []},
+      {"id": "artificial_plants", "label": "Artificial Plants", "description": "Artificial plants and flowers", "example_queries": ["artificial plant", "artificial flower"], "keywords": ["artificial", "plant", "flower"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Home & Furniture",
+    "sub_category": "Kitchen utensils",
+    "canonical_name": "Kitchen Utensils",
+    "capabilities": [
+      {"id": "cookware", "label": "Cookware", "description": "Pots, pans, kadai", "example_queries": ["pot", "pan", "kadai", "cookware"], "keywords": ["pot", "pan", "kadai", "cookware"], "cross_categories": []},
+      {"id": "cutlery", "label": "Cutlery", "description": "Spoons, forks, knives", "example_queries": ["spoon", "fork", "knife"], "keywords": ["spoon", "fork", "knife", "cutlery"], "cross_categories": []},
+      {"id": "storage_containers", "label": "Storage Containers", "description": "Storage containers", "example_queries": ["container", "storage box"], "keywords": ["container", "storage", "box"], "cross_categories": []},
+      {"id": "kitchen_tools", "label": "Kitchen Tools", "description": "Kitchen tools and gadgets", "example_queries": ["kitchen tools", "gadgets"], "keywords": ["tools", "gadgets", "kitchen"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Home & Furniture",
+    "sub_category": "Steel vessels",
+    "canonical_name": "Steel Vessels",
+    "capabilities": [
+      {"id": "steel_utensils", "label": "Steel Utensils", "description": "Stainless steel utensils", "example_queries": ["steel utensils", "steel vessels"], "keywords": ["steel", "utensils", "vessels", "stainless"], "cross_categories": []},
+      {"id": "pressure_cookers", "label": "Pressure Cookers", "description": "Pressure cookers", "example_queries": ["pressure cooker"], "keywords": ["pressure", "cooker"], "cross_categories": []},
+      {"id": "tiffin_boxes", "label": "Tiffin Boxes", "description": "Tiffin boxes and lunch boxes", "example_queries": ["tiffin box", "lunch box"], "keywords": ["tiffin", "lunch", "box"], "cross_categories": []},
+      {"id": "water_bottles", "label": "Water Bottles", "description": "Steel water bottles", "example_queries": ["water bottle", "steel bottle"], "keywords": ["water", "bottle", "steel"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Home & Furniture",
+    "sub_category": "Plastic ware",
+    "canonical_name": "Plastic Ware",
+    "capabilities": [
+      {"id": "plastic_containers", "label": "Plastic Containers", "description": "Plastic storage containers", "example_queries": ["plastic container", "storage box"], "keywords": ["plastic", "container", "storage"], "cross_categories": []},
+      {"id": "buckets_mugs", "label": "Buckets & Mugs", "description": "Buckets and mugs", "example_queries": ["bucket", "mug"], "keywords": ["bucket", "mug"], "cross_categories": []},
+      {"id": "kitchen_plastic", "label": "Kitchen Plastic", "description": "Plastic kitchen items", "example_queries": ["plastic kitchen items"], "keywords": ["plastic", "kitchen"], "cross_categories": []},
+      {"id": "bathroom_plastic", "label": "Bathroom Plastic", "description": "Plastic bathroom items", "example_queries": ["plastic bathroom items"], "keywords": ["plastic", "bathroom"], "cross_categories": []}
+    ]
+  }
+,
+  {
+    "major_category": "Automotive – Sales & Service",
+    "sub_category": "Two-wheeler showroom",
+    "canonical_name": "Two-wheeler Showroom / Bike Showroom",
+    "capabilities": [
+      {"id": "new_bikes", "label": "New Bikes", "description": "New bike sales", "example_queries": ["new bike", "bike showroom"], "keywords": ["new", "bike", "motorcycle", "showroom"], "cross_categories": []},
+      {"id": "scooters", "label": "Scooters", "description": "Scooters and mopeds", "example_queries": ["scooter", "moped"], "keywords": ["scooter", "moped"], "cross_categories": []},
+      {"id": "electric_bikes", "label": "Electric Bikes", "description": "Electric bikes and scooters", "example_queries": ["electric bike", "electric scooter"], "keywords": ["electric", "ev", "bike"], "cross_categories": []},
+      {"id": "bike_accessories", "label": "Bike Accessories", "description": "Bike accessories", "example_queries": ["bike accessories", "helmet"], "keywords": ["accessories", "helmet"], "cross_categories": []},
+      {"id": "finance_insurance", "label": "Finance & Insurance", "description": "Finance and insurance", "example_queries": ["bike loan", "insurance"], "keywords": ["finance", "loan", "insurance"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Automotive – Sales & Service",
+    "sub_category": "2-wheeler repair",
+    "canonical_name": "Two-wheeler Repair / Bike Service",
+    "capabilities": [
+      {"id": "general_service", "label": "General Service", "description": "Regular bike servicing", "example_queries": ["bike service", "servicing"], "keywords": ["service", "servicing", "maintenance"], "cross_categories": []},
+      {"id": "oil_change", "label": "Oil Change", "description": "Engine oil and filter change", "example_queries": ["oil change", "engine oil"], "keywords": ["oil", "change", "engine"], "cross_categories": []},
+      {"id": "brake_service", "label": "Brake Service", "description": "Brake pad and disc service", "example_queries": ["brake service", "brake pad"], "keywords": ["brake", "pad", "disc"], "cross_categories": []},
+      {"id": "puncture_repair", "label": "Puncture Repair", "description": "Tyre puncture repair", "example_queries": ["puncture", "tyre puncture"], "keywords": ["puncture", "tyre"], "cross_categories": ["Automotive – Sales & Service > Puncture shop"]},
+      {"id": "battery_replacement", "label": "Battery Replacement", "description": "Battery check and replacement", "example_queries": ["battery replacement", "battery change"], "keywords": ["battery", "replacement"], "cross_categories": ["Automotive – Sales & Service > Battery shop"]},
+      {"id": "spare_parts", "label": "Spare Parts", "description": "Genuine and aftermarket spare parts", "example_queries": ["spare parts", "bike parts"], "keywords": ["spare", "parts"], "cross_categories": ["Automotive – Sales & Service > Spare-parts shop"]}
+    ]
+  },
+  {
+    "major_category": "Automotive – Sales & Service",
+    "sub_category": "4-wheeler workshop",
+    "canonical_name": "Four-wheeler Workshop / Car Service",
+    "capabilities": [
+      {"id": "general_service", "label": "General Service", "description": "Regular car servicing", "example_queries": ["car service", "car servicing"], "keywords": ["car", "service", "servicing"], "cross_categories": []},
+      {"id": "oil_change", "label": "Oil Change", "description": "Engine oil and filter change", "example_queries": ["oil change", "engine oil"], "keywords": ["oil", "change", "engine"], "cross_categories": []},
+      {"id": "brake_service", "label": "Brake Service", "description": "Brake pad and disc service", "example_queries": ["brake service", "brake pad"], "keywords": ["brake", "pad", "disc"], "cross_categories": []},
+      {"id": "ac_service", "label": "AC Service", "description": "AC service and gas filling", "example_queries": ["ac service", "ac gas"], "keywords": ["ac", "service", "gas"], "cross_categories": []},
+      {"id": "denting_painting", "label": "Denting & Painting", "description": "Denting and painting", "example_queries": ["denting", "painting", "body work"], "keywords": ["denting", "painting", "body"], "cross_categories": []},
+      {"id": "spare_parts", "label": "Spare Parts", "description": "Genuine and aftermarket spare parts", "example_queries": ["car spare parts"], "keywords": ["spare", "parts"], "cross_categories": ["Automotive – Sales & Service > Spare-parts shop"]}
+    ]
+  },
+  {
+    "major_category": "Automotive – Sales & Service",
+    "sub_category": "Car dealer (new/used)",
+    "canonical_name": "Car Dealer (New/Used) / Four-wheeler Used-car Dealer",
+    "capabilities": [
+      {"id": "new_cars", "label": "New Cars", "description": "New car sales", "example_queries": ["new car", "car showroom"], "keywords": ["new", "car", "showroom"], "cross_categories": []},
+      {"id": "used_cars", "label": "Used Cars", "description": "Used car sales", "example_queries": ["used car", "second hand car"], "keywords": ["used", "second hand", "pre owned"], "cross_categories": []},
+      {"id": "car_exchange", "label": "Car Exchange", "description": "Old car exchange", "example_queries": ["car exchange", "old car"], "keywords": ["exchange", "old car"], "cross_categories": []},
+      {"id": "finance_insurance", "label": "Finance & Insurance", "description": "Finance and insurance", "example_queries": ["car loan", "insurance"], "keywords": ["finance", "loan", "insurance"], "cross_categories": []},
+      {"id": "test_drive", "label": "Test Drive", "description": "Test drive facility", "example_queries": ["test drive"], "keywords": ["test", "drive"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Automotive – Sales & Service",
+    "sub_category": "Puncture shop",
+    "canonical_name": "Puncture Shop",
+    "capabilities": [
+      {"id": "puncture_repair", "label": "Puncture Repair", "description": "Tyre puncture repair", "example_queries": ["puncture", "tyre puncture"], "keywords": ["puncture", "tyre", "repair"], "cross_categories": []},
+      {"id": "tube_replacement", "label": "Tube Replacement", "description": "Tube replacement", "example_queries": ["tube replacement", "tube change"], "keywords": ["tube", "replacement"], "cross_categories": []},
+      {"id": "tubeless_repair", "label": "Tubeless Repair", "description": "Tubeless tyre repair", "example_queries": ["tubeless repair"], "keywords": ["tubeless", "repair"], "cross_categories": []},
+      {"id": "wheel_alignment", "label": "Wheel Alignment", "description": "Wheel alignment and balancing", "example_queries": ["wheel alignment", "balancing"], "keywords": ["wheel", "alignment", "balancing"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Automotive – Sales & Service",
+    "sub_category": "Tyre shop",
+    "canonical_name": "Tyre Shop",
+    "capabilities": [
+      {"id": "bike_tyres", "label": "Bike Tyres", "description": "Bike tyres and tubes", "example_queries": ["bike tyre", "bike tube"], "keywords": ["bike", "tyre", "tube"], "cross_categories": []},
+      {"id": "car_tyres", "label": "Car Tyres", "description": "Car tyres", "example_queries": ["car tyre"], "keywords": ["car", "tyre"], "cross_categories": []},
+      {"id": "tyre_replacement", "label": "Tyre Replacement", "description": "Tyre replacement service", "example_queries": ["tyre replacement", "tyre change"], "keywords": ["tyre", "replacement", "change"], "cross_categories": []},
+      {"id": "wheel_alignment", "label": "Wheel Alignment", "description": "Wheel alignment and balancing", "example_queries": ["wheel alignment", "balancing"], "keywords": ["wheel", "alignment", "balancing"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Automotive – Sales & Service",
+    "sub_category": "Battery shop",
+    "canonical_name": "Battery Shop",
+    "capabilities": [
+      {"id": "bike_batteries", "label": "Bike Batteries", "description": "Bike batteries", "example_queries": ["bike battery"], "keywords": ["bike", "battery"], "cross_categories": []},
+      {"id": "car_batteries", "label": "Car Batteries", "description": "Car batteries", "example_queries": ["car battery"], "keywords": ["car", "battery"], "cross_categories": []},
+      {"id": "inverter_batteries", "label": "Inverter Batteries", "description": "Inverter batteries", "example_queries": ["inverter battery"], "keywords": ["inverter", "battery"], "cross_categories": []},
+      {"id": "battery_replacement", "label": "Battery Replacement", "description": "Battery replacement service", "example_queries": ["battery replacement", "battery change"], "keywords": ["battery", "replacement", "change"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Automotive – Sales & Service",
+    "sub_category": "Spare-parts shop",
+    "canonical_name": "Spare Parts",
+    "capabilities": [
+      {"id": "bike_spare_parts", "label": "Bike Spare Parts", "description": "Bike spare parts", "example_queries": ["bike spare parts", "bike parts"], "keywords": ["bike", "spare", "parts"], "cross_categories": []},
+      {"id": "car_spare_parts", "label": "Car Spare Parts", "description": "Car spare parts", "example_queries": ["car spare parts", "car parts"], "keywords": ["car", "spare", "parts"], "cross_categories": []},
+      {"id": "genuine_parts", "label": "Genuine Parts", "description": "Genuine OEM parts", "example_queries": ["genuine parts", "oem parts"], "keywords": ["genuine", "oem", "original"], "cross_categories": []},
+      {"id": "aftermarket_parts", "label": "Aftermarket Parts", "description": "Aftermarket parts", "example_queries": ["aftermarket parts", "duplicate parts"], "keywords": ["aftermarket", "duplicate", "local"], "cross_categories": []}
+    ]
+  }
+,
+  {
+    "major_category": "Beauty, Salon & Bridal",
+    "sub_category": "Beauty parlour",
+    "canonical_name": "Beauty Parlour",
+    "capabilities": [
+      {"id": "haircut_styling", "label": "Haircut & Styling", "description": "Hair cutting and styling", "example_queries": ["haircut", "hair styling"], "keywords": ["haircut", "styling", "hair"], "cross_categories": []},
+      {"id": "facial_cleanup", "label": "Facial & Cleanup", "description": "Facial and cleanup services", "example_queries": ["facial", "cleanup"], "keywords": ["facial", "cleanup"], "cross_categories": []},
+      {"id": "waxing_threading", "label": "Waxing & Threading", "description": "Waxing and threading", "example_queries": ["waxing", "threading", "eyebrow"], "keywords": ["waxing", "threading", "eyebrow"], "cross_categories": []},
+      {"id": "bridal_makeup", "label": "Bridal Makeup", "description": "Bridal makeup and packages", "example_queries": ["bridal makeup", "wedding makeup"], "keywords": ["bridal", "wedding", "makeup"], "cross_categories": ["Beauty, Salon & Bridal > Bridal studio"]},
+      {"id": "hair_treatments", "label": "Hair Treatments", "description": "Hair spa, smoothening, coloring", "example_queries": ["hair spa", "smoothening", "hair color"], "keywords": ["hair spa", "smoothening", "coloring"], "cross_categories": []},
+      {"id": "nail_services", "label": "Nail Services", "description": "Manicure, pedicure, nail art", "example_queries": ["manicure", "pedicure", "nail art"], "keywords": ["manicure", "pedicure", "nail"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Beauty, Salon & Bridal",
+    "sub_category": "Gents salon",
+    "canonical_name": "Gents Salon",
+    "capabilities": [
+      {"id": "haircut", "label": "Haircut", "description": "Hair cutting", "example_queries": ["haircut", "hair cut"], "keywords": ["haircut", "hair", "cut"], "cross_categories": []},
+      {"id": "shaving_beard", "label": "Shaving & Beard", "description": "Shaving and beard trimming", "example_queries": ["shaving", "beard trim"], "keywords": ["shaving", "beard", "trim"], "cross_categories": []},
+      {"id": "hair_coloring", "label": "Hair Coloring", "description": "Hair coloring", "example_queries": ["hair color", "hair dye"], "keywords": ["hair", "color", "dye"], "cross_categories": []},
+      {"id": "facial_massage", "label": "Facial & Massage", "description": "Facial and head massage", "example_queries": ["facial", "head massage"], "keywords": ["facial", "massage", "head"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Beauty, Salon & Bridal",
+    "sub_category": "Spa",
+    "canonical_name": "Spa",
+    "capabilities": [
+      {"id": "body_massage", "label": "Body Massage", "description": "Body massage and spa", "example_queries": ["body massage", "spa"], "keywords": ["body", "massage", "spa"], "cross_categories": []},
+      {"id": "facial_treatments", "label": "Facial Treatments", "description": "Facial treatments", "example_queries": ["facial treatment"], "keywords": ["facial", "treatment"], "cross_categories": []},
+      {"id": "body_treatments", "label": "Body Treatments", "description": "Body scrubs and wraps", "example_queries": ["body scrub", "body wrap"], "keywords": ["body", "scrub", "wrap"], "cross_categories": []},
+      {"id": "aromatherapy", "label": "Aromatherapy", "description": "Aromatherapy", "example_queries": ["aromatherapy"], "keywords": ["aromatherapy", "aroma"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Beauty, Salon & Bridal",
+    "sub_category": "Bridal studio",
+    "canonical_name": "Bridal Studio",
+    "capabilities": [
+      {"id": "bridal_makeup", "label": "Bridal Makeup", "description": "Bridal makeup", "example_queries": ["bridal makeup", "wedding makeup"], "keywords": ["bridal", "wedding", "makeup"], "cross_categories": []},
+      {"id": "bridal_packages", "label": "Bridal Packages", "description": "Complete bridal packages", "example_queries": ["bridal package", "wedding package"], "keywords": ["bridal", "package", "wedding"], "cross_categories": []},
+      {"id": "pre_bridal_services", "label": "Pre-Bridal Services", "description": "Pre-bridal services", "example_queries": ["pre bridal", "pre wedding"], "keywords": ["pre bridal", "pre wedding"], "cross_categories": []},
+      {"id": "groom_services", "label": "Groom Services", "description": "Groom makeup and styling", "example_queries": ["groom makeup", "groom styling"], "keywords": ["groom", "makeup", "styling"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Beauty, Salon & Bridal",
+    "sub_category": "Mehendi",
+    "canonical_name": "Mehendi / Make-up Artist",
+    "capabilities": [
+      {"id": "bridal_mehendi", "label": "Bridal Mehendi", "description": "Bridal mehendi", "example_queries": ["bridal mehendi", "wedding mehendi"], "keywords": ["bridal", "mehendi", "wedding"], "cross_categories": []},
+      {"id": "arabic_mehendi", "label": "Arabic Mehendi", "description": "Arabic mehendi designs", "example_queries": ["arabic mehendi", "mehendi design"], "keywords": ["arabic", "mehendi", "design"], "cross_categories": []},
+      {"id": "makeup_services", "label": "Makeup Services", "description": "Professional makeup", "example_queries": ["makeup", "professional makeup"], "keywords": ["makeup", "professional"], "cross_categories": []},
+      {"id": "party_makeup", "label": "Party Makeup", "description": "Party and occasion makeup", "example_queries": ["party makeup", "occasion makeup"], "keywords": ["party", "occasion", "makeup"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Beauty, Salon & Bridal",
+    "sub_category": "Unisex salon",
+    "canonical_name": "Unisex Salon",
+    "capabilities": [
+      {"id": "haircut_styling", "label": "Haircut & Styling", "description": "Hair cutting and styling for all", "example_queries": ["haircut", "hair styling"], "keywords": ["haircut", "styling", "unisex"], "cross_categories": []},
+      {"id": "hair_coloring", "label": "Hair Coloring", "description": "Hair coloring", "example_queries": ["hair color", "hair dye"], "keywords": ["hair", "color", "dye"], "cross_categories": []},
+      {"id": "facial_services", "label": "Facial Services", "description": "Facial services", "example_queries": ["facial"], "keywords": ["facial"], "cross_categories": []},
+      {"id": "waxing_threading", "label": "Waxing & Threading", "description": "Waxing and threading", "example_queries": ["waxing", "threading"], "keywords": ["waxing", "threading"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Education, Coaching & Training",
+    "sub_category": "Tuition centre",
+    "canonical_name": "Tuition Centre",
+    "capabilities": [
+      {"id": "school_tuition", "label": "School Tuition", "description": "Class 1-10 all subjects", "example_queries": ["school tuition", "class 10 tuition"], "keywords": ["school", "tuition", "class"], "cross_categories": []},
+      {"id": "board_coaching", "label": "Board Coaching", "description": "Class 11-12 board exam coaching", "example_queries": ["board coaching", "12th coaching"], "keywords": ["board", "coaching", "11th", "12th"], "cross_categories": []},
+      {"id": "competitive_exams", "label": "Competitive Exams", "description": "JEE, NEET, CET coaching", "example_queries": ["jee coaching", "neet coaching"], "keywords": ["jee", "neet", "cet", "competitive"], "cross_categories": ["Education, Coaching & Training > Coaching centre"]},
+      {"id": "language_classes", "label": "Language Classes", "description": "English, Hindi, Kannada classes", "example_queries": ["english classes", "spoken english"], "keywords": ["english", "hindi", "kannada", "language"], "cross_categories": ["Education, Coaching & Training > Spoken English"]}
+    ]
+  },
+  {
+    "major_category": "Education, Coaching & Training",
+    "sub_category": "Coaching centre",
+    "canonical_name": "Coaching Centre",
+    "capabilities": [
+      {"id": "competitive_exams", "label": "Competitive Exams", "description": "IIT-JEE, NEET, UPSC coaching", "example_queries": ["iit jee", "neet", "upsc coaching"], "keywords": ["iit", "jee", "neet", "upsc"], "cross_categories": []},
+      {"id": "entrance_exams", "label": "Entrance Exams", "description": "Engineering, medical entrance", "example_queries": ["entrance coaching", "engineering entrance"], "keywords": ["entrance", "engineering", "medical"], "cross_categories": []},
+      {"id": "bank_ssc", "label": "Bank & SSC", "description": "Bank and SSC exam coaching", "example_queries": ["bank coaching", "ssc coaching"], "keywords": ["bank", "ssc", "exam"], "cross_categories": []},
+      {"id": "online_classes", "label": "Online Classes", "description": "Online coaching classes", "example_queries": ["online classes", "online coaching"], "keywords": ["online", "classes", "coaching"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Education, Coaching & Training",
+    "sub_category": "Computer centre",
+    "canonical_name": "Computer Centre / Computer Training",
+    "capabilities": [
+      {"id": "basic_computer", "label": "Basic Computer", "description": "Basic computer and MS Office", "example_queries": ["basic computer", "ms office", "computer basics"], "keywords": ["basic", "computer", "ms office"], "cross_categories": []},
+      {"id": "programming", "label": "Programming", "description": "Programming languages", "example_queries": ["programming", "coding", "python"], "keywords": ["programming", "coding", "python", "java"], "cross_categories": []},
+      {"id": "web_design", "label": "Web Design", "description": "Web design and development", "example_queries": ["web design", "web development"], "keywords": ["web", "design", "development"], "cross_categories": []},
+      {"id": "graphic_design", "label": "Graphic Design", "description": "Graphic design and Photoshop", "example_queries": ["graphic design", "photoshop"], "keywords": ["graphic", "design", "photoshop"], "cross_categories": []},
+      {"id": "tally_accounting", "label": "Tally & Accounting", "description": "Tally and accounting software", "example_queries": ["tally", "accounting"], "keywords": ["tally", "accounting"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Education, Coaching & Training",
+    "sub_category": "Spoken English",
+    "canonical_name": "Spoken English",
+    "capabilities": [
+      {"id": "english_speaking", "label": "English Speaking", "description": "English speaking classes", "example_queries": ["spoken english", "english speaking"], "keywords": ["spoken", "english", "speaking"], "cross_categories": []},
+      {"id": "ielts_toefl", "label": "IELTS & TOEFL", "description": "IELTS and TOEFL coaching", "example_queries": ["ielts", "toefl"], "keywords": ["ielts", "toefl"], "cross_categories": []},
+      {"id": "personality_development", "label": "Personality Development", "description": "Personality development", "example_queries": ["personality development"], "keywords": ["personality", "development"], "cross_categories": []},
+      {"id": "communication_skills", "label": "Communication Skills", "description": "Communication skills", "example_queries": ["communication skills"], "keywords": ["communication", "skills"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Education, Coaching & Training",
+    "sub_category": "Skills training",
+    "canonical_name": "Skills Training",
+    "capabilities": [
+      {"id": "vocational_training", "label": "Vocational Training", "description": "Vocational skills training", "example_queries": ["vocational training", "skill training"], "keywords": ["vocational", "skill", "training"], "cross_categories": []},
+      {"id": "technical_training", "label": "Technical Training", "description": "Technical skills training", "example_queries": ["technical training"], "keywords": ["technical", "training"], "cross_categories": []},
+      {"id": "soft_skills", "label": "Soft Skills", "description": "Soft skills training", "example_queries": ["soft skills"], "keywords": ["soft", "skills"], "cross_categories": []},
+      {"id": "certification_courses", "label": "Certification Courses", "description": "Certification courses", "example_queries": ["certification course"], "keywords": ["certification", "course"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Services & Miscellaneous",
+    "sub_category": "Photocopy/Xerox",
+    "canonical_name": "Photocopy/Xerox",
+    "capabilities": [
+      {"id": "xerox_printing", "label": "Xerox & Printing", "description": "Photocopy and printing", "example_queries": ["xerox", "photocopy", "printing"], "keywords": ["xerox", "photocopy", "printing"], "cross_categories": ["Stationery, Books & Gifts > Stationery"]},
+      {"id": "color_printing", "label": "Color Printing", "description": "Color printing", "example_queries": ["color printing", "color print"], "keywords": ["color", "printing"], "cross_categories": []},
+      {"id": "lamination", "label": "Lamination", "description": "Lamination service", "example_queries": ["lamination"], "keywords": ["lamination"], "cross_categories": []},
+      {"id": "spiral_binding", "label": "Spiral Binding", "description": "Spiral and comb binding", "example_queries": ["spiral binding", "binding"], "keywords": ["spiral", "binding"], "cross_categories": []},
+      {"id": "scanning", "label": "Scanning", "description": "Document scanning", "example_queries": ["scanning", "scan"], "keywords": ["scanning", "scan"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Services & Miscellaneous",
+    "sub_category": "Photo studio",
+    "canonical_name": "Photo Studio",
+    "capabilities": [
+      {"id": "passport_photos", "label": "Passport Photos", "description": "Passport size photos", "example_queries": ["passport photo", "passport size"], "keywords": ["passport", "photo", "size"], "cross_categories": []},
+      {"id": "photo_printing", "label": "Photo Printing", "description": "Photo printing", "example_queries": ["photo printing", "print photos"], "keywords": ["photo", "printing"], "cross_categories": []},
+      {"id": "photo_frames", "label": "Photo Frames", "description": "Photo frames", "example_queries": ["photo frame"], "keywords": ["photo", "frame"], "cross_categories": []},
+      {"id": "video_shooting", "label": "Video Shooting", "description": "Video shooting and editing", "example_queries": ["video shooting", "videography"], "keywords": ["video", "shooting", "videography"], "cross_categories": []},
+      {"id": "album_making", "label": "Album Making", "description": "Album making", "example_queries": ["album making", "photo album"], "keywords": ["album", "making"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Services & Miscellaneous",
+    "sub_category": "Cyber café",
+    "canonical_name": "Cyber Cafe",
+    "capabilities": [
+      {"id": "internet_browsing", "label": "Internet Browsing", "description": "Internet browsing", "example_queries": ["internet", "browsing", "cyber cafe"], "keywords": ["internet", "browsing", "cyber"], "cross_categories": []},
+      {"id": "printing_xerox", "label": "Printing & Xerox", "description": "Printing and xerox", "example_queries": ["printing", "xerox"], "keywords": ["printing", "xerox"], "cross_categories": ["Services & Miscellaneous > Photocopy/Xerox"]},
+      {"id": "form_filling", "label": "Form Filling", "description": "Online form filling", "example_queries": ["form filling", "online form"], "keywords": ["form", "filling", "online"], "cross_categories": []},
+      {"id": "computer_rental", "label": "Computer Rental", "description": "Computer rental by hour", "example_queries": ["computer rental", "hourly computer"], "keywords": ["computer", "rental", "hourly"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Services & Miscellaneous",
+    "sub_category": "Courier",
+    "canonical_name": "Courier / Logistics",
+    "capabilities": [
+      {"id": "domestic_courier", "label": "Domestic Courier", "description": "Domestic courier service", "example_queries": ["courier", "domestic courier"], "keywords": ["courier", "domestic"], "cross_categories": []},
+      {"id": "international_courier", "label": "International Courier", "description": "International courier", "example_queries": ["international courier"], "keywords": ["international", "courier"], "cross_categories": []},
+      {"id": "parcel_packing", "label": "Parcel Packing", "description": "Parcel packing service", "example_queries": ["parcel packing", "packing"], "keywords": ["parcel", "packing"], "cross_categories": []},
+      {"id": "tracking", "label": "Tracking", "description": "Parcel tracking", "example_queries": ["tracking", "parcel tracking"], "keywords": ["tracking", "parcel"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Services & Miscellaneous",
+    "sub_category": "Laundry/ironing",
+    "canonical_name": "Laundry/Ironing",
+    "capabilities": [
+      {"id": "washing_ironing", "label": "Washing & Ironing", "description": "Washing and ironing", "example_queries": ["laundry", "washing", "ironing"], "keywords": ["laundry", "washing", "ironing"], "cross_categories": []},
+      {"id": "dry_cleaning", "label": "Dry Cleaning", "description": "Dry cleaning", "example_queries": ["dry cleaning"], "keywords": ["dry", "cleaning"], "cross_categories": []},
+      {"id": "home_pickup", "label": "Home Pickup", "description": "Home pickup and delivery", "example_queries": ["home pickup", "pickup delivery"], "keywords": ["home", "pickup", "delivery"], "cross_categories": []},
+      {"id": "express_service", "label": "Express Service", "description": "Express same-day service", "example_queries": ["express service", "same day"], "keywords": ["express", "same day"], "cross_categories": []}
+    ]
+  },
+  {
+    "major_category": "Services & Miscellaneous",
+    "sub_category": "Repair services (watch, electronics)",
+    "canonical_name": "Repair Services (Watch, Electronics)",
+    "capabilities": [
+      {"id": "watch_repair", "label": "Watch Repair", "description": "Watch repair and battery", "example_queries": ["watch repair", "watch battery"], "keywords": ["watch", "repair", "battery"], "cross_categories": []},
+      {"id": "electronics_repair", "label": "Electronics Repair", "description": "Electronics repair", "example_queries": ["electronics repair"], "keywords": ["electronics", "repair"], "cross_categories": []},
+      {"id": "appliance_repair", "label": "Appliance Repair", "description": "Home appliance repair", "example_queries": ["appliance repair", "mixer repair"], "keywords": ["appliance", "repair", "mixer"], "cross_categories": []},
+      {"id": "mobile_repair", "label": "Mobile Repair", "description": "Mobile repair", "example_queries": ["mobile repair"], "keywords": ["mobile", "repair"], "cross_categories": ["Mobile, Electronics & Computers > Mobile repair"]}
+    ]
+  },
+  {
+    "major_category": "Services & Miscellaneous",
+    "sub_category": "Travel agent",
+    "canonical_name": "Travel Agent",
+    "capabilities": [
+      {"id": "flight_booking", "label": "Flight Booking", "description": "Flight ticket booking", "example_queries": ["flight booking", "flight ticket"], "keywords": ["flight", "booking", "ticket"], "cross_categories": []},
+      {"id": "train_booking", "label": "Train Booking", "description": "Train ticket booking", "example_queries": ["train booking", "train ticket"], "keywords": ["train", "booking", "ticket"], "cross_categories": []},
+      {"id": "bus_booking", "label": "Bus Booking", "description": "Bus ticket booking", "example_queries": ["bus booking", "bus ticket"], "keywords": ["bus", "booking", "ticket"], "cross_categories": []},
+      {"id": "hotel_booking", "label": "Hotel Booking", "description": "Hotel booking", "example_queries": ["hotel booking"], "keywords": ["hotel", "booking"], "cross_categories": []},
+      {"id": "tour_packages", "label": "Tour Packages", "description": "Tour packages", "example_queries": ["tour package", "holiday package"], "keywords": ["tour", "package", "holiday"], "cross_categories": []},
+      {"id": "visa_assistance", "label": "Visa Assistance", "description": "Visa assistance", "example_queries": ["visa assistance", "visa help"], "keywords": ["visa", "assistance"], "cross_categories": []}
+    ]
+  }
+]
