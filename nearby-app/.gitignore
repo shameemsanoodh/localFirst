@@ -83,6 +83,7 @@ build/
 .vercel/
 .netlify/
 .amplify/
+.elasticbeanstalk/app_versions/
 
 # ============================================
 # LOGS & DEBUGGING
