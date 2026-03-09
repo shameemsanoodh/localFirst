@@ -3,8 +3,8 @@ import cors from 'cors';
 import serverless from 'serverless-http';
 
 // Import all handlers
-import { handler as merchantLogin } from './dist/src/merchant/login.js';
-import { handler as merchantSignup } from './dist/src/merchant/signup.js';
+import { handler as merchantLogin } from './dist/src/handlers/auth/merchantLogin.js';
+import { handler as merchantSignup } from './dist/src/handlers/auth/merchantSignup.js';
 import { handler as merchantUpdateStatus } from './dist/src/merchant/updateStatus.js';
 import { handler as merchantTrackInteraction } from './dist/src/merchant/trackInteraction.js';
 
@@ -12,9 +12,9 @@ import { handler as authRegister } from './dist/src/auth/register.js';
 import { handler as authLogin } from './dist/src/auth/login.js';
 
 import { handler as getCategories } from './dist/src/categories/get.js';
-import { handler as getNearbyShops } from './dist/src/shops/nearby.js';
+import { handler as getNearbyShops } from './dist/src/shops/getNearby.js';
 
-import { handler as createBroadcast } from './dist/src/broadcasts/createBroadcastSimple.js';
+import { handler as createBroadcast } from './dist/src/broadcasts/create.js';
 import { handler as getBroadcasts } from './dist/src/broadcasts/get.js';
 import { handler as respondToBroadcast } from './dist/src/broadcasts/respond.js';
 
