@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Location Extraction</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #FAF8F5;
+        }
+        h1 {
+            color: #1A1A1A;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 12px;
+            border: 1px solid #E5E3DF;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E5E3DF;
+            border-radius: 8px;
+            font-size: 14px;
+            margin: 10px 0;
+        }
+        button {
+            background: #22C55E;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #16A34A;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+        }
+        .success {
+            background: #F0FBF4;
+            color: #22C55E;
+            border: 1px solid #22C55E;
+        }
+        .error {
+            background: #FFF4F4;
+            color: #CC2222;
+            border: 1px solid #CC2222;
+        }
+        .loading {
+            background: #EFEFEB;
+            color: #6B6B6B;
+        }
+        .example {
+            background: #EFEFEB;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .example:hover {
+            background: #E5E3DF;
+        }
+    </style>
+</head>
+<body>
+    <h1>🗺️ Google Maps Location Extraction Test</h1>
+    
+    <div class="test-section">
+        <h3>Test Link Extraction</h3>
+        <p>Paste any Google Maps link to extract coordinates:</p>
+        
+        <input 
+            type="text" 
+            id="mapLink" 
+            placeholder="Paste Google Maps link here..."
+        />
+        
+        <button onclick="testExtraction()">Extract Coordinates</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>Example Links (Click to Test)</h3>
+        
+        <div class="example" onclick="testLink('https://www.google.com/maps/@12.9716,77.5946,15z')">
+            <strong>Standard Link:</strong><br>
+            https://www.google.com/maps/@12.9716,77.5946,15z
+        </div>
+        
+        <div class="example" onclick="testLink('https://www.google.com/maps/place/Koramangala/@12.9352,77.6245,14z')">
+            <strong>Place Link:</strong><br>
+            https://www.google.com/maps/place/Koramangala/@12.9352,77.6245,14z
+        </div>
+        
+        <div class="example" onclick="testLink('https://www.google.com/maps?q=12.9716,77.5946')">
+            <strong>Query Parameter:</strong><br>
+            https://www.google.com/maps?q=12.9716,77.5946
+        </div>
+        
+        <div class="example" onclick="testLink('https://maps.app.goo.gl/Gsyj8DzxqLsbLLQF6')">
+            <strong>Shortened Link (Your Example):</strong><br>
+            https://maps.app.goo.gl/Gsyj8DzxqLsbLLQF6
+        </div>
+    </div>
+
+    <script>
+        // Copy of the extraction logic for testing
+        async function extractMapCoordinates(url) {
+            if (!url || !url.trim()) {
+                return null;
+            }
+
+            try {
+                // Method 1: Direct coordinate extraction
+                const directMatch = url.match(/@(-?\d+\.?\d*),(-?\d+\.?\d*)/);
+                if (directMatch) {
+                    return {
+                        lat: parseFloat(directMatch[1]),
+                        lng: parseFloat(directMatch[2]),
+                        method: 'Direct regex match'
+                    };
+                }
+
+                // Method 2: Query parameters
+                const queryMatch = url.match(/[?&](?:q|ll)=(-?\d+\.?\d*),(-?\d+\.?\d*)/);
+                if (queryMatch) {
+                    return {
+                        lat: parseFloat(queryMatch[1]),
+                        lng: parseFloat(queryMatch[2]),
+                        method: 'Query parameter'
+                    };
+                }
+
+                // Method 3: Shortened URLs
+                if (url.includes('maps.app.goo.gl') || url.includes('goo.gl/maps')) {
+                    console.log('Shortened link detected, resolving...');
+                    
+                    try {
+                        const response = await fetch(url, {
+                            method: 'HEAD',
+                            redirect: 'follow'
+                        });
+                        
+                        const resolvedUrl = response.url;
+                        console.log('Resolved to:', resolvedUrl);
+                        
+                        // Recursively extract from resolved URL
+                        const result = await extractMapCoordinates(resolvedUrl);
+                        if (result) {
+                            result.method = 'Shortened URL (resolved)';
+                            result.resolvedUrl = resolvedUrl;
+                        }
+                        return result;
+                    } catch (fetchError) {
+                        console.error('CORS or fetch error:', fetchError);
+                        return {
+                            error: 'CORS blocked or network error',
+                            suggestion: 'Open the link in browser and copy the full URL'
+                        };
+                    }
+                }
+
+                // Method 4: Place links
+                const placeMatch = url.match(/place\/[^/]+\/@(-?\d+\.?\d*),(-?\d+\.?\d*)/);
+                if (placeMatch) {
+                    return {
+                        lat: parseFloat(placeMatch[1]),
+                        lng: parseFloat(placeMatch[2]),
+                        method: 'Place link'
+                    };
+                }
+
+                return null;
+            } catch (error) {
+                console.error('Error:', error);
+                return { error: error.message };
+            }
+        }
+
+        function testLink(link) {
+            document.getElementById('mapLink').value = link;
+            testExtraction();
+        }
+
+        async function testExtraction() {
+            const link = document.getElementById('mapLink').value;
+            const resultDiv = document.getElementById('result');
+            
+            if (!link.trim()) {
+                resultDiv.innerHTML = '<div class="error">Please enter a link</div>';
+                return;
+            }
+
+            resultDiv.innerHTML = '<div class="loading">⟳ Extracting coordinates...</div>';
+
+            const result = await extractMapCoordinates(link);
+
+            if (result && result.error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <strong>❌ Error:</strong> ${result.error}<br>
+                        ${result.suggestion ? `<em>${result.suggestion}</em>` : ''}
+                    </div>
+                `;
+            } else if (result && result.lat && result.lng) {
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <strong>✅ Success!</strong><br><br>
+                        <strong>Latitude:</strong> ${result.lat.toFixed(6)}<br>
+                        <strong>Longitude:</strong> ${result.lng.toFixed(6)}<br>
+                        <strong>Method:</strong> ${result.method}<br>
+                        ${result.resolvedUrl ? `<br><strong>Resolved URL:</strong><br>${result.resolvedUrl}` : ''}
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <strong>❌ Failed</strong><br>
+                        Could not extract coordinates from this link.
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+</html>
