@@ -7,11 +7,16 @@ import BottomNav from './components/ui/BottomNav'
 // Lazy load pages for performance
 const Home = lazy(() => import('./pages/user/Home'))
 const Categories = lazy(() => import('./pages/user/Categories'))
+const CategoryShops = lazy(() => import('./pages/user/CategoryShops'))
+const Nearby = lazy(() => import('./pages/user/Nearby'))
 const Search = lazy(() => import('./pages/user/Search'))
 const Offers = lazy(() => import('./pages/user/Offers'))
+const TestOffers = lazy(() => import('./pages/user/TestOffers'))
 const Account = lazy(() => import('./pages/user/Account'))
 const BroadcastPage = lazy(() => import('./pages/user/BroadcastPage'))
 const BroadcastRadar = lazy(() => import('./pages/user/BroadcastRadar'))
+const SearchHistory = lazy(() => import('./pages/user/SearchHistory'))
+const MyActivity = lazy(() => import('./pages/user/MyActivity'))
 const Login = lazy(() => import('./pages/auth/Login'))
 const Signup = lazy(() => import('./pages/auth/Signup'))
 const UserOnboarding = lazy(() => import('./pages/auth/UserOnboarding'))
@@ -69,12 +74,16 @@ function App() {
               {/* Public Routes */}
               <Route path="/" element={<Home />} />
               <Route path="/categories" element={<Categories />} />
-              <Route path="/categories/:id" element={<Categories />} />
+              <Route path="/categories/:categoryId" element={<CategoryShops />} />
+              <Route path="/nearby" element={<Nearby />} />
               <Route path="/search" element={<Search />} />
               <Route path="/offers" element={<Offers />} />
+              <Route path="/test-offers" element={<TestOffers />} />
               <Route path="/account" element={<Account />} />
               <Route path="/broadcast" element={<BroadcastPage />} />
               <Route path="/broadcast/radar/:broadcastId" element={<BroadcastRadar />} />
+              <Route path="/history" element={<SearchHistory />} />
+              <Route path="/activity" element={<MyActivity />} />
 
               {/* Auth Routes */}
               <Route path="/login" element={<Login />} />

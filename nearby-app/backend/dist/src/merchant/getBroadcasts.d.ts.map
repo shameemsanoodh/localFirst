@@ -1,1 +1,1 @@
-{"version":3,"file":"getBroadcasts.d.ts","sourceRoot":"","sources":["../../../src/merchant/getBroadcasts.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,oBAAoB,EAAE,qBAAqB,EAAE,MAAM,YAAY,CAAC;AAIzE,eAAO,MAAM,OAAO,GAAU,OAAO,oBAAoB,KAAG,OAAO,CAAC,qBAAqB,CAsBxF,CAAC"}
+{"version":3,"file":"getBroadcasts.d.ts","sourceRoot":"","sources":["../../../src/merchant/getBroadcasts.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,oBAAoB,EAAE,qBAAqB,EAAE,MAAM,YAAY,CAAC;AAQzE,eAAO,MAAM,OAAO,GAAU,OAAO,oBAAoB,KAAG,OAAO,CAAC,qBAAqB,CAiHxF,CAAC"}

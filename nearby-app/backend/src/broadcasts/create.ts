@@ -1,14 +1,22 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, ScanCommand } from '@aws-sdk/lib-dynamodb';
 import { v4 as uuidv4 } from 'uuid';
 import { db, Tables } from '../shared/db.js';
 import { response } from '../shared/response.js';
 import ngeohash from 'ngeohash';
 
+const client = new DynamoDBClient({});
+const docClient = DynamoDBDocumentClient.from(client);
+
 interface CreateBroadcastRequest {
   productId: string;
+  productName?: string;
+  query?: string;
   userLat: number;
   userLng: number;
   radius: number;
+  priority?: 'urgent' | 'general' | 'info'; // Add priority field
 }
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
@@ -19,29 +27,87 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     }
 
     const body: CreateBroadcastRequest = JSON.parse(event.body || '{}');
-    const { productId, userLat, userLng, radius } = body;
+    
+    // Support both payload shapes from shell scripts and React app
+    const userLat = body.userLat ?? (body as any).location?.lat;
+    const userLng = body.userLng ?? (body as any).location?.lng;
+    const radius = body.radius ?? (body as any).radiusKm ?? 5;
+    const productName = body.productName ?? body.query ?? body.productId ?? 'Unknown';
+    const productId = body.productId ?? `query-${Date.now()}`;
+    const query = body.query ?? body.productName ?? productId;
+    const priority = body.priority ?? 'general';
 
-    if (!productId || !userLat || !userLng || !radius) {
-      return response.error('Missing required fields', 400, 'INVALID_INPUT');
+    console.log('Creating broadcast with:', { userLat, userLng, radius, productName, productId, query, priority });
+
+    if (!userLat || !userLng || !radius) {
+      return response.error('Missing required fields: userLat/userLng or location.lat/location.lng, and radius', 400, 'INVALID_INPUT');
     }
-
-    // In a real app, you might want to validate the product exists
-    // const product = await db.get(Tables.PRODUCTS, { productId });
-    // if (!product) {
-    //   return response.error('Product not found', 404, 'PRODUCT_NOT_FOUND');
-    // }
 
     const broadcastId = uuidv4();
     const now = new Date().toISOString();
+    const created_at = Date.now();
     const expiresAt = Math.floor(Date.now() / 1000) + 1800; // 30 minutes TTL
     const geohash = ngeohash.encode(userLat, userLng, 7); // Precision 7 for ~150m area
+    const broadcastPriority = priority || 'general'; // Default to general
+
+    // Find nearby merchants within radius
+    const SHOPS_TABLE = process.env.SHOPS_TABLE || 'nearby-backend-dev-shops';
+    const MERCHANTS_TABLE = process.env.MERCHANTS_TABLE || 'nearby-backend-dev-merchants';
+    
+    console.log('Finding nearby shops for broadcast...');
+    console.log('Query:', query || productName || productId);
+    console.log('Priority:', broadcastPriority);
+    
+    // Get all shops
+    const shopsResult = await db.scan(SHOPS_TABLE);
+    const shops = shopsResult || [];
+    
+    // Calculate distances and filter by radius
+    const nearbyShops = shops
+      .map((shop: any) => {
+        if (!shop.location?.lat || !shop.location?.lng) return null;
+        
+        const distance = calculateDistance(
+          userLat, userLng,
+          shop.location.lat, shop.location.lng
+        );
+        
+        return { ...shop, distance_km: distance };
+      })
+      .filter((shop: any) => shop && shop.distance_km <= radius)
+      .sort((a: any, b: any) => a.distance_km - b.distance_km);
+    
+    console.log(`Found ${nearbyShops.length} shops within ${radius}km`);
+    
+    // Get merchant IDs for these shops
+    const merchantIds: string[] = [];
+    for (const shop of nearbyShops) {
+      try {
+        const scanCommand = new ScanCommand({
+          TableName: MERCHANTS_TABLE,
+          FilterExpression: 'shopId = :shopId',
+          ExpressionAttributeValues: { ':shopId': shop.shopId }
+        });
+        
+        const merchantResult = await docClient.send(scanCommand);
+        
+        if (merchantResult.Items && merchantResult.Items.length > 0) {
+          merchantIds.push(merchantResult.Items[0].merchantId);
+        }
+      } catch (err) {
+        console.error(`Error finding merchant for shop ${shop.shopId}:`, err);
+      }
+    }
+    
+    console.log(`Matched ${merchantIds.length} merchants:`, merchantIds);
 
     const broadcast = {
       broadcastId,
       userId,
       productId,
-      // productName: (product as { name: string }).name,
-      // categoryId: (product as { categoryId: string }).categoryId,
+      productName, // Store human-readable name
+      query, // Store query text
+      priority: broadcastPriority, // Store priority level
       userLat,
       userLng,
       geohash,
@@ -49,9 +115,19 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
       status: 'active',
       expiresAt,
       createdAt: now,
+      created_at, // Add timestamp for filtering
+      matched_merchant_ids: merchantIds, // Store matched merchant IDs
+      matched_shops_count: nearbyShops.length,
     };
 
     await db.put(Tables.BROADCASTS!, broadcast);
+    
+    console.log('Broadcast created successfully:', {
+      broadcastId,
+      productName,
+      matched_merchant_ids: merchantIds,
+      matched_shops_count: nearbyShops.length
+    });
 
     return response.success(broadcast, 201);
   } catch (error) {
@@ -59,3 +135,20 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     return response.error('Failed to create broadcast', 500, 'INTERNAL_ERROR');
   }
 };
+
+// Helper function to calculate distance between two coordinates
+function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371; // Earth's radius in km
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+function toRad(degrees: number): number {
+  return degrees * (Math.PI / 180);
+}

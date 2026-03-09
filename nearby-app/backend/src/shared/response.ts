@@ -18,7 +18,7 @@ export const response = {
     }),
   }),
 
-  error: (message: string, statusCode = 400, code = 'ERROR') => ({
+  error: (message: string, statusCode = 400, code = 'ERROR', details?: any) => ({
     statusCode,
     headers: corsHeaders,
     body: JSON.stringify({
@@ -26,6 +26,7 @@ export const response = {
       error: {
         code,
         message,
+        ...(details && { details })
       },
       meta: {
         timestamp: new Date().toISOString(),

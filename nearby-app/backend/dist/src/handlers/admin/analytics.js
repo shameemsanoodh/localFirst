@@ -125,44 +125,75 @@ export const getSearchTrends = async (event) => {
         // Query analytics table for search events
         const result = await dynamodb.scan({
             TableName: ANALYTICS_TABLE,
-            FilterExpression: 'eventType = :searchEvent',
-            ExpressionAttributeValues: {
-                ':searchEvent': 'search',
-            },
         }).promise();
-        // Aggregate search keywords
-        const keywordCount = {};
+        // Aggregate data
+        const queryCount = {};
+        const categoryCount = {};
+        const capabilityCount = {};
+        const supplyGaps = [];
+        const searchesByDay = {};
         result.Items?.forEach((item) => {
-            const keyword = item.searchQuery || item.keyword;
-            if (keyword) {
-                if (!keywordCount[keyword]) {
-                    keywordCount[keyword] = { count: 0, category: item.category };
-                }
-                keywordCount[keyword].count++;
+            // Count queries
+            if (item.queryText) {
+                queryCount[item.queryText] = (queryCount[item.queryText] || 0) + 1;
+            }
+            // Count categories
+            if (item.majorCategory) {
+                categoryCount[item.majorCategory] = (categoryCount[item.majorCategory] || 0) + 1;
+            }
+            // Count capabilities
+            if (item.capabilityId) {
+                capabilityCount[item.capabilityId] = (capabilityCount[item.capabilityId] || 0) + 1;
+            }
+            // Track supply gaps (matchCount = 0)
+            if (item.matchCount === 0) {
+                supplyGaps.push({
+                    queryText: item.queryText,
+                    category: item.majorCategory,
+                    timestamp: item.timestamp,
+                    city: item.city,
+                    area: item.area
+                });
+            }
+            // Count searches by day
+            if (item.timestamp) {
+                const day = item.timestamp.split('T')[0];
+                searchesByDay[day] = (searchesByDay[day] || 0) + 1;
             }
         });
-        // Convert to array and add trend indicators
-        const trends = Object.entries(keywordCount).map(([keyword, data]) => {
-            // Simple trend calculation (in production, compare with previous period)
-            const trend = data.count > 50 ? 'up' : data.count > 20 ? 'stable' : 'down';
-            return {
-                keyword,
-                count: data.count,
-                category: data.category || 'General',
-                trend,
-            };
-        });
-        // Sort by count descending
-        trends.sort((a, b) => b.count - a.count);
-        // Return top 20
-        const topTrends = trends.slice(0, 20);
+        // Top 20 queries
+        const topQueries = Object.entries(queryCount)
+            .map(([query, count]) => ({ query, count }))
+            .sort((a, b) => b.count - a.count)
+            .slice(0, 20);
+        // Top categories
+        const topCategories = Object.entries(categoryCount)
+            .map(([category, count]) => ({ category, count }))
+            .sort((a, b) => b.count - a.count);
+        // Top capabilities
+        const topCapabilities = Object.entries(capabilityCount)
+            .map(([capabilityId, count]) => ({ capabilityId, count }))
+            .sort((a, b) => b.count - a.count)
+            .slice(0, 20);
+        // Searches per day (last 30 days)
+        const last30Days = Object.entries(searchesByDay)
+            .map(([date, count]) => ({ date, count }))
+            .sort((a, b) => a.date.localeCompare(b.date))
+            .slice(-30);
         return {
             statusCode: 200,
             headers: {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Credentials': true,
             },
-            body: JSON.stringify(topTrends),
+            body: JSON.stringify({
+                topQueries,
+                topCategories,
+                topCapabilities,
+                supplyGaps: supplyGaps.slice(0, 50),
+                searchesByDay: last30Days,
+                totalSearches: result.Items?.length || 0
+            }),
         };
     }
     catch (error) {

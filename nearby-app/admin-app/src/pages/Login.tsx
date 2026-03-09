@@ -3,11 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Loader2, Shield } from 'lucide-react'
 import { useAuthStore } from '../store/authStore'
+import { apiService } from '../services/api.service'
 
 const Login: React.FC = () => {
   const navigate = useNavigate()
   const { setAuth } = useAuthStore()
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -18,15 +19,12 @@ const Login: React.FC = () => {
     setError('')
 
     try {
-      // For demo: admin/NearBy@2026!Secure
-      if (username === 'admin' && (password === 'admin123' || password === 'NearBy@2026!Secure')) {
-        setAuth('admin-001', 'demo-token')
-        navigate('/')
-      } else {
-        setError('Invalid credentials')
-      }
-    } catch (err) {
-      setError('Login failed')
+      const response = await apiService.login(email, password)
+      localStorage.setItem('admin-token', response.token)
+      setAuth(response.admin.adminId || 'admin-001', response.token)
+      navigate('/')
+    } catch (err: any) {
+      setError(err.message || 'Login failed')
     } finally {
       setLoading(false)
     }
@@ -56,13 +54,13 @@ const Login: React.FC = () => {
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label className="text-xs font-semibold mb-1.5 block" style={{ color: '#6B6B6B' }}>
-                USERNAME
+                EMAIL
               </label>
               <input
-                type="text"
-                placeholder="admin"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                type="email"
+                placeholder="admin@nearby.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3.5 rounded-2xl text-sm font-medium outline-none"
                 style={{ background: '#EFEFEB', color: '#1A1A1A' }}
                 required
@@ -103,7 +101,7 @@ const Login: React.FC = () => {
               whileTap={{ scale: 0.97 }}
               className="w-full py-4 rounded-2xl font-bold text-base flex items-center justify-center gap-2"
               style={{
-                background: '#3B82F6',
+                background: '#22C55E',
                 color: '#FFFFFF',
               }}
             >
@@ -115,9 +113,9 @@ const Login: React.FC = () => {
             </motion.button>
           </form>
 
-          <div className="mt-6 p-4 rounded-xl" style={{ background: '#FFF9E6' }}>
+          <div className="mt-6 p-4 rounded-xl" style={{ background: '#F0FDF4' }}>
             <p className="text-xs text-center" style={{ color: '#6B6B6B' }}>
-              Demo credentials: admin / admin123
+              Use your admin email and password to sign in
             </p>
           </div>
         </div>

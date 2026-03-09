@@ -34,13 +34,42 @@ export const handler = async (event) => {
         // Step 2: Create broadcast
         const broadcastId = uuidv4();
         const now = new Date().toISOString();
+        const created_at = Date.now();
         const expiresAt = Math.floor(Date.now() / 1000) + 1800; // 30 minutes TTL
         const geohash = ngeohash.encode(userLat, userLng, 7);
+        // Get merchant IDs for matched shops
+        const MERCHANTS_TABLE = process.env.MERCHANTS_TABLE || 'nearby-backend-dev-merchants';
+        const merchantIds = [];
+        for (const shop of matchedShops) {
+            try {
+                const merchants = await db.scan(MERCHANTS_TABLE);
+                const merchant = merchants.find((m) => m.shopId === shop.shopId);
+                if (merchant) {
+                    // Double-check merchant category matches
+                    const merchantCategory = merchant.majorCategory || merchant.category || '';
+                    const merchantCategoryMatch = merchantCategory.toLowerCase() === detectedCategory.toLowerCase() ||
+                        merchantCategory.toLowerCase().includes(detectedCategory.toLowerCase()) ||
+                        detectedCategory.toLowerCase().includes(merchantCategory.toLowerCase());
+                    if (merchantCategoryMatch) {
+                        merchantIds.push(merchant.merchantId);
+                        console.log(`✅ Matched merchant: ${merchant.shopName} (${merchantCategory})`);
+                    }
+                    else {
+                        console.log(`❌ Skipped merchant: ${merchant.shopName} (${merchantCategory}) - doesn't match ${detectedCategory}`);
+                    }
+                }
+            }
+            catch (err) {
+                console.error(`Error finding merchant for shop ${shop.shopId}:`, err);
+            }
+        }
+        console.log(`Matched ${merchantIds.length} merchants for category "${detectedCategory}":`, merchantIds);
         const broadcast = {
             broadcastId,
             userId,
             productId: `search-${Date.now()}`,
             productName: query,
+            query: query,
             category: detectedCategory,
             userLat,
             userLng,
@@ -49,11 +78,38 @@ export const handler = async (event) => {
             status: 'active',
             expiresAt,
             createdAt: now,
+            created_at, // Add timestamp for filtering
             matchedMerchantsCount: matchedShopsCount,
+            matched_merchant_ids: merchantIds, // Store merchant IDs
+            matched_shops_count: matchedShopsCount,
             locality,
         };
         await db.put(Tables.BROADCASTS, broadcast);
-        // Step 3: Store matched shop IDs for the broadcast
+        // Step 3: Write analytics record
+        const analyticsId = uuidv4();
+        const analyticsRecord = {
+            eventId: analyticsId, // Add required primary key
+            analyticsId,
+            queryText: query,
+            majorCategory: detectedCategory,
+            subCategory: detectedCategory,
+            capabilityId: detectedCategory,
+            matchCount: matchedShopsCount,
+            timestamp: now,
+            eventType: 'broadcast_created', // Add event type
+            city: locality || 'Unknown',
+            area: locality || 'Unknown',
+            userId
+        };
+        try {
+            await db.put(Tables.ANALYTICS, analyticsRecord);
+            console.log('Analytics record created:', analyticsId);
+        }
+        catch (analyticsError) {
+            console.error('Failed to write analytics:', analyticsError);
+            // Don't fail the broadcast if analytics fails
+        }
+        // Step 4: Store matched shop IDs for the broadcast
         // This will be used by the radar page to show which shops received the broadcast
         const matchedShopIds = matchedShops.map((shop) => shop.shopId);
         // In production, send notifications to these shops via SNS/WebSocket

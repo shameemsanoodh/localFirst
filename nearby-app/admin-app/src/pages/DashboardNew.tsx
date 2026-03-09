@@ -50,7 +50,7 @@ const DashboardNew: React.FC = () => {
       {/* Page Header */}
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        <p className="text-gray-600 mt-1">Welcome to Studio Admin Panel</p>
+        <p className="text-gray-600 mt-1">Welcome to NearBy Admin Panel</p>
       </div>
 
       {/* Metric Cards Grid */}

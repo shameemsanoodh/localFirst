@@ -4,10 +4,11 @@ import { response } from '../shared/response.js';
 
 const bedrockClient = new BedrockRuntimeClient({ region: process.env.AWS_REGION || 'ap-south-1' });
 
-// Use APAC cross-region inference profiles for Bedrock models
-// Different models per layer to optimize cost and performance
+// Use subscribed Claude models for best accuracy
+// Claude 3.5 Sonnet v2 for intent extraction (excellent accuracy + cost balance)
+// Claude 3 Haiku for normalization (fast + cheap)
 const NORMALIZATION_MODEL = 'apac.anthropic.claude-3-haiku-20240307-v1:0'; // Fast + cheap for language normalization
-const INTENT_MODEL = 'apac.anthropic.claude-3-5-sonnet-20241022-v2:0'; // Smart + accurate for intent extraction
+const INTENT_MODEL = 'apac.anthropic.claude-3-5-sonnet-20241022-v2:0'; // Excellent accuracy, subscribed via AWS Marketplace
 const TEMPERATURE = 0.1; // Low randomness for consistent results
 const MAX_TOKENS = 300; // Increased for structured JSON responses
 
@@ -96,7 +97,7 @@ Return ONLY the normalized English query. Nothing else.`;
     const bedrockResponse = await bedrockClient.send(command);
     const responseBody = JSON.parse(new TextDecoder().decode(bedrockResponse.body));
     const normalized = responseBody.content[0].text.trim();
-
+    
     console.log(`Normalized: "${rawQuery}" → "${normalized}"`);
     return normalized;
   } catch (error) {
@@ -285,7 +286,7 @@ Return ONLY valid JSON. No explanation.`;
     const bedrockResponse = await bedrockClient.send(command);
     const responseBody = JSON.parse(new TextDecoder().decode(bedrockResponse.body));
     const jsonText = responseBody.content[0].text.trim();
-
+    
     // Extract JSON from response (handle markdown code blocks)
     let jsonString = jsonText;
     if (jsonText.includes('```json')) {
@@ -293,51 +294,73 @@ Return ONLY valid JSON. No explanation.`;
     } else if (jsonText.includes('```')) {
       jsonString = jsonText.split('```')[1].split('```')[0].trim();
     }
-
+    
     const extracted = JSON.parse(jsonString);
-
+    
     // Validate category
     if (!CATEGORIES.includes(extracted.category)) {
       extracted.category = 'Groceries'; // Fallback
     }
-
+    
     console.log(`Intent extracted:`, extracted);
     return extracted;
   } catch (error) {
-    throw error; // Let the caller (processQuery) handle the fallback
-  }
-}
-
-/**
- * Simple keyword-based category detection as a fallback when AI fails
- */
-function fallbackCategoryDetection(query: string): string {
-  const lowerQuery = query.toLowerCase();
-
-  const categoryKeywords: Record<string, string[]> = {
-    'Pharmacy': ['medicine', 'drug', 'tablet', 'capsule', 'syrup', 'pharmacy', 'medical', 'health', 'prescription', 'vitamin'],
-    'Electronics': ['tv', 'television', 'laptop', 'computer', 'camera', 'speaker', 'headphone', 'electronic', 'appliance', 'ac', 'fridge', 'washing'],
-    'Mobile': ['phone', 'mobile', 'smartphone', 'charger', 'earphone', 'case', 'screen guard', 'sim'],
-    'Automobile': ['car', 'bike', 'vehicle', 'auto', 'tire', 'oil', 'battery', 'spare', 'mechanic', 'service'],
-    'Hardware': ['hardware', 'tool', 'nail', 'screw', 'hammer', 'drill', 'paint', 'cement', 'plumbing', 'electrical'],
-    'Home Essentials': ['furniture', 'bed', 'sofa', 'table', 'chair', 'curtain', 'utensil', 'kitchen', 'home', 'decor'],
-    'Pet Supplies': ['pet', 'dog', 'cat', 'bird', 'fish', 'food', 'toy', 'collar', 'leash', 'cage'],
-    'Cafe & Restaurant': ['food', 'restaurant', 'cafe', 'pizza', 'burger', 'coffee', 'tea', 'snacks', 'eat'],
-    'Groceries': ['grocery', 'vegetable', 'fruit', 'rice', 'dal', 'milk', 'bread', 'egg', 'snack', 'drink', 'beverage']
-  };
-
-  let bestMatch = 'Groceries'; // Default to Groceries if no other keywords match
-  let maxMatches = 0;
-
-  for (const [category, keywords] of Object.entries(categoryKeywords)) {
-    const matches = keywords.filter(keyword => lowerQuery.includes(keyword)).length;
-    if (matches > maxMatches) {
-      maxMatches = matches;
-      bestMatch = category;
+    console.error('Intent extraction error:', error);
+    console.error('Failed to parse AI response, using smart fallback');
+    
+    // Smart fallback based on keywords
+    const lowerQuery = normalizedQuery.toLowerCase();
+    let category = 'Groceries';
+    let product = null;
+    
+    // Electronics keywords
+    if (lowerQuery.match(/laptop|computer|tv|television|monitor|speaker|headphone|charger|adapter|cable|usb/)) {
+      category = 'Electronics';
+      product = 'electronic device';
     }
+    // Mobile keywords
+    else if (lowerQuery.match(/phone|mobile|smartphone|sim|earphone|earbuds|case|screen guard/)) {
+      category = 'Mobile';
+      product = 'mobile accessory';
+    }
+    // Hardware keywords
+    else if (lowerQuery.match(/drill|hammer|screw|nail|tool|paint|cement|plumbing|electrical|wire/)) {
+      category = 'Hardware';
+      product = 'hardware tool';
+    }
+    // Pharmacy keywords
+    else if (lowerQuery.match(/medicine|tablet|capsule|syrup|drug|pain|fever|headache|cough|cold|pharmacy/)) {
+      category = 'Pharmacy';
+      product = 'medicine';
+    }
+    // Automobile keywords
+    else if (lowerQuery.match(/car|bike|vehicle|oil|tire|battery|spare|engine|brake|clutch/)) {
+      category = 'Automobile';
+      product = 'auto part';
+    }
+    // Pet keywords
+    else if (lowerQuery.match(/pet|dog|cat|bird|fish|food|toy|collar|leash|cage/)) {
+      category = 'Pet Supplies';
+      product = 'pet item';
+    }
+    // Home Essentials keywords
+    else if (lowerQuery.match(/furniture|bed|sofa|table|chair|curtain|utensil|kitchen|home|decor/)) {
+      category = 'Home Essentials';
+      product = 'home item';
+    }
+    
+    return {
+      intent: 'buy',
+      category,
+      product,
+      brand: null,
+      urgency: 'immediate',
+      quantity: null,
+      context_used: false,
+      broadcast_message: `Customer is looking for: ${normalizedQuery}`,
+      normalized_query: normalizedQuery
+    };
   }
-
-  return bestMatch;
 }
 
 /**
@@ -350,35 +373,30 @@ async function processQuery(
 ): Promise<IntentExtractionResult> {
   // Layer 1: Normalize mixed language query
   const normalizedQuery = await normalizeQuery(rawQuery);
-
-  try {
-    // Layer 2: Extract intent with context
-    const intent = await extractIntent(normalizedQuery, userProfile);
-
-    // Add normalized query to result
-    intent.normalized_query = normalizedQuery;
-
-    return intent;
-  } catch (error) {
-    console.error('Intent extraction error:', error);
-    // Fallback to basic classification using keyword matching
-    const fallbackCategory = fallbackCategoryDetection(normalizedQuery);
-
-    return {
-      intent: 'buy',
-      category: fallbackCategory,
-      product: null,
-      brand: null,
-      urgency: 'immediate',
-      quantity: null,
-      context_used: false,
-      broadcast_message: `Customer is looking for: ${normalizedQuery}`,
-      normalized_query: normalizedQuery
-    };
-  }
+  
+  // Layer 2: Extract intent with context
+  const intent = await extractIntent(normalizedQuery, userProfile);
+  
+  // Add normalized query to result
+  intent.normalized_query = normalizedQuery;
+  
+  return intent;
 }
 
 export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
+  // Handle CORS preflight
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token',
+        'Access-Control-Allow-Methods': 'POST,OPTIONS',
+      },
+      body: '',
+    };
+  }
+
   try {
     const body: DetectCategoryRequest = JSON.parse(event.body || '{}');
     const { query, userProfile } = body;
@@ -388,15 +406,21 @@ export const handler = async (event: APIGatewayProxyEvent): Promise<APIGatewayPr
     }
 
     console.log(`Processing query: "${query}"`);
-
+    console.log(`Using models: Normalization=${NORMALIZATION_MODEL}, Intent=${INTENT_MODEL}`);
+    
     // Run 3-layer AI pipeline
     const result = await processQuery(query, userProfile);
 
-    console.log(`Final result:`, result);
+    console.log(`Final result:`, JSON.stringify(result, null, 2));
 
     return response.success(result, 200);
-  } catch (error) {
+  } catch (error: any) {
     console.error('Detect category error:', error);
+    console.error('Error details:', {
+      name: error.name,
+      message: error.message,
+      stack: error.stack
+    });
     return response.error('Failed to detect category', 500, 'INTERNAL_ERROR');
   }
 };

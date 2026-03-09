@@ -13,23 +13,61 @@ import {
   ArrowLeft,
   Shield,
   Store,
+  MessageSquare,
+  History,
+  Activity,
 } from 'lucide-react'
 import { useAuthStore } from '@/store/authStore'
 import { Avatar } from '@/components/ui/Avatar'
+import api from '@/services/api'
 
 const Account: React.FC = () => {
   const navigate = useNavigate()
   const { user, isAuthenticated, clearAuth } = useAuthStore()
   const [toast, setToast] = React.useState('')
+  const [showFeatureModal, setShowFeatureModal] = React.useState(false)
+  const [featureRequest, setFeatureRequest] = React.useState('')
+  const [submitting, setSubmitting] = React.useState(false)
 
   const showToast = (msg: string) => {
     setToast(msg)
     setTimeout(() => setToast(''), 2500)
   }
 
+  const handleFeatureRequest = async () => {
+    if (!featureRequest.trim()) {
+      showToast('Please enter your feedback')
+      return
+    }
+
+    if (featureRequest.length > 500) {
+      showToast('Message too long (max 500 characters)')
+      return
+    }
+
+    setSubmitting(true)
+    try {
+      await api.post('/queries', {
+        type: 'user',
+        message: featureRequest
+      })
+      showToast('Feedback submitted successfully!')
+      setFeatureRequest('')
+      setShowFeatureModal(false)
+    } catch (error) {
+      console.error('Failed to submit feedback:', error)
+      showToast('Failed to submit feedback')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
   const menuItems = [
+    { icon: History, label: 'Search History', action: () => navigate('/history') },
+    { icon: Activity, label: 'My Activity', action: () => navigate('/activity') },
     { icon: ShoppingBag, label: 'My Orders', action: () => showToast('My Orders — coming soon') },
     { icon: Heart, label: 'Saved Items', action: () => showToast('Saved Items — coming soon') },
+    { icon: MessageSquare, label: 'Send Feedback', action: () => setShowFeatureModal(true) },
     { icon: HelpCircle, label: 'Help & Support', action: () => showToast('Help & Support — coming soon') },
     { icon: UserPlus, label: 'Invite Friends', action: () => showToast('Invite Friends — coming soon') },
     { icon: Settings, label: 'Settings', action: () => showToast('Settings — coming soon') },
@@ -210,6 +248,51 @@ const Account: React.FC = () => {
       {toast && (
         <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl text-sm font-semibold shadow-lg bg-gray-900 text-white whitespace-nowrap">
           {toast}
+        </div>
+      )}
+
+      {/* Feature Request Modal */}
+      {showFeatureModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-2xl p-6 max-w-md w-full"
+          >
+            <h3 className="text-xl font-bold text-gray-900 mb-2">Send Feedback</h3>
+            <p className="text-sm text-gray-600 mb-4">
+              Share your ideas, report issues, or request new features
+            </p>
+            <textarea
+              value={featureRequest}
+              onChange={(e) => setFeatureRequest(e.target.value)}
+              placeholder="Tell us what you think... (max 500 characters)"
+              className="w-full h-32 px-4 py-3 border border-gray-300 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-nearby-500 focus:border-transparent"
+              maxLength={500}
+            />
+            <div className="text-xs text-gray-500 mb-4 text-right">
+              {featureRequest.length}/500
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setShowFeatureModal(false)
+                  setFeatureRequest('')
+                }}
+                className="flex-1 py-3 px-4 border border-gray-300 rounded-xl font-semibold text-gray-700 hover:bg-gray-50 transition-colors"
+                disabled={submitting}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleFeatureRequest}
+                disabled={submitting || !featureRequest.trim()}
+                className="flex-1 py-3 px-4 bg-nearby-500 hover:bg-nearby-600 text-white font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {submitting ? 'Sending...' : 'Submit'}
+              </button>
+            </div>
+          </motion.div>
         </div>
       )}
     </div>

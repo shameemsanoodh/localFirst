@@ -52,8 +52,30 @@ export const broadcastService = {
   },
 
   async getById(broadcastId: string): Promise<BroadcastDetailResponse> {
-    const response = await api.get<BroadcastDetailResponse>(`/broadcasts/${broadcastId}`);
-    return response.data;
+    try {
+      const response = await api.get<{
+        success: boolean;
+        data: BroadcastDetailResponse;
+      }>(`/broadcasts/${broadcastId}`);
+      
+      console.log('API Response:', response.data);
+      
+      // Backend wraps response in { success: true, data: {...} }
+      const responseData = (response.data as any).data || response.data;
+      
+      // Ensure we always return a safe structure
+      return {
+        broadcast: (responseData as any)?.broadcast || null,
+        responses: (responseData as any)?.responses ?? []
+      };
+    } catch (error) {
+      console.error('Failed to fetch broadcast by ID:', error);
+      // Return safe default structure
+      return {
+        broadcast: null as any,
+        responses: []
+      };
+    }
   },
 
   async cancel(broadcastId: string): Promise<void> {

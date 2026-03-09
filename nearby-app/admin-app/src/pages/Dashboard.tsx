@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Users, Store, Radio, Package, RefreshCw, Loader2, TrendingUp } from 'lucide-react'
+import { Users, Store, Radio, Gift, CheckCircle, AlertTriangle, RefreshCw, Loader2, TrendingUp } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import Layout from '../components/Layout'
 import { apiService, AdminStats } from '../services/api.service'
@@ -54,7 +54,7 @@ const Dashboard: React.FC = () => {
     }
   }
 
-  const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6']
+  const COLORS = ['#22C55E', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6']
 
   if (loading) {
     return (
@@ -86,7 +86,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 mb-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -120,7 +120,7 @@ const Dashboard: React.FC = () => {
               </div>
               <div>
                 <p className="text-2xl font-bold text-gray-900">{stats?.totalMerchants}</p>
-                <p className="text-sm text-gray-500">Merchants</p>
+                <p className="text-sm text-gray-500">Total Merchants</p>
               </div>
             </div>
             <p className="text-xs text-gray-500">Active today: {stats?.activeToday}</p>
@@ -137,11 +137,11 @@ const Dashboard: React.FC = () => {
                 <Radio size={24} className="text-purple-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">{stats?.totalBroadcasts}</p>
-                <p className="text-sm text-gray-500">Broadcasts</p>
+                <p className="text-2xl font-bold text-gray-900">{stats?.totalBroadcasts || 0}</p>
+                <p className="text-sm text-gray-500">Broadcasts Today</p>
               </div>
             </div>
-            <p className="text-xs text-gray-500">Last 30 days</p>
+            <p className="text-xs text-gray-500">User search requests</p>
           </motion.div>
 
           <motion.div
@@ -152,14 +152,50 @@ const Dashboard: React.FC = () => {
           >
             <div className="flex items-center gap-3 mb-3">
               <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center">
-                <Package size={24} className="text-orange-600" />
+                <Gift size={24} className="text-orange-600" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-gray-900">{stats?.totalProducts}</p>
-                <p className="text-sm text-gray-500">Products</p>
+                <p className="text-2xl font-bold text-gray-900">{stats?.totalProducts || 0}</p>
+                <p className="text-sm text-gray-500">Active Offers</p>
               </div>
             </div>
-            <p className="text-xs text-gray-500">Listed by merchants</p>
+            <p className="text-xs text-gray-500">Global & merchant offers</p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="bg-white p-6 rounded-xl border border-gray-200"
+          >
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-12 h-12 rounded-lg bg-amber-100 flex items-center justify-center">
+                <CheckCircle size={24} className="text-amber-600" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-gray-900">{stats?.recentSignups || 0}</p>
+                <p className="text-sm text-gray-500">Pending Approvals</p>
+              </div>
+            </div>
+            <p className="text-xs text-gray-500">Merchant applications</p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="bg-white p-6 rounded-xl border border-gray-200"
+          >
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center">
+                <AlertTriangle size={24} className="text-red-600" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-gray-900">{stats?.activeToday || 0}</p>
+                <p className="text-sm text-gray-500">No Supply</p>
+              </div>
+            </div>
+            <p className="text-xs text-gray-500">Searches with 0 responses</p>
           </motion.div>
         </div>
 
@@ -169,7 +205,7 @@ const Dashboard: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            transition={{ delay: 0.7 }}
             className="bg-white p-6 rounded-xl border border-gray-200"
           >
             <h3 className="text-lg font-bold text-gray-900 mb-4">User Growth</h3>
@@ -179,7 +215,7 @@ const Dashboard: React.FC = () => {
                 <XAxis dataKey="date" tick={{ fontSize: 12 }} />
                 <YAxis tick={{ fontSize: 12 }} />
                 <Tooltip />
-                <Bar dataKey="users" fill="#3B82F6" radius={[8, 8, 0, 0]} />
+                <Bar dataKey="users" fill="#22C55E" radius={[8, 8, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </motion.div>
@@ -188,7 +224,7 @@ const Dashboard: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6 }}
+            transition={{ delay: 0.8 }}
             className="bg-white p-6 rounded-xl border border-gray-200"
           >
             <h3 className="text-lg font-bold text-gray-900 mb-4">Merchants by Category</h3>

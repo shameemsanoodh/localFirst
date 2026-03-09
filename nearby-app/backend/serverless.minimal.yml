@@ -1,0 +1,146 @@
+service: nearby-backend-minimal
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  stage: ${opt:stage, 'dev'}
+  region: ap-south-1
+  environment:
+    MERCHANTS_TABLE: merchants-${self:provider.stage}
+    SHOPS_TABLE: shops-${self:provider.stage}
+    USERS_TABLE: users-${self:provider.stage}
+    BROADCASTS_TABLE: broadcasts-${self:provider.stage}
+    RESPONSES_TABLE: responses-${self:provider.stage}
+    OFFERS_TABLE: offers-${self:provider.stage}
+    INTERACTIONS_TABLE: merchant-interactions-${self:provider.stage}
+    ANALYTICS_TABLE: analytics-${self:provider.stage}
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource:
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.MERCHANTS_TABLE}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.SHOPS_TABLE}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.USERS_TABLE}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.BROADCASTS_TABLE}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.RESPONSES_TABLE}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.OFFERS_TABLE}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.INTERACTIONS_TABLE}
+            - arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.ANALYTICS_TABLE}
+
+functions:
+  # Auth
+  merchantLogin:
+    handler: dist/merchant/login.handler
+    events:
+      - http:
+          path: merchants/login
+          method: post
+          cors: true
+
+  merchantSignup:
+    handler: dist/merchant/signup.handler
+    events:
+      - http:
+          path: merchants/signup
+          method: post
+          cors: true
+
+  # Categories
+  listCategories:
+    handler: dist/categories/list.handler
+    events:
+      - http:
+          path: categories
+          method: get
+          cors: true
+
+  # Shops
+  getNearbyShops:
+    handler: dist/shops/nearby.handler
+    events:
+      - http:
+          path: shops/nearby
+          method: get
+          cors: true
+
+  # Offers
+  getActiveOffers:
+    handler: dist/offers/getActiveOffers.handler
+    events:
+      - http:
+          path: offers/active
+          method: get
+          cors: true
+
+  createMerchantOffer:
+    handler: dist/offers/createMerchantOffer.handler
+    events:
+      - http:
+          path: merchant/broadcast-offers
+          method: post
+          cors: true
+
+  listMerchantBroadcastOffers:
+    handler: dist/offers/getMerchantOffers.handler
+    events:
+      - http:
+          path: merchant/broadcast-offers
+          method: get
+          cors: true
+
+  updateBroadcastOfferStatus:
+    handler: dist/offers/updateOfferStatus.handler
+    events:
+      - http:
+          path: merchant/broadcast-offers/{offerId}
+          method: patch
+          cors: true
+
+  # Broadcasts
+  createBroadcast:
+    handler: dist/broadcasts/create.handler
+    events:
+      - http:
+          path: broadcasts
+          method: post
+          cors: true
+
+  getBroadcast:
+    handler: dist/broadcasts/get.handler
+    events:
+      - http:
+          path: broadcasts/{broadcastId}
+          method: get
+          cors: true
+
+  respondToBroadcast:
+    handler: dist/broadcasts/respond.handler
+    events:
+      - http:
+          path: broadcasts/{broadcastId}/respond
+          method: post
+          cors: true
+
+  getNearbyBroadcasts:
+    handler: dist/broadcasts/nearby.handler
+    events:
+      - http:
+          path: broadcasts/nearby
+          method: get
+          cors: true
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3000
+    noPrependStageInUrl: true

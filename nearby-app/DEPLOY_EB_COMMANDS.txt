@@ -1,0 +1,198 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║           AWS Elastic Beanstalk Deployment Commands                       ║
+║                    Run these commands in order                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+STEP 1: Go to backend directory
+================================
+cd backend
+
+
+STEP 2: Initialize Elastic Beanstalk
+=====================================
+eb init -p node.js-18 nearby-backend --region ap-south-1
+
+What this does:
+- Creates .elasticbeanstalk/config.yml
+- Sets up application name: nearby-backend
+- Sets platform: Node.js 18
+- Sets region: ap-south-1
+
+
+STEP 3: Create Environment (takes ~5-10 minutes)
+=================================================
+eb create nearby-backend-env --instance-type t2.micro
+
+What this does:
+- Creates EC2 instance (t2.micro - free tier)
+- Sets up load balancer
+- Configures security groups
+- Deploys your application
+
+Wait for: "Environment creation completed successfully"
+
+
+STEP 4: Set Environment Variables
+==================================
+eb setenv AWS_REGION=ap-south-1 MERCHANTS_TABLE=merchants-dev SHOPS_TABLE=shops-dev USERS_TABLE=users-dev BROADCASTS_TABLE=broadcasts-dev RESPONSES_TABLE=responses-dev OFFERS_TABLE=offers-dev INTERACTIONS_TABLE=merchant-interactions-dev ANALYTICS_TABLE=analytics-dev
+
+What this does:
+- Sets AWS region
+- Sets DynamoDB table names
+- Backend will connect to your existing tables
+
+
+STEP 5: Deploy Application
+===========================
+eb deploy
+
+What this does:
+- Uploads your code
+- Installs dependencies
+- Starts Node.js server
+- Makes it live
+
+
+STEP 6: Get Your Backend URL
+=============================
+eb status
+
+Look for the "CNAME" field in the output.
+Your URL will be something like:
+  http://nearby-backend-env.ap-south-1.elasticbeanstalk.com
+
+
+STEP 7: Test Backend
+=====================
+# Replace with your actual URL from step 6
+curl http://nearby-backend-env.ap-south-1.elasticbeanstalk.com/health
+
+Expected response:
+{"status":"ok","timestamp":"2026-03-09T..."}
+
+# Test login endpoint
+curl -X POST http://nearby-backend-env.ap-south-1.elasticbeanstalk.com/dev/merchants/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"tech@example.com","passcode":"123456"}'
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    After Successful Deployment                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+STEP 8: Update Frontend Apps
+=============================
+
+# Update merchant app
+cd ../merchant-app
+echo "VITE_API_BASE_URL=http://your-eb-url/dev" > .env.production
+
+# Update customer app
+cd ../customer-app
+echo "VITE_API_BASE_URL=http://your-eb-url/dev" > .env.production
+echo "VITE_MERCHANT_URL=http://nearby-merchant-app.s3-website.ap-south-1.amazonaws.com" >> .env.production
+
+
+STEP 9: Rebuild and Redeploy Frontend
+======================================
+
+# Rebuild merchant app
+cd ../merchant-app
+npm run build
+aws s3 sync dist/ s3://nearby-merchant-app --delete
+
+# Rebuild customer app
+cd ../customer-app
+npm run build
+aws s3 sync dist/ s3://nearby-customer-app --delete
+
+
+STEP 10: Test Production Apps
+==============================
+
+Merchant App:
+http://nearby-merchant-app.s3-website.ap-south-1.amazonaws.com
+
+Customer App:
+http://nearby-customer-app.s3-website.ap-south-1.amazonaws.com
+
+Test login with:
+- Email: tech@example.com
+- Passcode: 123456
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    Useful EB Commands                                     ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+View logs:
+  eb logs
+
+View recent logs:
+  eb logs --stream
+
+SSH into instance:
+  eb ssh
+
+Open in browser:
+  eb open
+
+Check status:
+  eb status
+
+Terminate environment (when done):
+  eb terminate nearby-backend-env
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    Troubleshooting                                        ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+If "eb init" fails:
+- Check AWS credentials: aws sts get-caller-identity
+- Check region: aws configure get region
+
+If "eb create" fails with permissions:
+- You need EC2, Elastic Beanstalk, and IAM permissions
+- Check IAM policy attached to your user
+
+If backend returns errors:
+- Check logs: eb logs
+- Verify environment variables: eb printenv
+- Check DynamoDB table access
+
+If frontend can't connect:
+- Verify backend URL in .env.production
+- Check CORS settings in backend
+- Test backend directly with curl
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    Cost Information                                       ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+t2.micro instance:
+- FREE for first 12 months (750 hours/month)
+- After free tier: ~$8-10/month
+
+Load Balancer (optional):
+- Can be removed to save cost
+- ~$16/month if kept
+
+Total estimated cost:
+- First 12 months: FREE
+- After: $8-25/month depending on configuration
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                    Quick Start Summary                                    ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+cd backend
+eb init -p node.js-18 nearby-backend --region ap-south-1
+eb create nearby-backend-env --instance-type t2.micro
+eb setenv AWS_REGION=ap-south-1 MERCHANTS_TABLE=merchants-dev SHOPS_TABLE=shops-dev USERS_TABLE=users-dev BROADCASTS_TABLE=broadcasts-dev RESPONSES_TABLE=responses-dev OFFERS_TABLE=offers-dev INTERACTIONS_TABLE=merchant-interactions-dev ANALYTICS_TABLE=analytics-dev
+eb deploy
+eb status
+
+Then update frontend apps and redeploy!

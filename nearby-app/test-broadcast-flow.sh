@@ -1,73 +1,121 @@
 #!/bin/bash
 
-# Test the complete broadcast flow
-# 1. Detect category for "milk"
-# 2. Create category-filtered broadcast
-# 3. Verify shops are matched
-
-API_URL="https://aqvvvvvvvv.execute-api.ap-south-1.amazonaws.com/dev"
-
-echo "========================================="
-echo "Testing Broadcast Flow for 'milk'"
-echo "========================================="
+echo "🧪 Testing Broadcast Flow"
+echo "========================="
 echo ""
 
-# Step 1: Detect category
-echo "Step 1: Detecting category for 'milk'..."
-CATEGORY_RESPONSE=$(curl -s -X POST "${API_URL}/ai/detect-category" \
+# Colors
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+API_BASE="http://localhost:3000/dev"
+
+# Step 1: Create a broadcast for "mobile case"
+echo "📡 Step 1: Creating broadcast for 'mobile case'..."
+echo ""
+
+BROADCAST_RESPONSE=$(curl -s -X POST "${API_BASE}/api/broadcasts" \
   -H "Content-Type: application/json" \
   -d '{
-    "query": "milk"
+    "user_id": "test-user-123",
+    "query": "mobile case",
+    "location": {
+      "lat": 10.5742336,
+      "lng": 76.1659392
+    },
+    "radius_km": 5
   }')
 
-echo "Category Detection Response:"
-echo "$CATEGORY_RESPONSE" | jq '.'
+echo "Response:"
+echo "$BROADCAST_RESPONSE" | jq '.' 2>/dev/null || echo "$BROADCAST_RESPONSE"
 echo ""
 
-DETECTED_CATEGORY=$(echo "$CATEGORY_RESPONSE" | jq -r '.data.category')
-echo "Detected Category: $DETECTED_CATEGORY"
-echo ""
+# Extract broadcast_id
+BROADCAST_ID=$(echo "$BROADCAST_RESPONSE" | jq -r '.broadcast_id' 2>/dev/null)
 
-# Step 2: Create category-filtered broadcast
-echo "Step 2: Creating category-filtered broadcast..."
-BROADCAST_RESPONSE=$(curl -s -X POST "${API_URL}/broadcasts/category-filtered" \
-  -H "Content-Type: application/json" \
-  -H "Authorization: Bearer test-token" \
-  -d '{
-    "query": "milk",
-    "detectedCategory": "'"$DETECTED_CATEGORY"'",
-    "userLat": 12.9352,
-    "userLng": 77.6245,
-    "radius": 3,
-    "locality": "Koramangala"
-  }')
-
-echo "Broadcast Response:"
-echo "$BROADCAST_RESPONSE" | jq '.'
-echo ""
-
-MATCHED_COUNT=$(echo "$BROADCAST_RESPONSE" | jq -r '.data.matchedShopsCount')
-BROADCAST_ID=$(echo "$BROADCAST_RESPONSE" | jq -r '.data.broadcast.broadcastId')
-
-echo "========================================="
-echo "Summary:"
-echo "========================================="
-echo "Query: milk"
-echo "Detected Category: $DETECTED_CATEGORY"
-echo "Matched Shops: $MATCHED_COUNT"
-echo "Broadcast ID: $BROADCAST_ID"
-echo ""
-
-if [ "$MATCHED_COUNT" -gt 0 ]; then
-  echo "✅ SUCCESS: Found $MATCHED_COUNT shops matching category '$DETECTED_CATEGORY'"
-  echo ""
-  echo "Matched Shop IDs:"
-  echo "$BROADCAST_RESPONSE" | jq -r '.data.matchedShopIds[]'
-else
-  echo "❌ FAILED: No shops found matching category '$DETECTED_CATEGORY'"
-  echo ""
-  echo "This might be because:"
-  echo "1. No shops in the SHOPS table match the category"
-  echo "2. No shops within 3km radius"
-  echo "3. Shops are not verified"
+if [ "$BROADCAST_ID" = "null" ] || [ -z "$BROADCAST_ID" ]; then
+  echo -e "${RED}❌ Failed to create broadcast${NC}"
+  exit 1
 fi
+
+echo -e "${GREEN}✓ Broadcast created: $BROADCAST_ID${NC}"
+echo ""
+
+# Extract matched merchant IDs
+MERCHANT_IDS=$(echo "$BROADCAST_RESPONSE" | jq -r '.merchant_ids[]' 2>/dev/null)
+MATCHED_COUNT=$(echo "$BROADCAST_RESPONSE" | jq -r '.matched_count' 2>/dev/null)
+
+echo "📊 Broadcast Details:"
+echo "   Matched shops: $MATCHED_COUNT"
+echo "   Merchant IDs: $MERCHANT_IDS"
+echo ""
+
+# Step 2: Login as Mobile Hub merchant
+echo "🔐 Step 2: Logging in as Mobile Hub merchant..."
+echo ""
+
+LOGIN_RESPONSE=$(curl -s -X POST "${API_BASE}/merchants/login" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "mobile1@shop.com",
+    "passcode": "123456"
+  }')
+
+echo "Login Response:"
+echo "$LOGIN_RESPONSE" | jq '.' 2>/dev/null || echo "$LOGIN_RESPONSE"
+echo ""
+
+# Extract token and merchantId
+TOKEN=$(echo "$LOGIN_RESPONSE" | jq -r '.token' 2>/dev/null)
+MERCHANT_ID=$(echo "$LOGIN_RESPONSE" | jq -r '.merchant.merchantId' 2>/dev/null)
+
+if [ "$TOKEN" = "null" ] || [ -z "$TOKEN" ]; then
+  echo -e "${RED}❌ Failed to login${NC}"
+  exit 1
+fi
+
+echo -e "${GREEN}✓ Logged in as merchant: $MERCHANT_ID${NC}"
+echo ""
+
+# Step 3: Check if merchant received the broadcast
+echo "📬 Step 3: Checking merchant's broadcasts..."
+echo ""
+
+MERCHANT_BROADCASTS=$(curl -s -X GET "${API_BASE}/merchant/broadcasts?since=0" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json")
+
+echo "Merchant Broadcasts Response:"
+echo "$MERCHANT_BROADCASTS" | jq '.' 2>/dev/null || echo "$MERCHANT_BROADCASTS"
+echo ""
+
+# Count broadcasts
+BROADCAST_COUNT=$(echo "$MERCHANT_BROADCASTS" | jq '.broadcasts | length' 2>/dev/null)
+
+if [ "$BROADCAST_COUNT" = "0" ] || [ "$BROADCAST_COUNT" = "null" ]; then
+  echo -e "${RED}❌ Merchant did NOT receive the broadcast${NC}"
+  echo ""
+  echo "🔍 Debugging Info:"
+  echo "   Broadcast ID: $BROADCAST_ID"
+  echo "   Merchant ID: $MERCHANT_ID"
+  echo "   Matched Merchant IDs from broadcast: $MERCHANT_IDS"
+  echo ""
+  echo "   Check if merchant ID matches any of the matched IDs above"
+else
+  echo -e "${GREEN}✓ Merchant received $BROADCAST_COUNT broadcast(s)${NC}"
+  
+  # Check if our broadcast is in the list
+  HAS_OUR_BROADCAST=$(echo "$MERCHANT_BROADCASTS" | jq --arg bid "$BROADCAST_ID" '.broadcasts[] | select(.broadcastId == $bid or .broadcast_id == $bid)' 2>/dev/null)
+  
+  if [ -n "$HAS_OUR_BROADCAST" ]; then
+    echo -e "${GREEN}✓ Our broadcast ($BROADCAST_ID) is in the list!${NC}"
+  else
+    echo -e "${YELLOW}⚠ Merchant has broadcasts, but not our specific one${NC}"
+  fi
+fi
+
+echo ""
+echo "========================="
+echo "Test Complete!"

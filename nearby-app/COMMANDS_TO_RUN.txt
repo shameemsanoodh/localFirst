@@ -1,0 +1,102 @@
+═══════════════════════════════════════════════════════════════
+  NearBy Apps - AWS HTTPS Deployment Commands
+═══════════════════════════════════════════════════════════════
+
+📋 STEP 1: Navigate to project folder
+─────────────────────────────────────────────────────────────
+cd nearby-app
+
+
+📋 STEP 2: Run deployment (Choose ONE option)
+─────────────────────────────────────────────────────────────
+
+Option A - Interactive (Recommended):
+./RUN_DEPLOYMENT.sh
+
+Option B - One Command (Fastest):
+./deploy-all-https.sh
+
+Option C - Step by Step:
+./deploy-merchant-https.sh
+./deploy-customer-https.sh
+
+
+📋 STEP 3: Wait for deployment
+─────────────────────────────────────────────────────────────
+⏱️  Deployment: 5-10 minutes
+⏳ CloudFront: 15-20 minutes
+Total: ~25-30 minutes
+
+
+📋 STEP 4: Get your URLs
+─────────────────────────────────────────────────────────────
+cat merchant-app-urls.txt
+cat customer-app-urls.txt
+
+
+📋 STEP 5: Check CloudFront status
+─────────────────────────────────────────────────────────────
+aws cloudfront list-distributions --query 'DistributionList.Items[*].[Comment,Status,DomainName]' --output table
+
+Wait for Status = "Deployed"
+
+
+📋 STEP 6: Test your apps
+─────────────────────────────────────────────────────────────
+
+Merchant App:
+1. Open: https://xxxxx.cloudfront.net (from merchant-app-urls.txt)
+2. Go to /signup or /login
+3. Login with existing merchant: email + 123456
+4. Create offer: "20% off on mobile cases"
+5. Set validity: 24 hours
+6. Check offers management page
+
+Customer App:
+1. Open: https://yyyyy.cloudfront.net (from customer-app-urls.txt)
+2. Click "Register Your Shop" → Should open merchant signup
+3. View offers page → Should show your offer
+4. Click "Get Directions" → Should open Google Maps
+5. Test category filtering
+
+
+═══════════════════════════════════════════════════════════════
+  Quick Reference
+═══════════════════════════════════════════════════════════════
+
+Deploy everything:
+  ./deploy-all-https.sh
+
+Update deployment:
+  ./deploy-all-https.sh
+  
+Clear CloudFront cache:
+  DIST_ID="your-distribution-id"
+  aws cloudfront create-invalidation --distribution-id $DIST_ID --paths "/*"
+
+Check status:
+  aws cloudfront list-distributions
+  aws s3 ls | grep nearby
+
+View URLs:
+  cat merchant-app-urls.txt
+  cat customer-app-urls.txt
+
+
+═══════════════════════════════════════════════════════════════
+  Documentation
+═══════════════════════════════════════════════════════════════
+
+START_DEPLOYMENT.md          - Quick start guide
+DEPLOY_NOW.md                - One-command reference
+HTTPS_DEPLOYMENT_GUIDE.md    - Complete guide
+DEPLOYMENT_COMPLETE.md       - Technical details
+DEPLOYMENT_SUMMARY.md        - Overview
+
+
+═══════════════════════════════════════════════════════════════
+  Ready? Run this command:
+═══════════════════════════════════════════════════════════════
+
+./RUN_DEPLOYMENT.sh
+

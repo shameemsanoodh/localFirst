@@ -21,18 +21,36 @@ export interface Merchant {
   subCategory: string
   location: { lat: number; lng: number }
   address: string
-  status: 'active' | 'suspended'
+  city?: string
+  status: 'active' | 'suspended' | 'pending'
   createdAt: string
   onboardingCompleted: boolean
+  responseRate?: number
+  capabilitiesEnabled?: string[]
+  broadcastHistory?: Array<{
+    broadcastId: string
+    query: string
+    responseType: string
+    timestamp: string
+  }>
 }
 
 export interface User {
   userId: string
   phone: string
+  email?: string
   name?: string
   location?: { lat: number; lng: number; area?: string }
   createdAt: string
   status: 'active' | 'suspended'
+  lastActive?: string
+  totalSearches?: number
+  searchHistory?: Array<{
+    broadcastId: string
+    query: string
+    timestamp: string
+    responseCount: number
+  }>
 }
 
 export interface Broadcast {
@@ -62,9 +80,52 @@ export interface SearchTrend {
   trend: 'up' | 'down' | 'stable'
 }
 
+export interface AnalyticsData {
+  topQueries: Array<{ query: string; count: number }>
+  topCategories: Array<{ category: string; count: number }>
+  supplyGaps: Array<{ query: string; count: number; category?: string }>
+  searchesPerDay: Array<{ date: string; count: number }>
+  categoryDistribution: Array<{ category: string; count: number; percentage: number }>
+}
+
+export interface Query {
+  queryId: string
+  senderType: 'user' | 'merchant'
+  senderPhone: string
+  message: string
+  status: 'pending' | 'reviewed'
+  createdAt: string
+}
+
+export interface Config {
+  searchRadiusKm: number
+  globalOffersEnabled: boolean
+  lastUpdated?: string
+}
+
+export interface Offer {
+  offerId: string
+  merchantId?: string
+  merchantName?: string
+  title: string
+  description: string
+  status: 'active' | 'paused'
+  expiresAt?: string
+  createdAt: string
+  isGlobal: boolean
+}
+
+export interface NotificationPayload {
+  audience: 'all_users' | 'all_merchants' | 'city'
+  city?: string
+  title: string
+  message: string
+}
+
 class ApiService {
   private async fetch(endpoint: string, options?: RequestInit) {
     const token = localStorage.getItem('admin-token')
+
     const response = await fetch(`${API_BASE_URL}${endpoint}`, {
       ...options,
       headers: {
@@ -74,8 +135,32 @@ class ApiService {
       },
     })
 
+    if (response.status === 401) {
+      // Token expired or invalid, redirect to login
+      localStorage.removeItem('admin-token')
+      window.location.href = '/login'
+      throw new Error('Unauthorized')
+    }
+
     if (!response.ok) {
-      throw new Error(`API Error: ${response.statusText}`)
+      const errorData = await response.json().catch(() => ({}))
+      throw new Error(errorData.message || `API Error: ${response.statusText}`)
+    }
+
+    return response.json()
+  }
+
+  // Auth
+  async login(email: string, password: string): Promise<{ token: string; admin: any }> {
+    const response = await fetch(`${API_BASE_URL}/admin/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      throw new Error(errorData.message || 'Login failed')
     }
 
     return response.json()
@@ -92,11 +177,24 @@ class ApiService {
   }
 
   async suspendMerchant(merchantId: string): Promise<void> {
-    return this.fetch(`/admin/merchants/${merchantId}/suspend`, { method: 'POST' })
+    return this.fetch(`/admin/merchants/${merchantId}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status: 'suspended' })
+    })
   }
 
   async activateMerchant(merchantId: string): Promise<void> {
-    return this.fetch(`/admin/merchants/${merchantId}/activate`, { method: 'POST' })
+    return this.fetch(`/admin/merchants/${merchantId}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status: 'active' })
+    })
+  }
+
+  async approveMerchant(merchantId: string): Promise<void> {
+    return this.fetch(`/admin/merchants/${merchantId}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status: 'active' })
+    })
   }
 
   async deleteMerchant(merchantId: string): Promise<void> {
@@ -108,12 +206,22 @@ class ApiService {
     return this.fetch('/admin/users')
   }
 
+  async getUserHistory(userId: string): Promise<User['searchHistory']> {
+    return this.fetch(`/admin/users/${userId}/history`)
+  }
+
   async suspendUser(userId: string): Promise<void> {
-    return this.fetch(`/admin/users/${userId}/suspend`, { method: 'POST' })
+    return this.fetch(`/admin/users/${userId}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status: 'suspended' })
+    })
   }
 
   async activateUser(userId: string): Promise<void> {
-    return this.fetch(`/admin/users/${userId}/activate`, { method: 'POST' })
+    return this.fetch(`/admin/users/${userId}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status: 'active' })
+    })
   }
 
   async deleteUser(userId: string): Promise<void> {
@@ -137,6 +245,69 @@ class ApiService {
   // Search Analytics
   async getSearchTrends(): Promise<SearchTrend[]> {
     return this.fetch('/admin/analytics/search')
+  }
+
+  async getAnalytics(): Promise<AnalyticsData> {
+    return this.fetch('/admin/analytics/search')
+  }
+
+  // Queries
+  async getQueries(): Promise<Query[]> {
+    return this.fetch('/admin/queries')
+  }
+
+  async markQueryReviewed(queryId: string): Promise<void> {
+    return this.fetch(`/admin/queries/${queryId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status: 'reviewed' })
+    })
+  }
+
+  async deleteQuery(queryId: string): Promise<void> {
+    return this.fetch(`/admin/queries/${queryId}`, { method: 'DELETE' })
+  }
+
+  // Config
+  async getConfig(): Promise<Config> {
+    return this.fetch('/admin/config')
+  }
+
+  async updateConfig(config: Partial<Config>): Promise<void> {
+    return this.fetch('/admin/config', {
+      method: 'PATCH',
+      body: JSON.stringify(config)
+    })
+  }
+
+  // Offers
+  async getOffers(): Promise<Offer[]> {
+    return this.fetch('/admin/offers')
+  }
+
+  async createOffer(offer: Omit<Offer, 'offerId' | 'createdAt'>): Promise<Offer> {
+    return this.fetch('/admin/offers', {
+      method: 'POST',
+      body: JSON.stringify(offer)
+    })
+  }
+
+  async updateOfferStatus(offerId: string, status: 'active' | 'paused'): Promise<void> {
+    return this.fetch(`/admin/offers/${offerId}/status`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status })
+    })
+  }
+
+  async deleteOffer(offerId: string): Promise<void> {
+    return this.fetch(`/admin/offers/${offerId}`, { method: 'DELETE' })
+  }
+
+  // Notifications
+  async sendNotification(payload: NotificationPayload): Promise<void> {
+    return this.fetch('/admin/notifications', {
+      method: 'POST',
+      body: JSON.stringify(payload)
+    })
   }
 }
 

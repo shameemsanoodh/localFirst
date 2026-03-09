@@ -60,7 +60,7 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({ categories = [], isL
           return (
             <button
               key={category.categoryId}
-              onClick={() => navigate(`/categories/${category.categoryId}`)}
+              onClick={() => navigate(`/categories?filter=${category.categoryId}`)}
               className="flex flex-col items-center gap-2.5 snap-start group"
               style={{ minWidth: 'calc((100% - 48px) / 4)' }}
             >
@@ -88,7 +88,7 @@ export const CategoryGrid: React.FC<CategoryGridProps> = ({ categories = [], isL
           return (
             <button
               key={category.categoryId}
-              onClick={() => navigate(`/categories/${category.categoryId}`)}
+              onClick={() => navigate(`/categories?filter=${category.categoryId}`)}
               className="flex flex-col items-center gap-3 group p-3 rounded-2xl hover:bg-gray-50 transition-all duration-200"
             >
               <div className="w-24 h-24 rounded-full overflow-hidden bg-white shadow-card group-hover:shadow-card-hover group-hover:scale-105 transition-all duration-300 ring-2 ring-white">

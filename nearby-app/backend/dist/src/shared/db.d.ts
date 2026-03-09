@@ -8,6 +8,10 @@ export declare const Tables: {
     BROADCASTS: string;
     ORDERS: string;
     SHOPS: string;
+    ANALYTICS: string;
+    PRODUCTS: string;
+    CONFIG: string;
+    QUERIES: string;
 };
 export declare const db: {
     get: (tableName: string, key: Record<string, unknown>) => Promise<Record<string, any>>;

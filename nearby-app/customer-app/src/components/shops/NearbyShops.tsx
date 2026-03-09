@@ -56,6 +56,11 @@ export const NearbyShops: React.FC = () => {
     );
   }
 
+  // Get unique shops (deduplicate by shopId) and limit to 6
+  const uniqueShops = Array.from(
+    new Map(shops.map(shop => [shop.shopId, shop])).values()
+  ).slice(0, 6);
+
   return (
     <section className="py-6">
       {/* Section Header */}
@@ -67,7 +72,7 @@ export const NearbyShops: React.FC = () => {
           </p>
         </div>
         <button
-          onClick={() => navigate('/shops')}
+          onClick={() => navigate('/nearby')}
           className="text-sm font-semibold text-blue-600 hover:text-blue-700"
         >
           View All
@@ -76,7 +81,7 @@ export const NearbyShops: React.FC = () => {
 
       {/* Loading State */}
       {isLoading && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide md:grid md:grid-cols-3 md:overflow-visible">
           <ShopCardSkeleton />
           <ShopCardSkeleton />
           <ShopCardSkeleton />
@@ -100,7 +105,7 @@ export const NearbyShops: React.FC = () => {
       )}
 
       {/* Empty State */}
-      {!isLoading && !error && shops.length === 0 && (
+      {!isLoading && !error && uniqueShops.length === 0 && (
         <div className="bg-gray-50 border border-gray-200 rounded-xl p-8 text-center">
           <div className="text-6xl mb-4">🏪</div>
           <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -112,17 +117,32 @@ export const NearbyShops: React.FC = () => {
         </div>
       )}
 
-      {/* Shops Grid */}
-      {!isLoading && !error && shops.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {shops.map((shop) => (
-            <ShopCard
-              key={shop.shopId}
-              shop={shop}
-              onClick={() => navigate(`/shop/${shop.shopId}`)}
-            />
-          ))}
-        </div>
+      {/* Shops - Horizontal Scroll on Mobile, 3-Column Grid on Desktop */}
+      {!isLoading && !error && uniqueShops.length > 0 && (
+        <>
+          {/* Mobile: Horizontal Scroll */}
+          <div className="md:hidden flex gap-4 overflow-x-auto pb-4 -mx-4 px-4 scrollbar-hide snap-x snap-mandatory">
+            {uniqueShops.map((shop) => (
+              <div key={shop.shopId} className="flex-shrink-0 w-[280px] snap-start">
+                <ShopCard
+                  shop={shop}
+                  onClick={() => navigate(`/shop/${shop.shopId}`)}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: 3-Column Grid */}
+          <div className="hidden md:grid md:grid-cols-3 gap-6">
+            {uniqueShops.map((shop) => (
+              <ShopCard
+                key={shop.shopId}
+                shop={shop}
+                onClick={() => navigate(`/shop/${shop.shopId}`)}
+              />
+            ))}
+          </div>
+        </>
       )}
     </section>
   );

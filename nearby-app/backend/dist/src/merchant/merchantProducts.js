@@ -17,25 +17,31 @@ export const handler = async (event) => {
         'Access-Control-Allow-Headers': 'Content-Type,Authorization',
     };
     try {
-        // Get merchantId from auth context
-        const userId = event.requestContext?.authorizer?.userId
-            || event.headers?.['x-user-id']
-            || 'unknown';
+        // Get merchantId from authorizer context
+        const merchantId = event.requestContext?.authorizer?.merchantId
+            || event.requestContext?.authorizer?.userId;
+        if (!merchantId) {
+            return {
+                statusCode: 401,
+                headers,
+                body: JSON.stringify({ error: 'Unauthorized - merchantId not found' }),
+            };
+        }
         const method = event.httpMethod;
         const productId = event.pathParameters?.productId;
         if (method === 'GET') {
-            return await listProducts(userId, headers);
+            return await listProducts(merchantId, headers);
         }
         else if (method === 'POST') {
             const body = JSON.parse(event.body || '{}');
-            return await addProduct(userId, body, headers);
+            return await addProduct(merchantId, body, headers);
         }
         else if (method === 'PUT' && productId) {
             const body = JSON.parse(event.body || '{}');
-            return await updateProduct(userId, productId, body, headers);
+            return await updateProduct(merchantId, productId, body, headers);
         }
         else if (method === 'DELETE' && productId) {
-            return await deleteProduct(userId, productId, headers);
+            return await deleteProduct(merchantId, productId, headers);
         }
         return {
             statusCode: 405,

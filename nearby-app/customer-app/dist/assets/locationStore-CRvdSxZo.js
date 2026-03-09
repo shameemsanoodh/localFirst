@@ -1,1 +1,0 @@
-import{k as c}from"./index-DozVukPv.js";const i=c(l=>({lat:null,lng:null,city:"",area:"",state:"",location:null,setLocation:(t,a,o="",n="")=>l({lat:t,lng:a,city:o,area:n,location:{lat:t,lng:a}}),clearLocation:()=>l({lat:null,lng:null,city:"",area:"",state:"",location:null})}));export{i as u};

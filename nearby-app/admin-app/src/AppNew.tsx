@@ -68,7 +68,7 @@ function AppNew() {
             >
               <Menu size={24} className="text-gray-700" />
             </button>
-            <h1 className="text-lg font-bold text-gray-900">Studio Admin</h1>
+            <h1 className="text-lg font-bold text-gray-900">NearBy Admin</h1>
             <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white font-semibold">
               A
             </div>

@@ -41,6 +41,7 @@ export const handler = async (event: APIGatewayRequestAuthorizerEvent): Promise<
       },
       context: {
         userId: payload.userId,
+        merchantId: payload.userId, // merchantId is same as userId for merchants
         email: payload.email,
         roles: JSON.stringify(payload.roles),
       },

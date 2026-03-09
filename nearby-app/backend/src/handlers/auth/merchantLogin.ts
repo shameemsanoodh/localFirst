@@ -1,6 +1,7 @@
 import { APIGatewayProxyHandler } from 'aws-lambda'
 import AWS from 'aws-sdk'
 const { DynamoDB } = AWS
+import jwt from 'jsonwebtoken'
 import { verifyPasscode } from '../../utils/hashPassword.js'
 import { generateToken } from '../../utils/jwt.js'
 
@@ -86,13 +87,20 @@ export const handler: APIGatewayProxyHandler = async (event) => {
       }
     }).promise()
 
-    // Generate JWT token
+    // Generate JWT token compatible with authorizer
     const token = generateToken({
       merchantId: merchant.merchantId,
       email: merchant.email,
       role: 'merchant',
       phone: merchant.phone
     })
+
+    // Also generate token for authorizer (uses different format)
+    const authToken = jwt.sign({
+      userId: merchant.merchantId,
+      email: merchant.email,
+      roles: ['merchant']
+    }, process.env.JWT_SECRET || 'your-secret-key-change-in-production', { expiresIn: '7d' })
 
     return {
       statusCode: 200,
@@ -102,7 +110,7 @@ export const handler: APIGatewayProxyHandler = async (event) => {
       },
       body: JSON.stringify({
         success: true,
-        token,
+        token: authToken, // Use authorizer-compatible token
         merchant: {
           merchantId: merchant.merchantId,
           shopName: merchant.shopName,
@@ -110,8 +118,12 @@ export const handler: APIGatewayProxyHandler = async (event) => {
           phone: merchant.phone,
           ownerName: merchant.ownerName,
           majorCategory: merchant.majorCategory,
+          category: merchant.category,
           subCategory: merchant.subCategory,
           capabilities: merchant.capabilities,
+          location: merchant.location,
+          openTime: merchant.openTime,
+          closeTime: merchant.closeTime,
           isOpen: merchant.isOpen,
           onboardingCompleted: merchant.onboardingCompleted || false
         }

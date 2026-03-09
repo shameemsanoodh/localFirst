@@ -11,6 +11,10 @@ export const Tables = {
     BROADCASTS: process.env.BROADCASTS_TABLE,
     ORDERS: process.env.ORDERS_TABLE,
     SHOPS: process.env.SHOPS_TABLE,
+    ANALYTICS: process.env.ANALYTICS_TABLE,
+    PRODUCTS: process.env.PRODUCTS_TABLE,
+    CONFIG: process.env.CONFIG_TABLE,
+    QUERIES: process.env.QUERIES_TABLE,
 };
 export const db = {
     get: async (tableName, key) => {

@@ -29,15 +29,22 @@ export const offersService = {
   },
 
   async getNearby(params: NearbyOffersRequest): Promise<Offer[]> {
-    const queryParams = new URLSearchParams({
-      lat: params.lat.toString(),
-      lng: params.lng.toString(),
-      radius: (params.radius || 5).toString(),
-    });
-    if (params.categoryId) queryParams.append('categoryId', params.categoryId);
+    try {
+      const queryParams = new URLSearchParams({
+        lat: params.lat.toString(),
+        lng: params.lng.toString(),
+        radius: (params.radius || 5).toString(),
+      });
+      if (params.categoryId) queryParams.append('categoryId', params.categoryId);
 
-    const response = await api.get<{ offers: Offer[] }>(`/offers/nearby?${queryParams}`);
-    return response.data.offers;
+      const response = await api.get<{ offers: Offer[] }>(`/offers/nearby?${queryParams}`);
+      
+      // Ensure we always return an array, never undefined
+      return response.data?.offers ?? [];
+    } catch (error) {
+      console.error('Failed to fetch nearby offers:', error);
+      return []; // Return empty array on error
+    }
   },
 
   async getById(offerId: string): Promise<Offer> {

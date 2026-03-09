@@ -1,0 +1,25 @@
+#!/bin/bash
+
+echo "🧪 Testing Merchant Broadcast Offer API"
+echo ""
+
+# Get merchant token (you need to login first)
+echo "📝 First, login as merchant to get token:"
+echo ""
+echo "curl -X POST http://localhost:3000/dev/merchants/login \\"
+echo "  -H 'Content-Type: application/json' \\"
+echo "  -d '{\"email\":\"merchant1@example.com\",\"passcode\":\"123456\"}'"
+echo ""
+echo "Copy the token from the response, then run:"
+echo ""
+echo "TOKEN='your-token-here'"
+echo ""
+echo "curl -X POST http://localhost:3000/dev/merchant/offers \\"
+echo "  -H 'Content-Type: application/json' \\"
+echo "  -H 'Authorization: Bearer \$TOKEN' \\"
+echo "  -d '{"
+echo "    \"offer\": \"20% off on mobile cases\","
+echo "    \"message\": \"Limited time offer!\","
+echo "    \"validityHours\": 12"
+echo "  }'"
+echo ""

@@ -7,6 +7,10 @@ import SearchAnalytics from './pages/SearchAnalytics'
 import Merchants from './pages/Merchants'
 import Users from './pages/Users'
 import Broadcasts from './pages/Broadcasts'
+import Queries from './pages/Queries'
+import Locations from './pages/Locations'
+import Offers from './pages/Offers'
+import Notifications from './pages/Notifications'
 import { useAuthStore } from './store/authStore'
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -28,18 +32,10 @@ function App() {
           }
         />
         <Route
-          path="/location"
+          path="/users"
           element={
             <ProtectedRoute>
-              <LocationAnalytics />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/search"
-          element={
-            <ProtectedRoute>
-              <SearchAnalytics />
+              <Users />
             </ProtectedRoute>
           }
         />
@@ -52,10 +48,34 @@ function App() {
           }
         />
         <Route
-          path="/users"
+          path="/queries"
           element={
             <ProtectedRoute>
-              <Users />
+              <Queries />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/locations"
+          element={
+            <ProtectedRoute>
+              <Locations />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/offers"
+          element={
+            <ProtectedRoute>
+              <Offers />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/notifications"
+          element={
+            <ProtectedRoute>
+              <Notifications />
             </ProtectedRoute>
           }
         />
@@ -64,6 +84,22 @@ function App() {
           element={
             <ProtectedRoute>
               <Broadcasts />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/analytics/location"
+          element={
+            <ProtectedRoute>
+              <LocationAnalytics />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/analytics/search"
+          element={
+            <ProtectedRoute>
+              <SearchAnalytics />
             </ProtectedRoute>
           }
         />

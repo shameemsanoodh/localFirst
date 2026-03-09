@@ -1,0 +1,13 @@
+{
+  "name": "nearby-demo-seeder",
+  "version": "1.0.0",
+  "description": "Demo data seeder for NearBy app",
+  "scripts": {
+    "seed": "node seed-demo-data.js"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1693.0",
+    "axios": "^1.13.6",
+    "bcryptjs": "^3.0.3"
+  }
+}

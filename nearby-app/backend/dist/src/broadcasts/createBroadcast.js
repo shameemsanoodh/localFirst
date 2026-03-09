@@ -1,15 +1,22 @@
 import AWS from 'aws-sdk';
 import { v4 as uuidv4 } from 'uuid';
 import { notifications } from '../shared/notifications';
-import geohash from 'ngeohash';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const bedrock = new AWS.BedrockRuntime({ region: 'ap-south-1' });
 const BROADCASTS_TABLE = process.env.BROADCASTS_TABLE || 'nearby-broadcasts';
 const MERCHANTS_TABLE = process.env.MERCHANTS_TABLE || 'nearby-merchants';
 export const handler = async (event) => {
+    console.log('=== BROADCAST CREATION STARTED ===');
+    console.log('Event body:', event.body);
     try {
         const body = JSON.parse(event.body || '{}');
+        console.log('Parsed body:', JSON.stringify(body, null, 2));
         if (!body.user_id || !body.query || !body.location) {
+            console.log('Missing required fields:', {
+                has_user_id: !!body.user_id,
+                has_query: !!body.query,
+                has_location: !!body.location
+            });
             return {
                 statusCode: 400,
                 headers: { 'Content-Type': 'application/json' },
@@ -20,14 +27,25 @@ export const handler = async (event) => {
             };
         }
         const radius_km = body.radius_km || 2;
+        console.log('Using radius:', radius_km, 'km');
         // Step 1: Use Bedrock to detect capabilities from query
+        console.log('Step 1: Detecting capabilities for query:', body.query);
         const detectedCapabilities = await detectCapabilities(body.query);
+        console.log('Detected capabilities:', detectedCapabilities);
         // Step 2: Find nearby merchants with matching capabilities
+        console.log('Step 2: Finding matching merchants...');
         const matchedMerchants = await findMatchingMerchants(body.location, radius_km, detectedCapabilities.capability_ids);
+        console.log('Found', matchedMerchants.length, 'matching merchants');
         // Step 3: Create broadcast record
         const broadcast_id = `BC_${uuidv4().substring(0, 8).toUpperCase()}`;
+        // Extract merchant IDs from matched merchants
+        const merchantIds = matchedMerchants
+            .map(m => m.merchant_id)
+            .filter(id => id); // Filter out any undefined values
+        console.log('Creating broadcast with merchant IDs:', merchantIds);
         const broadcast = {
-            broadcast_id,
+            broadcastId: broadcast_id, // Use camelCase for DynamoDB
+            broadcast_id, // Keep snake_case for backward compatibility in response
             user_id: body.user_id,
             query: body.query,
             detected_capabilities: detectedCapabilities.capability_ids,
@@ -36,15 +54,19 @@ export const handler = async (event) => {
             radius_km,
             status: 'active',
             matched_shops_count: matchedMerchants.length,
+            matched_merchant_ids: merchantIds, // Store actual merchant IDs
             responses_count: 0,
             created_at: Date.now(),
             expires_at: Date.now() + (60 * 60 * 1000) // 1 hour expiry
         };
+        console.log('Saving broadcast to DynamoDB...');
         await dynamodb.put({
             TableName: BROADCASTS_TABLE,
             Item: broadcast
         }).promise();
+        console.log('Broadcast saved successfully!');
         // Step 4: Send SNS notifications to matched merchants
+        console.log('Step 4: Sending notifications to', matchedMerchants.length, 'merchants');
         for (const merchant of matchedMerchants) {
             try {
                 await notifications.notifyMerchant({
@@ -65,6 +87,7 @@ export const handler = async (event) => {
                 console.warn(`SNS notification failed for merchant ${merchant.shop_id}:`, notifErr);
             }
         }
+        console.log('=== BROADCAST CREATION COMPLETED ===');
         return {
             statusCode: 201,
             headers: {
@@ -79,14 +102,18 @@ export const handler = async (event) => {
                 matched_shops: matchedMerchants.map(m => ({
                     shop_id: m.shop_id,
                     shop_name: m.shop_name,
-                    distance_km: m.distance_km
+                    distance_km: m.distance_km,
+                    merchant_id: m.merchant_id
                 })),
-                matched_count: matchedMerchants.length
+                matched_count: matchedMerchants.length,
+                merchant_ids: merchantIds
             })
         };
     }
     catch (error) {
+        console.error('=== BROADCAST CREATION ERROR ===');
         console.error('Error creating broadcast:', error);
+        console.error('Error stack:', error.stack);
         return {
             statusCode: 500,
             headers: { 'Content-Type': 'application/json' },
@@ -98,6 +125,15 @@ export const handler = async (event) => {
     }
 };
 async function detectCapabilities(query) {
+    // Skip Bedrock in local development - use simple keyword matching
+    const isLocal = process.env.IS_OFFLINE === 'true' || !process.env.AWS_EXECUTION_ENV;
+    if (isLocal) {
+        console.log('Using local keyword matching (Bedrock skipped)');
+        return {
+            capability_ids: extractKeywords(query),
+            category: 'Mobile'
+        };
+    }
     try {
         // Use Claude via Bedrock to classify the query
         const prompt = `You are a capability classifier for a local shop discovery app.
@@ -160,40 +196,84 @@ function extractKeywords(query) {
 }
 async function findMatchingMerchants(location, radius_km, capability_ids) {
     try {
-        // Get geohash for the location
-        const centerHash = geohash.encode(location.lat, location.lng, 5);
-        // Get nearby geohashes (including neighbors)
-        const neighbors = geohash.neighbors(centerHash);
-        const searchHashes = [centerHash, ...Object.values(neighbors)];
-        // Query merchants by geohash
-        const merchants = [];
-        for (const hash of searchHashes) {
-            const result = await dynamodb.query({
-                TableName: MERCHANTS_TABLE,
-                IndexName: 'location-index',
-                KeyConditionExpression: 'location_geohash = :hash',
-                ExpressionAttributeValues: {
-                    ':hash': hash
+        console.log('Finding merchants near:', location, 'radius:', radius_km, 'capabilities:', capability_ids);
+        // For now, scan all shops since we don't have geohash index
+        // In production, you'd want to use a geohash-based GSI
+        const SHOPS_TABLE = process.env.SHOPS_TABLE || 'nearby-backend-dev-shops';
+        const result = await dynamodb.scan({
+            TableName: SHOPS_TABLE,
+            FilterExpression: 'attribute_exists(#loc) AND #pk = :shopPrefix',
+            ExpressionAttributeNames: {
+                '#loc': 'location',
+                '#pk': 'PK'
+            },
+            ExpressionAttributeValues: {
+                ':shopPrefix': 'SHOP'
+            }
+        }).promise();
+        const shops = result.Items || [];
+        console.log(`Found ${shops.length} shops in database`);
+        // Calculate distance and filter by radius and category
+        const matched = shops
+            .map((shop) => {
+            if (!shop.location || !shop.location.lat || !shop.location.lng) {
+                return null;
+            }
+            const distance = calculateDistance(location.lat, location.lng, shop.location.lat, shop.location.lng);
+            return {
+                ...shop,
+                distance_km: distance,
+                shop_id: shop.SK, // Use SK as shop_id
+                shop_name: shop.name
+            };
+        })
+            .filter((shop) => {
+            if (!shop)
+                return false;
+            // Filter by distance
+            if (shop.distance_km > radius_km)
+                return false;
+            // For mobile-related queries, match Mobile category shops
+            const query_lower = capability_ids.join(' ').toLowerCase();
+            const shop_category = (shop.majorCategory || shop.category || '').toLowerCase();
+            // Simple category matching - can be enhanced with AI
+            if (query_lower.includes('mobile') || query_lower.includes('phone') ||
+                query_lower.includes('case') || query_lower.includes('glass')) {
+                return shop_category.includes('mobile');
+            }
+            // Match by category for other queries
+            return true; // For now, return all nearby shops
+        })
+            .sort((a, b) => a.distance_km - b.distance_km);
+        console.log(`Matched ${matched.length} shops:`, matched.map((m) => ({ name: m.shop_name, distance: m.distance_km, category: m.majorCategory })));
+        // Now get the merchant IDs for these shops
+        const MERCHANTS_TABLE = process.env.MERCHANTS_TABLE || 'nearby-backend-dev-merchants';
+        const merchantIds = [];
+        for (const shop of matched) {
+            try {
+                // Query merchants table to find merchant by shopId
+                const merchantResult = await dynamodb.scan({
+                    TableName: MERCHANTS_TABLE,
+                    FilterExpression: 'shopId = :shopId',
+                    ExpressionAttributeValues: {
+                        ':shopId': shop.shopId
+                    }
+                }).promise();
+                if (merchantResult.Items && merchantResult.Items.length > 0) {
+                    const merchant = merchantResult.Items[0];
+                    merchantIds.push(merchant.merchantId);
+                    console.log(`  Matched merchant: ${merchant.merchantId} for shop: ${shop.shop_name}`);
                 }
-            }).promise();
-            if (result.Items) {
-                merchants.push(...result.Items);
+            }
+            catch (err) {
+                console.error(`Error finding merchant for shop ${shop.shopId}:`, err);
             }
         }
-        // Filter by capabilities and calculate distance
-        const matched = merchants
-            .filter(m => {
-            // Check if merchant has any of the required capabilities
-            const hasCapability = capability_ids.some(cap => m.capabilities_enabled.includes(cap));
-            return hasCapability && m.is_live;
-        })
-            .map(m => {
-            const distance = calculateDistance(location.lat, location.lng, m.location.lat, m.location.lng);
-            return { ...m, distance_km: distance };
-        })
-            .filter(m => m.distance_km <= radius_km)
-            .sort((a, b) => a.distance_km - b.distance_km);
-        return matched;
+        console.log(`Total merchant IDs to notify: ${merchantIds.length}`, merchantIds);
+        return matched.map((m, index) => ({
+            ...m,
+            merchant_id: merchantIds[index] // Add merchant_id to each matched shop
+        }));
     }
     catch (error) {
         console.error('Error finding merchants:', error);

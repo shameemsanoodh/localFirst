@@ -1,0 +1,121 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                  NearBy Backend Deployment Options                         ║
+║                    (Lambda Alternative Solutions)                          ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+PROBLEM:
+--------
+AWS Lambda service is DISABLED on your account (202963740563)
+Cannot deploy using Serverless Framework
+
+SOLUTION:
+---------
+Deploy to alternative platforms that don't require Lambda
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│                         DEPLOYMENT OPTIONS                                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  1. RAILWAY.APP (RECOMMENDED)                                              │
+│     ⚡ Fastest: 5 minutes                                                  │
+│     💰 Cost: FREE ($5 credit/month)                                        │
+│     🔒 HTTPS: Automatic                                                    │
+│     📈 Scaling: Automatic                                                  │
+│     ⭐ Ease: ⭐⭐⭐⭐⭐                                                      │
+│                                                                            │
+│     Command: ./DEPLOY_BACKEND_NOW.sh → Choose option 1                    │
+│                                                                            │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  2. RENDER.COM                                                             │
+│     🆓 Free: Forever (with limits)                                         │
+│     ⏱️  Time: 10 minutes                                                   │
+│     🔒 HTTPS: Automatic                                                    │
+│     📈 Scaling: Automatic                                                  │
+│     ⭐ Ease: ⭐⭐⭐⭐                                                        │
+│                                                                            │
+│     Command: ./DEPLOY_BACKEND_NOW.sh → Choose option 2                    │
+│                                                                            │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  3. AWS ELASTIC BEANSTALK                                                  │
+│     ☁️  AWS: Native AWS service                                            │
+│     ⏱️  Time: 30 minutes                                                   │
+│     💰 Cost: FREE tier (12 months), then $15/month                         │
+│     🔒 HTTPS: Manual setup                                                 │
+│     📈 Scaling: Manual configuration                                       │
+│     ⭐ Ease: ⭐⭐⭐                                                          │
+│                                                                            │
+│     Command: ./DEPLOY_BACKEND_NOW.sh → Choose option 3                    │
+│                                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+FILES CREATED:
+--------------
+✅ backend/server.js                    - Express server (Lambda alternative)
+✅ deploy-railway.sh                    - Railway deployment script
+✅ deploy-render.sh                     - Render deployment script
+✅ deploy-elasticbeanstalk.sh           - Elastic Beanstalk script
+✅ DEPLOY_BACKEND_NOW.sh                - Interactive deployment chooser
+✅ START_HERE.md                        - Quick start guide
+✅ QUICK_DEPLOY_GUIDE.md                - Step-by-step instructions
+✅ DEPLOY_WITHOUT_LAMBDA.md             - Detailed deployment guide
+✅ DEPLOYMENT_ALTERNATIVES.md           - Platform comparison
+
+QUICK START:
+------------
+cd nearby-app
+./DEPLOY_BACKEND_NOW.sh
+
+Then follow the interactive prompts!
+
+WHAT GETS DEPLOYED:
+-------------------
+✅ All backend endpoints (merchants, auth, broadcasts, offers, etc.)
+✅ Connects to existing DynamoDB tables in AWS
+✅ Automatic HTTPS (Railway & Render)
+✅ Health check endpoint
+✅ Production-ready Express server
+
+ENVIRONMENT VARIABLES NEEDED:
+-----------------------------
+AWS_REGION=ap-south-1
+AWS_ACCESS_KEY_ID=your-key
+AWS_SECRET_ACCESS_KEY=your-secret
+MERCHANTS_TABLE=merchants-dev
+SHOPS_TABLE=shops-dev
+USERS_TABLE=users-dev
+BROADCASTS_TABLE=broadcasts-dev
+RESPONSES_TABLE=responses-dev
+OFFERS_TABLE=offers-dev
+INTERACTIONS_TABLE=merchant-interactions-dev
+ANALYTICS_TABLE=analytics-dev
+
+AFTER DEPLOYMENT:
+-----------------
+1. Get your backend URL (e.g., https://nearby-backend.railway.app)
+2. Update frontend .env.production files with new URL
+3. Rebuild and redeploy frontend apps to S3
+4. Test all features
+
+COST COMPARISON:
+----------------
+Railway:           FREE ($5 credit/month), then $5-20/month
+Render:            FREE forever (with limits), then $7-25/month
+Elastic Beanstalk: FREE tier (12 months), then $15-30/month
+
+RECOMMENDATION:
+---------------
+For immediate testing: Use Railway.app (5 minutes)
+For free hosting:      Use Render.com (10 minutes)
+For AWS production:    Use Elastic Beanstalk (30 minutes)
+
+All options work with your existing AWS DynamoDB tables!
+
+GET STARTED:
+------------
+./DEPLOY_BACKEND_NOW.sh
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║  Your backend will be live in 5-30 minutes depending on chosen platform!  ║
+╚════════════════════════════════════════════════════════════════════════════╝

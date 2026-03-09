@@ -2,14 +2,13 @@ import React from 'react'
 import { 
   LayoutGrid, 
   Users, 
-  BadgeCheck, 
-  Camera, 
-  Image, 
-  CreditCard, 
-  Calendar, 
-  UserPlus, 
-  Settings, 
-  Sparkles,
+  Store, 
+  MessageSquare,
+  MapPin,
+  Gift,
+  Bell,
+  Radio, 
+  BarChart3,
   LogOut
 } from 'lucide-react'
 
@@ -22,21 +21,26 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, isOpen, onClose }) => {
   const menuItems = [
-    { id: 'overview', label: 'Overview', icon: LayoutGrid },
-    { id: 'users', label: 'Users & Roles', icon: Users },
-    { id: 'merchants', label: 'Employee Management', icon: BadgeCheck },
-    { id: 'creators', label: 'Creator Applications', icon: Camera },
-    { id: 'portfolio', label: 'Portfolio Reviews', icon: Image },
-    { id: 'subscriptions', label: 'Subscriptions', icon: CreditCard },
-    { id: 'broadcasts', label: 'Bookings', icon: Calendar },
-    { id: 'crew', label: 'Crew Assignment', icon: UserPlus },
-    { id: 'services', label: 'Services', icon: Settings },
-    { id: 'offers', label: 'Offers', icon: Sparkles },
+    { id: 'overview', label: 'Dashboard', icon: LayoutGrid, path: '/' },
+    { id: 'users', label: 'Users', icon: Users, path: '/users' },
+    { id: 'merchants', label: 'Merchants', icon: Store, path: '/merchants' },
+    { id: 'queries', label: 'Queries', icon: MessageSquare, path: '/queries' },
+    { id: 'locations', label: 'Locations', icon: MapPin, path: '/locations' },
+    { id: 'offers', label: 'Offers', icon: Gift, path: '/offers' },
+    { id: 'notifications', label: 'Notifications', icon: Bell, path: '/notifications' },
+    { id: 'broadcasts', label: 'Broadcasts', icon: Radio, path: '/broadcasts' },
+    { id: 'analytics', label: 'Analytics', icon: BarChart3, path: '/analytics/search' },
   ]
 
   const handleSignOut = () => {
     localStorage.removeItem('admin-token')
     window.location.href = '/login'
+  }
+
+  const handleNavigation = (path: string, id: string) => {
+    window.location.href = path
+    onTabChange(id)
+    onClose()
   }
 
   return (
@@ -61,7 +65,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, isOpen, onClo
       >
         {/* Header */}
         <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-          <h1 className="text-xl font-bold text-gray-900">Studio Admin</h1>
+          <h1 className="text-xl font-bold text-gray-900">NearBy Admin</h1>
           <button 
             onClick={onClose}
             className="lg:hidden text-gray-500 hover:text-gray-700"
@@ -80,15 +84,12 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, isOpen, onClo
               return (
                 <button
                   key={item.id}
-                  onClick={() => {
-                    onTabChange(item.id)
-                    onClose()
-                  }}
+                  onClick={() => handleNavigation(item.path, item.id)}
                   className={`
                     w-full flex items-center gap-3 px-4 py-3 rounded-lg
                     transition-colors duration-150
                     ${isActive 
-                      ? 'bg-red-600 text-white' 
+                      ? 'bg-[#22C55E] text-white' 
                       : 'text-gray-600 hover:bg-gray-100'
                     }
                   `}
@@ -105,7 +106,7 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, onTabChange, isOpen, onClo
         <div className="p-4 border-t border-gray-200">
           <div className="bg-gray-50 rounded-lg p-3 mb-3">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-full bg-red-600 flex items-center justify-center text-white font-semibold">
+              <div className="w-10 h-10 rounded-full bg-[#22C55E] flex items-center justify-center text-white font-semibold">
                 A
               </div>
               <div className="flex-1">

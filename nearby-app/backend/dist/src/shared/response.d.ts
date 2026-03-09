@@ -9,7 +9,7 @@ export declare const response: {
         };
         body: string;
     };
-    error: (message: string, statusCode?: number, code?: string) => {
+    error: (message: string, statusCode?: number, code?: string, details?: any) => {
         statusCode: number;
         headers: {
             'Content-Type': string;

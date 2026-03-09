@@ -1,12 +1,28 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { MapPin, Clock, Heart, ArrowLeft, Filter } from 'lucide-react'
+import { MapPin, Clock, Heart, ArrowLeft, Filter, Tag } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useLocationStore } from '@/store/locationStore'
 import { useOffers } from '@/hooks/useOffers'
 import { OfferCardSkeleton } from '@/components/home/OfferCardSkeleton'
 import { FeaturedOfferBanner } from '@/components/offers/FeaturedOfferBanner'
+import { OfferCard } from '@/components/offers/OfferCard'
 import { getActiveFeaturedOffers } from '@/config/featuredOffers'
+import api from '@/services/api'
+
+interface ActiveOffer {
+  offerId: string
+  shopName: string
+  offer: string
+  message: string
+  category: string
+  distance: number
+  expiresAt: number
+  location?: {
+    lat: number
+    lng: number
+  }
+}
 
 const filters = ['All', 'Groceries', 'Electronics', 'Pharmacy', 'Hardware', 'Home']
 
@@ -33,6 +49,7 @@ const Offers: React.FC = () => {
   const [activeFilter, setActiveFilter] = React.useState('All')
   const [savedOfferIds, setSavedOfferIds] = React.useState<Set<string>>(new Set())
   const [filterToast, setFilterToast] = React.useState('')
+  const [merchantOffers, setMerchantOffers] = React.useState<ActiveOffer[]>([])
   const { lat, lng } = useLocationStore()
 
   const showToast = (msg: string) => {
@@ -47,12 +64,46 @@ const Offers: React.FC = () => {
     radius: 5,
   })
 
+  // Fetch merchant broadcast offers
+  React.useEffect(() => {
+    const fetchMerchantOffers = async () => {
+      if (!lat || !lng) {
+        console.log('⚠️ Offers page: No location available');
+        return;
+      }
+      try {
+        console.log('🔍 Offers page: Fetching merchant offers for:', { lat, lng });
+        const response = await api.get<{ offers: ActiveOffer[] }>(`/offers/active?lat=${lat}&lng=${lng}&radius=10`)
+        console.log('✅ Offers page: Merchant offers received:', response.data);
+        // Handle nested data structure from backend
+        const offersData = (response.data as any)?.data?.offers || (response.data as any)?.offers || [];
+        setMerchantOffers(offersData)
+      } catch (err) {
+        console.error('❌ Offers page: Error fetching merchant offers:', err)
+      }
+    }
+    fetchMerchantOffers()
+  }, [lat, lng])
+
   // Get active featured offers
   const activeFeaturedOffers = getActiveFeaturedOffers()
+
+  // Debug logging
+  console.log('🎯 Offers page render:', {
+    lat,
+    lng,
+    merchantOffersCount: merchantOffers.length,
+    merchantOffers
+  });
 
   const filteredOffers = activeFilter === 'All'
     ? offers
     : offers.filter(o => (o as any).category?.toLowerCase() === activeFilter.toLowerCase())
+
+  // Filter merchant offers by category
+  const filteredMerchantOffers = activeFilter === 'All'
+    ? merchantOffers
+    : merchantOffers.filter(o => o.category?.toLowerCase() === activeFilter.toLowerCase())
 
   return (
     <div className="min-h-screen pb-24 md:pb-8 bg-gray-50">
@@ -106,6 +157,28 @@ const Offers: React.FC = () => {
             <Filter size={16} />
           </button>
         </div>
+
+        {/* Merchant Broadcast Offers */}
+        {filteredMerchantOffers.length > 0 && (
+          <div className="px-4 md:px-0 mb-8">
+            <div className="flex items-center gap-2 mb-4">
+              <Tag size={20} className="text-green-600" />
+              <h2 className="text-xl font-bold text-gray-900">Live Offers from Merchants</h2>
+              <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-semibold">
+                {filteredMerchantOffers.length}
+              </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+              {filteredMerchantOffers.map((offer) => (
+                <OfferCard
+                  key={offer.offerId}
+                  offer={offer}
+                  userLocation={lat && lng ? { lat, lng } : undefined}
+                />
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Loading State */}
         {isLoading && (

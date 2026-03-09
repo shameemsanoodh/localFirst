@@ -26,6 +26,7 @@ interface Shop {
   };
   tags: string[];
   isVerified: boolean;
+  isOpen?: boolean; // Optional: merchant can manually set open/closed status
 }
 
 interface ShopWithDistance extends Shop {
@@ -105,7 +106,9 @@ export const handler = async (
       .map((shop) => ({
         ...shop,
         distanceKm: calculateDistance(lat, lng, shop.location.lat, shop.location.lng),
-        isOpen: isShopOpen(shop.openTime, shop.closeTime),
+        // Use the isOpen field from database if it exists (merchant can manually close),
+        // otherwise calculate based on hours
+        isOpen: shop.isOpen !== undefined ? shop.isOpen : isShopOpen(shop.openTime, shop.closeTime),
       }))
       .filter((shop) => shop.distanceKm <= radius)
       .sort((a, b) => a.distanceKm - b.distanceKm); // Sort by distance (nearest first)
