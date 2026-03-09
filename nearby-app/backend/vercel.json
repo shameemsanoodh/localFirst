@@ -1,7 +1,11 @@
 {
   "version": 2,
-  "buildCommand": "npm run build",
+  "buildCommand": "npm install && npm run build",
   "rewrites": [
+    {
+      "source": "/health",
+      "destination": "/api/health"
+    },
     {
       "source": "/(.*)",
       "destination": "/api"
