@@ -44,23 +44,29 @@ app.get('/dev/health', (req, res) => {
 const lambdaToExpress = (handler) => async (req, res) => {
   try {
     const event = {
-      body: JSON.stringify(req.body),
+      body: req.body ? JSON.stringify(req.body) : null,
       headers: req.headers,
       pathParameters: req.params,
       queryStringParameters: req.query,
+      httpMethod: req.method,
       requestContext: {
         authorizer: req.headers.authorization ? { claims: {} } : undefined
       }
     };
 
+    console.log(`[${req.method}] ${req.path}`, { params: req.params, query: req.query });
+    
     const result = await handler(event);
+    
+    // Parse body if it's a string
+    const responseBody = typeof result.body === 'string' ? JSON.parse(result.body) : result.body;
     
     res.status(result.statusCode || 200)
       .set(result.headers || {})
-      .send(result.body);
+      .json(responseBody);
   } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: error.message });
+    console.error(`Error in ${req.method} ${req.path}:`, error);
+    res.status(500).json({ error: 'Internal server error', message: error.message });
   }
 };
 
