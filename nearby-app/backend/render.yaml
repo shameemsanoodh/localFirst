@@ -1,11 +1,15 @@
 services:
   - type: web
     name: nearby-backend
-    runtime: node
-    buildCommand: npm install
-    startCommand: node server.js
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: node server-working.js
     envVars:
       - key: NODE_ENV
         value: production
+      - key: AWS_REGION
+        value: ap-south-1
       - key: PORT
-        value: 10000
+        value: 3000
